@@ -66,6 +66,8 @@ function Nightfall:CreateWindow(options)
         Minus = "rbxassetid://10734896206",
         Square = "rbxassetid://10734965702",
         Close = "rbxassetid://10747384394",
+        ChevronRight = "rbxassetid://10709782497",
+        ChevronLeft = "rbxassetid://10709782559",
         Glow = "",
         Shadow = "",
     }
@@ -467,6 +469,26 @@ function Nightfall:CreateWindow(options)
                 20,
             },
         },
+        [ICONS.ChevronRight] = {
+            {
+                9,
+                6,
+                15,
+                12,
+                9,
+                18,
+            },
+        },
+        [ICONS.ChevronLeft] = {
+            {
+                15,
+                6,
+                9,
+                12,
+                15,
+                18,
+            },
+        },
     }
 
     local ICON_FILLS = {
@@ -735,6 +757,23 @@ function Nightfall:CreateWindow(options)
     if not ScreenGui.Parent then
         ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
     end
+
+    local NotificationContainer = Instance.new("Frame")
+    NotificationContainer.Name = "NotificationContainer"
+    NotificationContainer.Size = UDim2.new(0, 360, 1, -40)
+    NotificationContainer.Position = UDim2.new(1, -24, 1, -24)
+    NotificationContainer.AnchorPoint = Vector2.new(1, 1)
+    NotificationContainer.BackgroundTransparency = 1
+    NotificationContainer.ClipsDescendants = false
+    NotificationContainer.ZIndex = 500
+    NotificationContainer.Parent = ScreenGui
+
+    local NotifLayout = Instance.new("UIListLayout")
+    NotifLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    NotifLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+    NotifLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+    NotifLayout.Padding = UDim.new(0, 8)
+    NotifLayout.Parent = NotificationContainer
 
     local OuterBloom = Instance.new("ImageLabel")
     OuterBloom.Name = "OuterBloom"
@@ -1165,6 +1204,10 @@ function Nightfall:CreateWindow(options)
         end
     end)
 
+    local changelogsDivider = nil
+    local isChangelogsCollapsed = false
+    local toggleChangelogs = nil
+
     local Body = Instance.new("Frame")
     Body.Name = "Body"
     Body.Size = UDim2.new(1, -32, 1, -172)
@@ -1564,7 +1607,6 @@ function Nightfall:CreateWindow(options)
     local PlayerPage = createTab("Player", ICONS.User)
     local VisualsPage = createTab("Visuals", ICONS.Eye)
     local SettingsPage = createTab("Settings", ICONS.Settings)
-    local ConsolePage = createTab("Changelogs", ICONS.Package)
 
     local SidebarFooter = Instance.new("Frame")
     SidebarFooter.Name = "SidebarFooter"
@@ -2388,7 +2430,7 @@ function Nightfall:CreateWindow(options)
         end
 
         line(Body, 204, -12, 1, 486, THEME.Border, 0.3)
-        line(Body, 772, 0, 1, 458, THEME.Border, 0.55)
+        changelogsDivider = line(Body, 772, 0, 1, 458, THEME.Border, 0.55)
         line(SidebarFooter, 0, -18, 188, 1, THEME.Border, 0.2)
         line(ConsoleHeader, 0, 48, 390, 1, THEME.Border, 0.2)
         ConsoleHeader.Size = UDim2.new(1, 0, 0, 48)
@@ -3100,7 +3142,7 @@ function Nightfall:CreateWindow(options)
         PromptRow:Destroy()
         TrashBtn:Destroy()
         ConsoleTitle.Text = "Changelogs"
-        ConsoleTitle.Size = UDim2.new(1, -65, 1, 0)
+        ConsoleTitle.Size = UDim2.new(1, -95, 1, 0)
         ConsoleIcon.Text = ""
         createVectorIcon(
             ConsoleHeader,
@@ -3111,61 +3153,188 @@ function Nightfall:CreateWindow(options)
         )
         ConsoleFrame.Name = "ChangelogsPanel"
         ConsoleScroll.Name = "ReleaseHistory"
-        ConsoleLayout.Padding = UDim.new(0, 14)
-        local releases = {
-            {
-                "INTERFACE UPDATE",
-                "NightFall / UI refresh",
-                THEME.AccentPurp,
-            },
-            {
-                "DESIGN",
-                "Gothic branding, local icons and a redesigned night scene.",
-                THEME.TextPrimary,
-            },
-            {
-                "WINDOW",
-                "Drag the header to move. Drag the lower-right corner to resize. Use the square button to expand.",
-                THEME.TextPrimary,
-            },
-            {
-                "ATMOSPHERE",
-                "Dark smoke around the window and an animated startup screen.",
-                THEME.TextPrimary,
-            },
-            {
-                "NAVIGATION",
-                "Refined tab selection and a dedicated changelog panel.",
-                THEME.TextPrimary,
-            },
-            {
-                "SHORTCUTS",
-                "Insert / RightControl: show or hide NightFall.",
-                THEME.TextMuted,
-            },
-        }
-        local function releaseEntry(parent, item, order)
-            local label = Instance.new("TextLabel")
-            label.Name = "ReleaseEntry"
-            label.BackgroundTransparency = 1
-            label.Size = UDim2.new(1, -16, 0, 0)
-            label.AutomaticSize = Enum.AutomaticSize.Y
-            label.Font = Enum.Font.Code
-            label.TextSize = 16
-            label.TextWrapped = true
-            label.TextXAlignment = Enum.TextXAlignment.Left
-            label.TextYAlignment = Enum.TextYAlignment.Top
-            label.TextColor3 = item[3]
-            label.RichText = true
-            label.Text = '<font color="#9762CF">' .. item[1] .. "</font>\n" .. item[2]
-            label.LayoutOrder = order
-            label.ZIndex = 8
-            label.Parent = parent
+        ConsoleLayout.Padding = UDim.new(0, 8)
+
+        -- Collapse Button inside Changelogs Header
+        local CollapseBtn = Instance.new("TextButton")
+        CollapseBtn.Name = "CollapseChangelogsBtn"
+        CollapseBtn.Size = UDim2.fromOffset(28, 28)
+        CollapseBtn.Position = UDim2.new(1, -38, 0.5, -14)
+        CollapseBtn.BackgroundColor3 = Color3.fromRGB(20, 14, 30)
+        CollapseBtn.BackgroundTransparency = 0.2
+        CollapseBtn.Text = ""
+        CollapseBtn.AutoButtonColor = false
+        CollapseBtn.ZIndex = 8
+        CollapseBtn.Parent = ConsoleHeader
+
+        local collapseCorner = Instance.new("UICorner")
+        collapseCorner.CornerRadius = UDim.new(0, 6)
+        collapseCorner.Parent = CollapseBtn
+
+        local collapseStroke = Instance.new("UIStroke")
+        collapseStroke.Thickness = 1
+        collapseStroke.Color = THEME.Border
+        collapseStroke.Transparency = 0.3
+        collapseStroke.Parent = CollapseBtn
+
+        local collapseIcon = createVectorIcon(
+            CollapseBtn,
+            ICONS.ChevronRight,
+            UDim2.fromOffset(14, 14),
+            THEME.TextMuted,
+            UDim2.fromScale(0.5, 0.5),
+            Vector2.new(0.5, 0.5)
+        )
+
+        CollapseBtn.MouseEnter:Connect(function()
+            TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
+                BackgroundColor3 = Color3.fromRGB(36, 22, 54),
+            }):Play()
+            TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
+                Color = THEME.AccentPurp,
+            }):Play()
+            TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
+                ImageColor3 = THEME.TextPrimary,
+            }):Play()
+        end)
+
+        CollapseBtn.MouseLeave:Connect(function()
+            TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
+                BackgroundColor3 = Color3.fromRGB(20, 14, 30),
+            }):Play()
+            TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
+                Color = THEME.Border,
+            }):Play()
+            TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
+                ImageColor3 = THEME.TextMuted,
+            }):Play()
+        end)
+
+        -- Expand Button docked on the right side of Body when collapsed
+        local ExpandBtn = Instance.new("TextButton")
+        ExpandBtn.Name = "ExpandChangelogsBtn"
+        ExpandBtn.Size = UDim2.fromOffset(128, 30)
+        ExpandBtn.Position = UDim2.new(1, -132, 0, 6)
+        ExpandBtn.BackgroundColor3 = Color3.fromRGB(20, 14, 30)
+        ExpandBtn.BackgroundTransparency = 0.2
+        ExpandBtn.Text = ""
+        ExpandBtn.AutoButtonColor = false
+        ExpandBtn.Visible = false
+        ExpandBtn.ZIndex = 8
+        ExpandBtn.Parent = Body
+
+        local expandCorner = Instance.new("UICorner")
+        expandCorner.CornerRadius = UDim.new(0, 8)
+        expandCorner.Parent = ExpandBtn
+
+        local expandStroke = Instance.new("UIStroke")
+        expandStroke.Thickness = 1
+        expandStroke.Color = THEME.Border
+        expandStroke.Transparency = 0.3
+        expandStroke.Parent = ExpandBtn
+
+        local expandChevron = createVectorIcon(
+            ExpandBtn,
+            ICONS.ChevronLeft,
+            UDim2.fromOffset(12, 12),
+            THEME.TextMuted,
+            UDim2.new(0, 8, 0.5, -6)
+        )
+
+        local expandIcon = createVectorIcon(
+            ExpandBtn,
+            ICONS.Package,
+            UDim2.fromOffset(16, 16),
+            THEME.AccentPurp,
+            UDim2.new(0, 24, 0.5, -8)
+        )
+
+        local expandLabel = Instance.new("TextLabel")
+        expandLabel.Size = UDim2.new(1, -48, 1, 0)
+        expandLabel.Position = UDim2.fromOffset(46, 0)
+        expandLabel.BackgroundTransparency = 1
+        expandLabel.Text = "Changelogs"
+        expandLabel.Font = Enum.Font.GothamBold
+        expandLabel.TextSize = 11
+        expandLabel.TextColor3 = THEME.TextPrimary
+        expandLabel.TextXAlignment = Enum.TextXAlignment.Left
+        expandLabel.ZIndex = 9
+        expandLabel.Parent = ExpandBtn
+
+        ExpandBtn.MouseEnter:Connect(function()
+            TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
+                BackgroundColor3 = Color3.fromRGB(36, 22, 54),
+            }):Play()
+            TweenService:Create(expandStroke, TweenInfo.new(0.18), {
+                Color = THEME.AccentPurp,
+            }):Play()
+            TweenService:Create(expandChevron, TweenInfo.new(0.18), {
+                ImageColor3 = THEME.TextPrimary,
+            }):Play()
+        end)
+
+        ExpandBtn.MouseLeave:Connect(function()
+            TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
+                BackgroundColor3 = Color3.fromRGB(20, 14, 30),
+            }):Play()
+            TweenService:Create(expandStroke, TweenInfo.new(0.18), {
+                Color = THEME.Border,
+            }):Play()
+            TweenService:Create(expandChevron, TweenInfo.new(0.18), {
+                ImageColor3 = THEME.TextMuted,
+            }):Play()
+        end)
+
+        toggleChangelogs = function(collapsed)
+            if collapsed == nil then
+                collapsed = not isChangelogsCollapsed
+            end
+            if isChangelogsCollapsed == collapsed then return end
+            isChangelogsCollapsed = collapsed
+
+            local tweenInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+
+            if collapsed then
+                if changelogsDivider then
+                    changelogsDivider.Visible = false
+                end
+                TweenService:Create(ContentArea, tweenInfo, {
+                    Size = UDim2.new(1, -228, 1, 0),
+                }):Play()
+                local outTween = TweenService:Create(ConsoleFrame, tweenInfo, {
+                    Position = UDim2.new(1, 25, 0, 0),
+                })
+                outTween:Play()
+                outTween.Completed:Connect(function()
+                    if isChangelogsCollapsed then
+                        ConsoleFrame.Visible = false
+                        ExpandBtn.Visible = true
+                    end
+                end)
+            else
+                ExpandBtn.Visible = false
+                ConsoleFrame.Visible = true
+                TweenService:Create(ContentArea, tweenInfo, {
+                    Size = UDim2.new(0, 550, 1, 0),
+                }):Play()
+                local inTween = TweenService:Create(ConsoleFrame, tweenInfo, {
+                    Position = UDim2.new(1, -390, 0, 0),
+                })
+                inTween:Play()
+                inTween.Completed:Connect(function()
+                    if not isChangelogsCollapsed and changelogsDivider then
+                        changelogsDivider.Visible = true
+                    end
+                end)
+            end
         end
-        for index, item in ipairs(releases) do
-            releaseEntry(ConsoleScroll, item, index)
-            releaseEntry(ConsolePage, item, index)
-        end
+
+        CollapseBtn.Activated:Connect(function()
+            toggleChangelogs(true)
+        end)
+        ExpandBtn.Activated:Connect(function()
+            toggleChangelogs(false)
+        end)
 
         local smoke = Instance.new("Frame")
         smoke.Name = "OuterSmoke"
@@ -3747,57 +3916,241 @@ function Nightfall:CreateWindow(options)
         return tab
     end
 
-    function window:SetChangelogs(source)
-        local colors = {
-            FIX = Color3.fromRGB(232, 185, 104),
-            ADD = Color3.fromRGB(102, 207, 154),
-            NEW = THEME.AccentPurp,
+    function window:ToggleChangelogs(state)
+        if toggleChangelogs then
+            toggleChangelogs(state)
+        end
+    end
+
+    function window:IsChangelogsCollapsed()
+        return isChangelogsCollapsed
+    end
+
+    local TAG_STYLES = {
+        NEW = {
+            Label = "NEW",
+            Icon = ICONS.Diamond,
+            BadgeColor = Color3.fromRGB(168, 85, 247),
+            BadgeBg = Color3.fromRGB(36, 18, 58),
+            BorderColor = Color3.fromRGB(130, 60, 210),
+        },
+        ADD = {
+            Label = "ADD",
+            Icon = ICONS.Electricity,
+            BadgeColor = Color3.fromRGB(54, 216, 137),
+            BadgeBg = Color3.fromRGB(14, 45, 30),
+            BorderColor = Color3.fromRGB(40, 160, 100),
+        },
+        FIX = {
+            Label = "FIX",
+            Icon = ICONS.Shield,
+            BadgeColor = Color3.fromRGB(245, 175, 65),
+            BadgeBg = Color3.fromRGB(50, 35, 16),
+            BorderColor = Color3.fromRGB(180, 125, 45),
+        },
+        FIXED = {
+            Label = "FIX",
+            Icon = ICONS.Shield,
+            BadgeColor = Color3.fromRGB(245, 175, 65),
+            BadgeBg = Color3.fromRGB(50, 35, 16),
+            BorderColor = Color3.fromRGB(180, 125, 45),
+        },
+        UPDATE = {
+            Label = "UPDATE",
+            Icon = ICONS.Speed,
+            BadgeColor = Color3.fromRGB(70, 180, 255),
+            BadgeBg = Color3.fromRGB(16, 38, 60),
+            BorderColor = Color3.fromRGB(50, 130, 195),
+        },
+        IMPROVE = {
+            Label = "UPDATE",
+            Icon = ICONS.Speed,
+            BadgeColor = Color3.fromRGB(70, 180, 255),
+            BadgeBg = Color3.fromRGB(16, 38, 60),
+            BorderColor = Color3.fromRGB(50, 130, 195),
+        },
+        PERF = {
+            Label = "PERF",
+            Icon = ICONS.Speed,
+            BadgeColor = Color3.fromRGB(60, 215, 215),
+            BadgeBg = Color3.fromRGB(15, 48, 52),
+            BorderColor = Color3.fromRGB(45, 155, 155),
+        },
+        REMOVE = {
+            Label = "REMOVE",
+            Icon = ICONS.Trash,
+            BadgeColor = Color3.fromRGB(244, 63, 94),
+            BadgeBg = Color3.fromRGB(52, 16, 24),
+            BorderColor = Color3.fromRGB(180, 45, 70),
+        },
+    }
+
+    local function getTagStyle(rawTag)
+        local upper = rawTag and rawTag:upper() or "DEFAULT"
+        return TAG_STYLES[upper] or {
+            Label = upper,
+            Icon = ICONS.Diamond,
+            BadgeColor = THEME.AccentPurp,
+            BadgeBg = Color3.fromRGB(28, 16, 44),
+            BorderColor = THEME.BorderActive,
         }
-        for _, parent in ipairs({
-            ConsoleScroll,
-            ConsolePage,
-        }) do
-            for _, child in ipairs(parent:GetChildren()) do
-                if child:IsA("GuiObject") then
-                    child:Destroy()
-                end
+    end
+
+    function window:SetChangelogs(source)
+        for _, child in ipairs(ConsoleScroll:GetChildren()) do
+            if child:IsA("GuiObject") then
+                child:Destroy()
             end
-            local order = 0
-            for line in tostring(source):gmatch("[^\r\n]+") do
-                local tag, message = line:match("^%s*%[([%a]+)%]%s*(.*)$")
-                tag = tag and tag:upper()
+        end
+
+        local order = 0
+        for line in tostring(source):gmatch("[^\r\n]+") do
+            local tag, rest = line:match("^%s*%[([%a%d_%-]+)%]%s*(.*)$")
+            local rawText = tag and rest or line
+            if rawText and rawText:match("%S") then
                 order = order + 1
-                local entry = Instance.new("Frame")
-                entry.Size = UDim2.new(1, -8, 0, 0)
-                entry.AutomaticSize = Enum.AutomaticSize.Y
-                entry.BackgroundColor3 = THEME.BgPanel
-                entry.BackgroundTransparency = 0.2
-                entry.LayoutOrder = order
-                entry.ZIndex = 8
-                entry.Parent = parent
+                local style = getTagStyle(tag)
+
+                local title, desc = rawText:match("^([^:\-]+)%s*[:%-]%s*(.+)$")
+                if not title then
+                    title = rawText
+                    desc = nil
+                end
+
+                local card = Instance.new("Frame")
+                card.Name = "ChangelogCard_" .. order
+                card.Size = UDim2.new(1, -4, 0, 0)
+                card.AutomaticSize = Enum.AutomaticSize.Y
+                card.BackgroundColor3 = Color3.fromRGB(14, 10, 22)
+                card.BackgroundTransparency = 0.25
+                card.LayoutOrder = order
+                card.ZIndex = 8
+                card.Parent = ConsoleScroll
+
                 local corner = Instance.new("UICorner")
-                corner.CornerRadius = UDim.new(0, 8)
-                corner.Parent = entry
-                local padding = Instance.new("UIPadding")
-                padding.PaddingTop = UDim.new(0, 10)
-                padding.PaddingBottom = UDim.new(0, 10)
-                padding.PaddingLeft = UDim.new(0, 12)
-                padding.PaddingRight = UDim.new(0, 12)
-                padding.Parent = entry
-                local label = text(entry, "", 16)
-                label.Position = UDim2.new()
-                label.Size = UDim2.new(1, 0, 0, 0)
-                label.AutomaticSize = Enum.AutomaticSize.Y
-                label.TextWrapped = true
-                label.RichText = true
-                label.Text = tag
-                        and string.format(
-                            '<font color="#%s"><b>[%s]</b></font>\n%s',
-                            (colors[tag] or THEME.TextMuted):ToHex(),
-                            sanitizeRichText(tag),
-                            sanitizeRichText(message)
-                        )
-                    or sanitizeRichText(line)
+                corner.CornerRadius = UDim.new(0, 9)
+                corner.Parent = card
+
+                local stroke = Instance.new("UIStroke")
+                stroke.Thickness = 1
+                stroke.Color = Color3.fromRGB(44, 30, 62)
+                stroke.Transparency = 0.3
+                stroke.Parent = card
+
+                local pad = Instance.new("UIPadding")
+                pad.PaddingTop = UDim.new(0, 10)
+                pad.PaddingBottom = UDim.new(0, 10)
+                pad.PaddingLeft = UDim.new(0, 12)
+                pad.PaddingRight = UDim.new(0, 12)
+                pad.Parent = card
+
+                local layout = Instance.new("UIListLayout")
+                layout.SortOrder = Enum.SortOrder.LayoutOrder
+                layout.Padding = UDim.new(0, 6)
+                layout.Parent = card
+
+                if tag then
+                    local pill = Instance.new("Frame")
+                    pill.Name = "BadgePill"
+                    pill.Size = UDim2.new(0, 0, 0, 20)
+                    pill.AutomaticSize = Enum.AutomaticSize.X
+                    pill.BackgroundColor3 = style.BadgeBg
+                    pill.BackgroundTransparency = 0.15
+                    pill.LayoutOrder = 1
+                    pill.ZIndex = 9
+                    pill.Parent = card
+
+                    local pillCorner = Instance.new("UICorner")
+                    pillCorner.CornerRadius = UDim.new(0, 5)
+                    pillCorner.Parent = pill
+
+                    local pillStroke = Instance.new("UIStroke")
+                    pillStroke.Thickness = 1
+                    pillStroke.Color = style.BorderColor
+                    pillStroke.Transparency = 0.2
+                    pillStroke.Parent = pill
+
+                    local pillPad = Instance.new("UIPadding")
+                    pillPad.PaddingLeft = UDim.new(0, 6)
+                    pillPad.PaddingRight = UDim.new(0, 8)
+                    pillPad.PaddingTop = UDim.new(0, 2)
+                    pillPad.PaddingBottom = UDim.new(0, 2)
+                    pillPad.Parent = pill
+
+                    local pillLayout = Instance.new("UIListLayout")
+                    pillLayout.FillDirection = Enum.FillDirection.Horizontal
+                    pillLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                    pillLayout.Padding = UDim.new(0, 5)
+                    pillLayout.Parent = pill
+
+                    createVectorIcon(
+                        pill,
+                        style.Icon,
+                        UDim2.fromOffset(11, 11),
+                        style.BadgeColor
+                    )
+
+                    local pillLabel = Instance.new("TextLabel")
+                    pillLabel.Name = "BadgeText"
+                    pillLabel.Size = UDim2.new(0, 0, 1, 0)
+                    pillLabel.AutomaticSize = Enum.AutomaticSize.X
+                    pillLabel.BackgroundTransparency = 1
+                    pillLabel.Text = style.Label
+                    pillLabel.Font = Enum.Font.GothamBold
+                    pillLabel.TextSize = 10
+                    pillLabel.TextColor3 = style.BadgeColor
+                    pillLabel.ZIndex = 10
+                    pillLabel.Parent = pill
+                end
+
+                local titleLabel = Instance.new("TextLabel")
+                titleLabel.Name = "CardTitle"
+                titleLabel.Size = UDim2.new(1, 0, 0, 0)
+                titleLabel.AutomaticSize = Enum.AutomaticSize.Y
+                titleLabel.BackgroundTransparency = 1
+                titleLabel.Text = title
+                titleLabel.Font = Enum.Font.GothamBold
+                titleLabel.TextSize = 13
+                titleLabel.TextColor3 = Color3.fromRGB(240, 232, 252)
+                titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+                titleLabel.TextWrapped = true
+                titleLabel.LayoutOrder = 2
+                titleLabel.ZIndex = 9
+                titleLabel.Parent = card
+
+                if desc and desc ~= "" then
+                    local descLabel = Instance.new("TextLabel")
+                    descLabel.Name = "CardDesc"
+                    descLabel.Size = UDim2.new(1, 0, 0, 0)
+                    descLabel.AutomaticSize = Enum.AutomaticSize.Y
+                    descLabel.BackgroundTransparency = 1
+                    descLabel.Text = desc
+                    descLabel.Font = Enum.Font.Gotham
+                    descLabel.TextSize = 11
+                    descLabel.TextColor3 = Color3.fromRGB(152, 138, 172)
+                    descLabel.TextXAlignment = Enum.TextXAlignment.Left
+                    descLabel.TextWrapped = true
+                    descLabel.LayoutOrder = 3
+                    descLabel.ZIndex = 9
+                    descLabel.Parent = card
+                end
+
+                card.MouseEnter:Connect(function()
+                    TweenService:Create(card, TweenInfo.new(0.18), {
+                        BackgroundColor3 = Color3.fromRGB(22, 15, 34),
+                    }):Play()
+                    TweenService:Create(stroke, TweenInfo.new(0.18), {
+                        Color = style.BorderColor,
+                    }):Play()
+                end)
+                card.MouseLeave:Connect(function()
+                    TweenService:Create(card, TweenInfo.new(0.18), {
+                        BackgroundColor3 = Color3.fromRGB(14, 10, 22),
+                    }):Play()
+                    TweenService:Create(stroke, TweenInfo.new(0.18), {
+                        Color = Color3.fromRGB(44, 30, 62),
+                    }):Play()
+                end)
             end
         end
     end
@@ -3810,24 +4163,240 @@ function Nightfall:CreateWindow(options)
         MainFrame.Visible = not MainFrame.Visible
     end
 
+    local notifOrder = 0
     function window:Notify(config)
-        local frame = card(ScreenGui, {
-            Title = config.Title or "NightFall",
-            Desc = config.Content,
-        }, 100)
-        frame.Size = UDim2.fromOffset(330, 100)
-        frame.AnchorPoint = Vector2.new(1, 1)
-        frame.Position = UDim2.new(1, -24, 1, -24)
-        frame.ZIndex = 100
-        task.delay(config.Duration or 4, function()
-            frame:Destroy()
+        config = config or {}
+        notifOrder = notifOrder + 1
+
+        local titleText = config.Title or "NightFall"
+        local descText = config.Content or config.Desc or ""
+        local duration = tonumber(config.Duration) or 3.5
+        local notifType = (config.Type or ""):lower()
+
+        local accentColor = THEME.AccentPurp
+        local iconChoice = ICONS.Diamond
+
+        local lowerTitle = titleText:lower()
+        if notifType == "error" or lowerTitle:find("error") or lowerTitle:find("fail") or lowerTitle:find("cancel") then
+            accentColor = Color3.fromRGB(244, 63, 94)
+            iconChoice = ICONS.Shield
+        elseif notifType == "success" or lowerTitle:find("success") or lowerTitle:find("complete") then
+            accentColor = Color3.fromRGB(54, 216, 137)
+            iconChoice = ICONS.Shield
+        elseif notifType == "warn" or notifType == "warning" or lowerTitle:find("warn") then
+            accentColor = Color3.fromRGB(251, 191, 36)
+            iconChoice = ICONS.Shield
+        elseif notifType == "combat" or lowerTitle:find("kill") or lowerTitle:find("target") or lowerTitle:find("aim") then
+            accentColor = Color3.fromRGB(180, 85, 255)
+            iconChoice = ICONS.Target
+        end
+
+        if config.Icon then
+            local customIcon = aliases[config.Icon] or ICONS[config.Icon]
+            if customIcon then
+                iconChoice = customIcon
+            end
+        end
+
+        local holder = Instance.new("Frame")
+        holder.Name = "NotifHolder_" .. notifOrder
+        holder.Size = UDim2.new(1, 0, 0, 0)
+        holder.AutomaticSize = Enum.AutomaticSize.Y
+        holder.BackgroundTransparency = 1
+        holder.ClipsDescendants = false
+        holder.LayoutOrder = notifOrder
+        holder.ZIndex = 500
+        holder.Parent = NotificationContainer
+
+        local card = Instance.new("Frame")
+        card.Name = "NotifCard"
+        card.Size = UDim2.new(1, 0, 0, 0)
+        card.AutomaticSize = Enum.AutomaticSize.Y
+        card.Position = UDim2.fromOffset(380, 0)
+        card.BackgroundColor3 = Color3.fromRGB(13, 9, 21)
+        card.BackgroundTransparency = 0.12
+        card.ZIndex = 501
+        card.Parent = holder
+
+        local cardCorner = Instance.new("UICorner")
+        cardCorner.CornerRadius = UDim.new(0, 10)
+        cardCorner.Parent = card
+
+        local cardStroke = Instance.new("UIStroke")
+        cardStroke.Thickness = 1
+        cardStroke.Color = Color3.fromRGB(52, 34, 74)
+        cardStroke.Transparency = 0.25
+        cardStroke.Parent = card
+
+        local accentStrip = Instance.new("Frame")
+        accentStrip.Size = UDim2.new(0, 3, 1, -16)
+        accentStrip.Position = UDim2.new(0, 0, 0, 8)
+        accentStrip.BackgroundColor3 = accentColor
+        accentStrip.BorderSizePixel = 0
+        accentStrip.ZIndex = 503
+        accentStrip.Parent = card
+
+        local stripCorner = Instance.new("UICorner")
+        stripCorner.CornerRadius = UDim.new(0, 2)
+        stripCorner.Parent = accentStrip
+
+        local iconBox = Instance.new("Frame")
+        iconBox.Size = UDim2.fromOffset(32, 32)
+        iconBox.Position = UDim2.fromOffset(12, 12)
+        iconBox.BackgroundColor3 = Color3.fromRGB(22, 15, 34)
+        iconBox.BackgroundTransparency = 0.1
+        iconBox.ZIndex = 503
+        iconBox.Parent = card
+
+        local iconCorner = Instance.new("UICorner")
+        iconCorner.CornerRadius = UDim.new(0, 7)
+        iconCorner.Parent = iconBox
+
+        local iconStroke = Instance.new("UIStroke")
+        iconStroke.Thickness = 1
+        iconStroke.Color = accentColor
+        iconStroke.Transparency = 0.5
+        iconStroke.Parent = iconBox
+
+        createVectorIcon(
+            iconBox,
+            iconChoice,
+            UDim2.fromOffset(16, 16),
+            accentColor,
+            UDim2.fromScale(0.5, 0.5),
+            Vector2.new(0.5, 0.5)
+        )
+
+        local textContainer = Instance.new("Frame")
+        textContainer.Position = UDim2.new(0, 52, 0, 10)
+        textContainer.Size = UDim2.new(1, -80, 0, 0)
+        textContainer.AutomaticSize = Enum.AutomaticSize.Y
+        textContainer.BackgroundTransparency = 1
+        textContainer.ZIndex = 503
+        textContainer.Parent = card
+
+        local textLayout = Instance.new("UIListLayout")
+        textLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        textLayout.Padding = UDim.new(0, 3)
+        textLayout.Parent = textContainer
+
+        local titleLabel = Instance.new("TextLabel")
+        titleLabel.Name = "Title"
+        titleLabel.Size = UDim2.new(1, 0, 0, 0)
+        titleLabel.AutomaticSize = Enum.AutomaticSize.Y
+        titleLabel.BackgroundTransparency = 1
+        titleLabel.Text = titleText
+        titleLabel.Font = Enum.Font.GothamBold
+        titleLabel.TextSize = 13
+        titleLabel.TextColor3 = Color3.fromRGB(242, 235, 252)
+        titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+        titleLabel.TextWrapped = true
+        titleLabel.LayoutOrder = 1
+        titleLabel.ZIndex = 504
+        titleLabel.Parent = textContainer
+
+        if descText and descText ~= "" then
+            local descLabel = Instance.new("TextLabel")
+            descLabel.Name = "Desc"
+            descLabel.Size = UDim2.new(1, 0, 0, 0)
+            descLabel.AutomaticSize = Enum.AutomaticSize.Y
+            descLabel.BackgroundTransparency = 1
+            descLabel.Text = descText
+            descLabel.Font = Enum.Font.Gotham
+            descLabel.TextSize = 11
+            descLabel.TextColor3 = Color3.fromRGB(168, 155, 188)
+            descLabel.TextXAlignment = Enum.TextXAlignment.Left
+            descLabel.TextWrapped = true
+            descLabel.LayoutOrder = 2
+            descLabel.ZIndex = 504
+            descLabel.Parent = textContainer
+        end
+
+        local cardPad = Instance.new("UIPadding")
+        cardPad.PaddingTop = UDim.new(0, 2)
+        cardPad.PaddingBottom = UDim.new(0, 14)
+        cardPad.Parent = textContainer
+
+        local closeBtn = Instance.new("TextButton")
+        closeBtn.Name = "CloseBtn"
+        closeBtn.Size = UDim2.fromOffset(20, 20)
+        closeBtn.Position = UDim2.new(1, -26, 0, 8)
+        closeBtn.BackgroundTransparency = 1
+        closeBtn.Text = ""
+        closeBtn.AutoButtonColor = false
+        closeBtn.ZIndex = 505
+        closeBtn.Parent = card
+
+        local closeIcon = createVectorIcon(
+            closeBtn,
+            ICONS.Close,
+            UDim2.fromOffset(11, 11),
+            Color3.fromRGB(130, 115, 150),
+            UDim2.fromScale(0.5, 0.5),
+            Vector2.new(0.5, 0.5)
+        )
+
+        closeBtn.MouseEnter:Connect(function()
+            TweenService:Create(closeIcon, TweenInfo.new(0.15), {
+                ImageColor3 = Color3.fromRGB(240, 230, 250),
+            }):Play()
         end)
-        return frame
+        closeBtn.MouseLeave:Connect(function()
+            TweenService:Create(closeIcon, TweenInfo.new(0.15), {
+                ImageColor3 = Color3.fromRGB(130, 115, 150),
+            }):Play()
+        end)
+
+        local progressTrack = Instance.new("Frame")
+        progressTrack.Name = "ProgressTrack"
+        progressTrack.Size = UDim2.new(1, -16, 0, 2)
+        progressTrack.Position = UDim2.new(0, 8, 1, -4)
+        progressTrack.BackgroundColor3 = Color3.fromRGB(24, 16, 36)
+        progressTrack.BorderSizePixel = 0
+        progressTrack.ZIndex = 504
+        progressTrack.Parent = card
+
+        local progressBar = Instance.new("Frame")
+        progressBar.Name = "ProgressBar"
+        progressBar.Size = UDim2.new(1, 0, 1, 0)
+        progressBar.BackgroundColor3 = accentColor
+        progressBar.BorderSizePixel = 0
+        progressBar.ZIndex = 505
+        progressBar.Parent = progressTrack
+
+        TweenService:Create(card, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+            Position = UDim2.fromOffset(0, 0),
+        }):Play()
+
+        local progressTween = TweenService:Create(progressBar, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
+            Size = UDim2.new(0, 0, 1, 0),
+        })
+        progressTween:Play()
+
+        local dismissed = false
+        local function dismiss()
+            if dismissed then return end
+            dismissed = true
+            progressTween:Cancel()
+            local outTween = TweenService:Create(card, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                Position = UDim2.fromOffset(380, 0),
+                BackgroundTransparency = 1,
+            })
+            outTween:Play()
+            outTween.Completed:Connect(function()
+                holder:Destroy()
+            end)
+        end
+
+        closeBtn.Activated:Connect(dismiss)
+        task.delay(duration, dismiss)
+
+        return holder
     end
 
     window:SetChangelogs(
         options.Changelogs
-            or "[NEW] NightFall interface\n[ADD] Editable slider values\n[FIX] Resize preview reduces redraws"
+            or "[NEW] NightFall Interface: Gothic Dark Fantasy redesign\n[ADD] Features: Collapsible changelogs and animated notifications\n[FIX] Visuals: Refined glassmorphism cards and badging"
     )
     self.Window = window
     return window
