@@ -5013,15 +5013,50 @@ function Nightfall:CreateWindow(options)
         emblemScale.Parent = emblem
         local busy = false
         local storedPosition
+        local motionScale = Instance.new("UIScale")
+        motionScale.Parent = MainFrame
+        local dragged = false
+        local press, bubbleStart, tracking
+        bubble.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                press = input.Position
+                bubbleStart = bubble.Position
+                tracking = input
+                dragged = false
+            end
+        end)
+        connect(UserInputService.InputChanged, function(input)
+            if not tracking or busy then return end
+            if input.UserInputType ~= Enum.UserInputType.MouseMovement and input ~= tracking then return end
+            local delta = input.Position - press
+            if math.abs(delta.X) + math.abs(delta.Y) > 5 then dragged = true end
+            if dragged then
+                local viewport = workspace.CurrentCamera.ViewportSize
+                local x = bubbleStart.X.Scale * viewport.X + bubbleStart.X.Offset + delta.X
+                local y = bubbleStart.Y.Scale * viewport.Y + bubbleStart.Y.Offset + delta.Y
+                bubble.Position = UDim2.fromOffset(math.clamp(x, 8, viewport.X - 72), math.clamp(y, 8, viewport.Y - 100))
+            end
+        end)
+        connect(UserInputService.InputEnded, function(input)
+            if input == tracking or input.UserInputType == Enum.UserInputType.MouseButton1 then tracking = nil end
+        end)
+        local function orbPosition()
+            local canvas = MainFrame.Parent
+            local s = canvas:FindFirstChildOfClass("UIScale").Scale
+            local p = bubble.AbsolutePosition + Vector2.new(32, 32)
+            local origin = canvas.AbsolutePosition
+            return UDim2.fromOffset((p.X - origin.X) / s - 30, (p.Y - origin.Y) / s - 16)
+        end
         minimizeWindow = function()
             if busy or isMinimized then
                 return
             end
             busy = true
             storedPosition = MainFrame.Position
-            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {
-                Position = storedPosition + UDim2.fromOffset(0, 32),
+            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
+                Position = orbPosition(),
             })
+            TweenService:Create(motionScale, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), { Scale = 0.05 }):Play()
             tween:Play()
             tween.Completed:Once(function()
                 if not ScreenGui.Parent then
@@ -5039,22 +5074,25 @@ function Nightfall:CreateWindow(options)
             end)
         end
         bubble.Activated:Connect(function()
-            if busy then
+            if busy or dragged then
+                dragged = false
                 return
             end
             busy = true
             bubble.Visible = false
             isMinimized = false
-            MainFrame.Position = storedPosition + UDim2.fromOffset(0, 32)
+            MainFrame.Position = orbPosition()
+            motionScale.Scale = 0.05
             MainFrame.Visible = true
             local tween = TweenService:Create(
                 MainFrame,
-                TweenInfo.new(0.28, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {
                     Position = storedPosition,
                 }
             )
             tween:Play()
+            TweenService:Create(motionScale, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), { Scale = 1 }):Play()
             tween.Completed:Once(function()
                 busy = false
             end)
@@ -5155,24 +5193,29 @@ function Nightfall:CreateWindow(options)
         local tab = {}
         local sectionBody = page
         local functionGroup
+        local groups = {}
         local function settingsParent(config)
-            if config.Standalone or not functionGroup then
+            local owner = config.Parent and groups[config.Parent]
+            if not owner then
                 return sectionBody
             end
-            if functionGroup.Settings then
-                return functionGroup.Settings
+            if owner.Settings then
+                return owner.Settings
             end
             local indent = Instance.new("Frame")
             indent.Name = "FunctionSettings"
             indent.Size = UDim2.new(1, 0, 0, 0)
             indent.AutomaticSize = Enum.AutomaticSize.Y
-            indent.BackgroundTransparency = 1
+            indent.BackgroundTransparency = 0.1
+            indent.BackgroundColor3 = Color3.fromRGB(23, 19, 32)
+            indent.Visible = false
             indent.ZIndex = 8
             indent.Parent = sectionBody
             local padding = Instance.new("UIPadding")
-            padding.PaddingLeft = UDim.new(0, 26)
-            padding.PaddingTop = UDim.new(0, 2)
-            padding.PaddingBottom = UDim.new(0, 6)
+            padding.PaddingLeft = UDim.new(0, 12)
+            padding.PaddingRight = UDim.new(0, 12)
+            padding.PaddingTop = UDim.new(0, 12)
+            padding.PaddingBottom = UDim.new(0, 12)
             padding.Parent = indent
             local list = Instance.new("UIListLayout")
             list.Padding = UDim.new(0, 6)
@@ -5183,16 +5226,49 @@ function Nightfall:CreateWindow(options)
                 if child:IsA("GuiObject") then
                     number = number + 1
                     child.LayoutOrder = number
-                    local rail = Instance.new("Frame")
-                    rail.Position = UDim2.fromOffset(-15, 0)
-                    rail.Size = UDim2.new(0, 2, 1, 0)
-                    rail.BorderSizePixel = 0
-                    rail.BackgroundColor3 = Color3.fromRGB(64, 47, 82)
-                    rail.ZIndex = 8
-                    rail.Parent = child
                 end
             end)
-            functionGroup.Settings = indent
+            local corner = Instance.new("UICorner")
+            corner.CornerRadius = UDim.new(0, 9)
+            corner.Parent = indent
+            local border = Instance.new("UIStroke")
+            border.Color = Color3.fromRGB(65, 51, 82)
+            border.Transparency = 0.4
+            border.Parent = indent
+            local hovered, pinned, revision = false, false, 0
+            local function enter()
+                hovered = true
+                revision = revision + 1
+                indent.Visible = true
+            end
+            local function leave()
+                hovered = false
+                revision = revision + 1
+                local current = revision
+                task.delay(0.3, function()
+                    if current == revision and not hovered and not pinned and not UserInputService:GetFocusedTextBox() then
+                        indent.Visible = false
+                    end
+                end)
+            end
+            owner.Frame.MouseEnter:Connect(enter)
+            owner.Frame.MouseLeave:Connect(leave)
+            indent.MouseEnter:Connect(enter)
+            indent.MouseLeave:Connect(leave)
+            local reveal = Instance.new("TextButton")
+            reveal.Text = "···"
+            reveal.TextSize = 22
+            reveal.TextColor3 = THEME.TextMuted
+            reveal.BackgroundTransparency = 1
+            reveal.Size = UDim2.fromOffset(28, 28)
+            reveal.Position = UDim2.new(1, -87, 0.5, -14)
+            reveal.ZIndex = 12
+            reveal.Parent = owner.Frame
+            reveal.Activated:Connect(function()
+                pinned = not pinned
+                indent.Visible = pinned
+            end)
+            owner.Settings = indent
             return indent
         end
         local sectionCount = 0
@@ -5397,6 +5473,7 @@ function Nightfall:CreateWindow(options)
                 end
             )
             control.Frame.Size = UDim2.new(1, 0, 0, 64)
+            groups[config.Title] = control
             for _, child in ipairs(control.Frame:GetChildren()) do
                 if child:IsA("TextLabel") then
                     child.Size = UDim2.new(1, -122, 0, 22)
