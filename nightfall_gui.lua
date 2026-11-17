@@ -1657,6 +1657,37 @@ function Nightfall:CreateWindow(options)
         { 18, 11, 15, 12, 17, 13 },
     }
 
+    ICONS.Skull = "local:skull"
+    ICON_PATHS[ICONS.Skull] = {
+        { 6, 17, 3, 14, 3, 8, 5, 4, 9, 2, 15, 2, 19, 4, 21, 8, 21, 14, 18, 17, 17, 22, 7, 22, 6, 17 },
+        { 7, 9, 10, 9, 10, 12, 7, 12, 7, 9 },
+        { 14, 9, 17, 9, 17, 12, 14, 12, 14, 9 },
+        { 12, 13, 10, 16, 14, 16, 12, 13 },
+        { 10, 19, 10, 22 },
+        { 14, 19, 14, 22 },
+    }
+    local pin = arc(12, 9, 7, 145, 395)
+    table.insert(pin, 12)
+    table.insert(pin, 22)
+    table.insert(pin, pin[1])
+    table.insert(pin, pin[2])
+    ICON_PATHS[ICONS.Pin] = {
+        pin,
+        arc(12, 9, 2.4, 0, 360),
+    }
+    local crescent = arc(12, 12, 9, 270, 0)
+    for i = 1, 24 do
+        local t = i / 24
+        local u = 1 - t
+        table.insert(crescent, u * u * 21 + 2 * u * t * 7 + t * t * 12)
+        table.insert(crescent, u * u * 12 + 2 * u * t * 17 + t * t * 3)
+    end
+    table.insert(crescent, 12)
+    table.insert(crescent, 3)
+    ICON_PATHS[ICONS.Moon] = {
+        crescent,
+    }
+
     local ICON_FILLS = {
         [ICONS.Home] = {
             {
@@ -4109,9 +4140,15 @@ function Nightfall:CreateWindow(options)
                 9,
             },
         }) do
-            local bar = solid(roblox, r[1], r[2], r[3], r[4], Color3.fromRGB(190, 180, 207), 8)
+            local bar = Instance.new("Frame")
+            bar.BorderSizePixel = 0
+            bar.Position = UDim2.fromOffset(r[1], r[2])
+            bar.Size = UDim2.fromOffset(r[3], r[4])
+            bar.BackgroundColor3 = Color3.fromRGB(195, 185, 211)
+            bar.ZIndex = 8
+            bar.Parent = roblox
             local shade = Instance.new("UIGradient")
-            shade.Color = ColorSequence.new(Color3.new(1, 1, 1), Color3.fromRGB(155, 145, 176))
+            shade.Color = ColorSequence.new(Color3.new(1, 1, 1), Color3.new(1, 1, 1))
             shade.Rotation = 90
             shade.Parent = bar
         end
@@ -4952,7 +4989,7 @@ function Nightfall:CreateWindow(options)
     navPadding.PaddingBottom = UDim.new(0, 8)
     navPadding.Parent = NavContainer
     local aliases = {
-        skull = ICONS.User,
+        skull = ICONS.Skull,
         user = ICONS.User,
         move = ICONS.Speed,
         crosshair = ICONS.Target,
@@ -4998,7 +5035,7 @@ function Nightfall:CreateWindow(options)
 
     local function card(parent, config, height)
         local frame = Instance.new("Frame")
-        frame.Size = UDim2.new(1, -8, 0, height or 76)
+        frame.Size = UDim2.new(1, 0, 0, height or 76)
         frame.BackgroundColor3 = THEME.BgPanel
         frame.ZIndex = 8
         frame.Parent = parent
@@ -5235,7 +5272,7 @@ function Nightfall:CreateWindow(options)
                     callback(config.Callback, value)
                 end
             )
-            control.Frame.Size = UDim2.new(1, -8, 0, 64)
+            control.Frame.Size = UDim2.new(1, 0, 0, 64)
             for _, child in ipairs(control.Frame:GetChildren()) do
                 if child:IsA("TextLabel") then
                     child.Size = UDim2.new(1, -122, 0, 22)
@@ -5275,7 +5312,7 @@ function Nightfall:CreateWindow(options)
         function tab:Button(config)
             local hasDesc = config.Desc and config.Desc ~= ""
             local frame = Instance.new("Frame")
-            frame.Size = UDim2.new(1, -8, 0, hasDesc and 64 or 50)
+            frame.Size = UDim2.new(1, 0, 0, hasDesc and 64 or 50)
             frame.BackgroundColor3 = THEME.BgPanel
             frame.BackgroundTransparency = 0.25
             frame.ZIndex = 8
@@ -5553,7 +5590,7 @@ function Nightfall:CreateWindow(options)
             function control:Refresh(items)
                 values = items or {}
                 list.Size = UDim2.new(1, -24, 0, math.min(150, #values * 30))
-                frame.Size = UDim2.new(1, -8, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
+                frame.Size = UDim2.new(1, 0, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
                 for _, child in ipairs(list:GetChildren()) do
                     if child:IsA("TextButton") then
                         child:Destroy()
@@ -5579,7 +5616,7 @@ function Nightfall:CreateWindow(options)
                             control:Set(value)
                             open = false
                             list.Visible = false
-                            frame.Size = UDim2.new(1, -8, 0, baseHeight)
+                            frame.Size = UDim2.new(1, 0, 0, baseHeight)
                         end
                     end)
                 end
@@ -5587,7 +5624,7 @@ function Nightfall:CreateWindow(options)
             button.Activated:Connect(function()
                 open = not open
                 list.Visible = open
-                frame.Size = UDim2.new(1, -8, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
+                frame.Size = UDim2.new(1, 0, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
             end)
             control:Refresh(values)
             display()
@@ -5741,15 +5778,36 @@ function Nightfall:CreateWindow(options)
                 pad.PaddingRight = UDim.new(0, 4)
                 pad.Parent = row
                 if not heading then
+                    local tagIcons = {
+                        NEW = ICONS.Diamond,
+                        ADD = ICONS.Cross,
+                        FIX = ICONS.Settings,
+                        UPDATE = ICONS.Respawn,
+                        REMOVE = ICONS.Trash,
+                        PERF = ICONS.Speed,
+                    }
+                    createVectorIcon(
+                        row,
+                        tagIcons[tag] or ICONS.Package,
+                        UDim2.fromOffset(15, 15),
+                        THEME.AccentPurp,
+                        UDim2.fromOffset(5, 5)
+                    )
                     local badge = text(row, tag, 11)
-                    badge.Position = UDim2.fromOffset(0, 2)
-                    badge.Size = UDim2.fromOffset(62, 20)
+                    badge.Position = UDim2.fromOffset(26, 2)
+                    badge.Size = UDim2.fromOffset(58, 22)
                     badge.TextColor3 = Color3.fromRGB(159, 141, 181)
                     badge.Font = Enum.Font.GothamMedium
+                    badge.BackgroundColor3 = Color3.fromRGB(29, 23, 39)
+                    badge.BackgroundTransparency = 0
+                    badge.TextXAlignment = Enum.TextXAlignment.Center
+                    local corner = Instance.new("UICorner")
+                    corner.CornerRadius = UDim.new(0, 4)
+                    corner.Parent = badge
                 end
                 local label = text(row, heading or message, heading and 17 or 14)
-                label.Position = UDim2.fromOffset(heading and 0 or 70, 0)
-                label.Size = UDim2.new(1, heading and 0 or -70, 0, 0)
+                label.Position = UDim2.fromOffset(heading and 0 or 94, 0)
+                label.Size = UDim2.new(1, heading and 0 or -94, 0, 0)
                 label.AutomaticSize = Enum.AutomaticSize.Y
                 label.TextWrapped = true
                 label.RichText = false
