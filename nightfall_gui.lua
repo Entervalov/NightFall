@@ -6340,7 +6340,13 @@ function Nightfall:CreateWindow(options)
 
     window:SetChangelogs(
         options.Changelogs
-            or "[NEW] NightFall Interface: Gothic Dark Fantasy redesign\n[ADD] Features: Collapsible changelogs and animated notifications\n[FIX] Visuals: Refined glassmorphism cards and badging"
+            or table.concat({
+                "[ADD] Added Noclip: Walk through walls and map boundaries with customizable keybind",
+                "[FIX] Fix QuickRespawn: Separated into Fast Respawn and Return on Death functions",
+                "[UPDATE] Redesigned UI: Complete Gothic Dark Fantasy glassmorphism interface overhaul",
+                "[FIX] Fix Auto Kill Target: Improved player targeting, locking, and team safety checks",
+                "[ADD] Added Config Manager: Built-in presets (Default, Legit, Rage) and custom Save/Load"
+            }, "\n")
     )
     self.Window = window
     return window
