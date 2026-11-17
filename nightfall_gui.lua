@@ -31,594 +31,1388 @@ function Nightfall:CreateWindow(options)
     end
 
     local THEME = {
+
         BgMain = Color3.fromRGB(7, 6, 11),
+
         BgSecondary = Color3.fromRGB(13, 10, 20),
+
         BgPanel = Color3.fromRGB(16, 12, 25),
+
         BgPanelHover = Color3.fromRGB(24, 18, 36),
+
         BgInner = Color3.fromRGB(11, 8, 17),
+
         Border = Color3.fromRGB(48, 32, 68),
+
         BorderActive = Color3.fromRGB(139, 66, 232),
+
         PrimaryPurp = Color3.fromRGB(117, 60, 186),
+
         AccentPurp = Color3.fromRGB(151, 98, 207),
+
         AccentGlow = Color3.fromRGB(150, 60, 255),
+
         TextPrimary = Color3.fromRGB(211, 199, 229),
+
         TextMuted = Color3.fromRGB(130, 116, 147),
+
         TextDark = Color3.fromRGB(85, 74, 98),
+
         SuccessGreen = Color3.fromRGB(54, 216, 137),
+
         DangerRed = Color3.fromRGB(244, 63, 94),
+
         WarnYellow = Color3.fromRGB(251, 191, 36),
     }
 
     local ICONS = {
+
         Home = "rbxassetid://10723407389",
+
         User = "rbxassetid://10747373176",
+
         Eye = "rbxassetid://10723346959",
+
         Settings = "rbxassetid://10734950309",
+
         Terminal = "rbxassetid://10734982144",
+
         Target = "rbxassetid://10734977012",
+
         Speed = "rbxassetid://10723395708",
+
         Shield = "rbxassetid://10734951847",
+
         Trash = "rbxassetid://10747362393",
+
         Diamond = "rbxassetid://10709819149",
+
         Electricity = "rbxassetid://10723345749",
+
         Moon = "rbxassetid://10734897102",
+
         Package = "rbxassetid://10734909540",
+
         Minus = "rbxassetid://10734896206",
+
         Square = "rbxassetid://10734965702",
+
         Close = "rbxassetid://10747384394",
+
         ChevronRight = "rbxassetid://10709782497",
+
         ChevronLeft = "rbxassetid://10709782559",
+
         Glow = "",
+
         Shadow = "",
+        Sun = "local:sun",
+        Layers = "local:layers",
+        Palette = "local:palette",
+        Heart = "local:heart",
+        Pin = "local:pin",
+        Arrow = "local:arrow",
+        Cross = "local:cross",
+        Box = "local:box",
     }
 
     local ICON_PATHS = {
+        [ICONS.Sun] = {
+            {
+                12,
+                2,
+                12,
+                5,
+            },
+            {
+                12,
+                19,
+                12,
+                22,
+            },
+            {
+                2,
+                12,
+                5,
+                12,
+            },
+            {
+                19,
+                12,
+                22,
+                12,
+            },
+            {
+                5,
+                5,
+                7,
+                7,
+            },
+            {
+                17,
+                17,
+                19,
+                19,
+            },
+            {
+                5,
+                19,
+                7,
+                17,
+            },
+            {
+                17,
+                7,
+                19,
+                5,
+            },
+            {
+                12,
+                7,
+                17,
+                12,
+                12,
+                17,
+                7,
+                12,
+                12,
+                7,
+            },
+        },
+        [ICONS.Layers] = {
+            {
+                2,
+                8,
+                12,
+                3,
+                22,
+                8,
+                12,
+                13,
+                2,
+                8,
+            },
+            {
+                2,
+                13,
+                12,
+                18,
+                22,
+                13,
+            },
+            {
+                2,
+                18,
+                12,
+                23,
+                22,
+                18,
+            },
+        },
+        [ICONS.Palette] = {
+            {
+                12,
+                2,
+                5,
+                4,
+                2,
+                11,
+                4,
+                18,
+                10,
+                22,
+                14,
+                21,
+                13,
+                16,
+                20,
+                15,
+                22,
+                10,
+                19,
+                4,
+                12,
+                2,
+            },
+            {
+                7,
+                7,
+                8,
+                7,
+            },
+            {
+                14,
+                6,
+                15,
+                6,
+            },
+            {
+                18,
+                10,
+                19,
+                10,
+            },
+            {
+                6,
+                13,
+                7,
+                13,
+            },
+        },
+        [ICONS.Heart] = {
+            {
+                12,
+                21,
+                3,
+                12,
+                2,
+                7,
+                5,
+                3,
+                9,
+                3,
+                12,
+                7,
+                15,
+                3,
+                19,
+                3,
+                22,
+                7,
+                21,
+                12,
+                12,
+                21,
+            },
+        },
+        [ICONS.Pin] = {
+            {
+                12,
+                23,
+                4,
+                12,
+                3,
+                7,
+                7,
+                2,
+                17,
+                2,
+                21,
+                7,
+                20,
+                12,
+                12,
+                23,
+            },
+            {
+                9,
+                8,
+                12,
+                5,
+                15,
+                8,
+                12,
+                11,
+                9,
+                8,
+            },
+        },
+        [ICONS.Arrow] = {
+            {
+                12,
+                22,
+                12,
+                3,
+            },
+            {
+                5,
+                10,
+                12,
+                3,
+                19,
+                10,
+            },
+        },
+        [ICONS.Cross] = {
+            {
+                9,
+                2,
+                15,
+                2,
+                15,
+                9,
+                22,
+                9,
+                22,
+                15,
+                15,
+                15,
+                15,
+                22,
+                9,
+                22,
+                9,
+                15,
+                2,
+                15,
+                2,
+                9,
+                9,
+                9,
+                9,
+                2,
+            },
+        },
+        [ICONS.Box] = {
+            {
+                3,
+                3,
+                21,
+                3,
+                21,
+                21,
+                3,
+                21,
+                3,
+                3,
+            },
+            {
+                3,
+                3,
+                21,
+                21,
+            },
+            {
+                21,
+                3,
+                3,
+                21,
+            },
+        },
         [ICONS.Home] = {
+
             {
+
                 3,
+
                 11,
+
                 12,
+
                 3,
+
                 21,
+
                 11,
             },
+
             {
+
                 5,
+
                 10,
+
                 5,
+
                 21,
+
                 10,
+
                 21,
+
                 10,
+
                 14,
+
                 14,
+
                 14,
+
                 14,
+
                 21,
+
                 19,
+
                 21,
+
                 19,
+
                 10,
             },
         },
+
         [ICONS.User] = {
+
             {
+
                 4,
+
                 21,
+
                 4,
+
                 18,
+
                 7,
+
                 14,
+
                 17,
+
                 14,
+
                 20,
+
                 18,
+
                 20,
+
                 21,
             },
         },
+
         [ICONS.Eye] = {
+
             {
+
                 2,
+
                 12,
+
                 6,
+
                 7,
+
                 12,
+
                 5,
+
                 18,
+
                 7,
+
                 22,
+
                 12,
+
                 18,
+
                 17,
+
                 12,
+
                 19,
+
                 6,
+
                 17,
+
                 2,
+
                 12,
             },
         },
+
         [ICONS.Settings] = {
+
             {
+
                 9,
+
                 3,
+
                 15,
+
                 3,
+
                 16,
+
                 6,
+
                 19,
+
                 7,
+
                 22,
+
                 10,
+
                 20,
+
                 13,
+
                 20,
+
                 17,
+
                 17,
+
                 18,
+
                 15,
+
                 22,
+
                 11,
+
                 21,
+
                 9,
+
                 18,
+
                 5,
+
                 18,
+
                 3,
+
                 15,
+
                 5,
+
                 12,
+
                 4,
+
                 8,
+
                 7,
+
                 6,
+
                 9,
+
                 3,
             },
         },
+
         [ICONS.Terminal] = {
+
             {
+
                 4,
+
                 5,
+
                 10,
+
                 11,
+
                 4,
+
                 17,
             },
+
             {
+
                 12,
+
                 19,
+
                 21,
+
                 19,
             },
         },
+
         [ICONS.Target] = {
+
             {
+
                 12,
+
                 1,
+
                 12,
+
                 6,
             },
+
             {
+
                 12,
+
                 18,
+
                 12,
+
                 23,
             },
+
             {
+
                 1,
+
                 12,
+
                 6,
+
                 12,
             },
+
             {
+
                 18,
+
                 12,
+
                 23,
+
                 12,
             },
         },
+
         [ICONS.Speed] = {
+
             {
+
                 13,
+
                 7,
+
                 9,
+
                 12,
+
                 14,
+
                 15,
+
                 11,
+
                 22,
             },
+
             {
+
                 9,
+
                 12,
+
                 5,
+
                 11,
+
                 2,
+
                 15,
             },
+
             {
+
                 12,
+
                 9,
+
                 17,
+
                 12,
+
                 21,
+
                 10,
             },
+
             {
+
                 9,
+
                 16,
+
                 5,
+
                 21,
             },
         },
+
         [ICONS.Shield] = {
+
             {
+
                 12,
+
                 2,
+
                 21,
+
                 6,
+
                 20,
+
                 14,
+
                 17,
+
                 19,
+
                 12,
+
                 22,
+
                 7,
+
                 19,
+
                 4,
+
                 14,
+
                 3,
+
                 6,
+
                 12,
+
                 2,
             },
+
             {
+
                 12,
+
                 3,
+
                 12,
+
                 21,
             },
         },
+
         [ICONS.Trash] = {
+
             {
+
                 3,
+
                 6,
+
                 21,
+
                 6,
             },
+
             {
+
                 8,
+
                 6,
+
                 8,
+
                 3,
+
                 16,
+
                 3,
+
                 16,
+
                 6,
             },
+
             {
+
                 6,
+
                 7,
+
                 7,
+
                 21,
+
                 17,
+
                 21,
+
                 18,
+
                 7,
             },
+
             {
+
                 10,
+
                 10,
+
                 10,
+
                 17,
             },
+
             {
+
                 14,
+
                 10,
+
                 14,
+
                 17,
             },
         },
+
         [ICONS.Diamond] = {
+
             {
+
                 12,
+
                 1,
+
                 15,
+
                 9,
+
                 23,
+
                 12,
+
                 15,
+
                 15,
+
                 12,
+
                 23,
+
                 9,
+
                 15,
+
                 1,
+
                 12,
+
                 9,
+
                 9,
+
                 12,
+
                 1,
             },
         },
+
         [ICONS.Electricity] = {
+
             {
+
                 13,
+
                 2,
+
                 4,
+
                 14,
+
                 11,
+
                 14,
+
                 9,
+
                 23,
+
                 21,
+
                 9,
+
                 13,
+
                 9,
+
                 13,
+
                 2,
             },
         },
+
         [ICONS.Moon] = {
+
             {
+
                 17,
+
                 2,
+
                 10,
+
                 3,
+
                 5,
+
                 7,
+
                 3,
+
                 13,
+
                 5,
+
                 19,
+
                 10,
+
                 22,
+
                 16,
+
                 22,
+
                 21,
+
                 18,
+
                 22,
+
                 14,
+
                 17,
+
                 17,
+
                 12,
+
                 16,
+
                 9,
+
                 12,
+
                 9,
+
                 7,
+
                 12,
+
                 3,
+
                 17,
+
                 2,
             },
         },
+
         [ICONS.Package] = {
+
             {
+
                 12,
+
                 2,
+
                 22,
+
                 7,
+
                 22,
+
                 17,
+
                 12,
+
                 23,
+
                 2,
+
                 17,
+
                 2,
+
                 7,
+
                 12,
+
                 2,
             },
+
             {
+
                 2,
+
                 7,
+
                 12,
+
                 12,
+
                 22,
+
                 7,
             },
+
             {
+
                 12,
+
                 12,
+
                 12,
+
                 23,
             },
+
             {
+
                 7,
+
                 5,
+
                 17,
+
                 10,
             },
         },
+
         [ICONS.Minus] = {
+
             {
+
                 4,
+
                 12,
+
                 20,
+
                 12,
             },
         },
+
         [ICONS.Square] = {
+
             {
+
                 4,
+
                 4,
+
                 20,
+
                 4,
+
                 20,
+
                 20,
+
                 4,
+
                 20,
+
                 4,
+
                 4,
             },
         },
+
         [ICONS.Close] = {
+
             {
+
                 4,
+
                 4,
+
                 20,
+
                 20,
             },
+
             {
+
                 20,
+
                 4,
+
                 4,
+
                 20,
             },
         },
+
         [ICONS.ChevronRight] = {
+
             {
+
                 9,
+
                 6,
+
                 15,
+
                 12,
+
                 9,
+
                 18,
             },
         },
+
         [ICONS.ChevronLeft] = {
+
             {
+
                 15,
+
                 6,
+
                 9,
+
                 12,
+
                 15,
+
                 18,
             },
         },
     }
 
     local ICON_FILLS = {
+
         [ICONS.Home] = {
+
             {
+
                 2,
+
                 11,
+
                 12,
+
                 2,
+
                 22,
+
                 11,
+
                 19,
+
                 11,
+
                 19,
+
                 22,
+
                 14,
+
                 22,
+
                 14,
+
                 15,
+
                 10,
+
                 15,
+
                 10,
+
                 22,
+
                 5,
+
                 22,
+
                 5,
+
                 11,
             },
         },
+
         [ICONS.User] = {
+
             {
+
                 3,
+
                 22,
+
                 3,
+
                 19,
+
                 5,
+
                 15,
+
                 9,
+
                 13,
+
                 15,
+
                 13,
+
                 19,
+
                 15,
+
                 21,
+
                 19,
+
                 21,
+
                 22,
             },
         },
+
         [ICONS.Diamond] = {
+
             {
+
                 12,
+
                 0,
+
                 15,
+
                 9,
+
                 24,
+
                 12,
+
                 15,
+
                 15,
+
                 12,
+
                 24,
+
                 9,
+
                 15,
+
                 0,
+
                 12,
+
                 9,
+
                 9,
             },
         },
+
         [ICONS.Electricity] = {
+
             {
+
                 11,
+
                 1,
+
                 4,
+
                 14,
+
                 11,
+
                 14,
+
                 8,
+
                 24,
+
                 21,
+
                 9,
+
                 13,
+
                 9,
+
                 17,
+
                 1,
             },
         },
+
         [ICONS.Shield] = {
+
             {
+
                 12,
+
                 2,
+
                 12,
+
                 22,
+
                 7,
+
                 19,
+
                 4,
+
                 14,
+
                 3,
+
                 6,
             },
         },
+
         [ICONS.Package] = {
+
             {
+
                 3,
+
                 8,
+
                 11,
+
                 12,
+
                 11,
+
                 22,
+
                 3,
+
                 17,
             },
+
             {
+
                 13,
+
                 12,
+
                 21,
+
                 8,
+
                 21,
+
                 17,
+
                 13,
+
                 22,
             },
+
             {
+
                 3,
+
                 6,
+
                 12,
+
                 2,
+
                 21,
+
                 6,
+
                 12,
+
                 10,
             },
         },
@@ -700,6 +1494,7 @@ function Nightfall:CreateWindow(options)
             table.insert(gear, gear[1])
             table.insert(gear, gear[2])
             paths = {
+
                 gear,
             }
         end
@@ -828,9 +1623,13 @@ function Nightfall:CreateWindow(options)
             end
         end
         for _, property in ipairs({
+
             "Position",
+
             "Size",
+
             "Visible",
+
             "Parent",
         }) do
             MainFrame:GetPropertyChangedSignal(property):Connect(updateEdges)
@@ -885,8 +1684,11 @@ function Nightfall:CreateWindow(options)
 
     local HeaderGlowFade = Instance.new("UIGradient")
     HeaderGlowFade.Transparency = NumberSequence.new({
+
         NumberSequenceKeypoint.new(0, 0.4),
+
         NumberSequenceKeypoint.new(0.8, 0.9),
+
         NumberSequenceKeypoint.new(1, 1),
     })
     HeaderGlowFade.Parent = HeaderGlow
@@ -956,7 +1758,9 @@ function Nightfall:CreateWindow(options)
 
     local TitleGrad = Instance.new("UIGradient")
     TitleGrad.Color = ColorSequence.new({
+
         ColorSequenceKeypoint.new(0, Color3.fromRGB(171, 112, 224)),
+
         ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 49, 159)),
     })
     TitleGrad.Rotation = 90
@@ -1125,17 +1929,21 @@ function Nightfall:CreateWindow(options)
 
         btn.MouseEnter:Connect(function()
             TweenService:Create(btn, TweenInfo.new(0.15), {
+
                 BackgroundTransparency = 1,
             }):Play()
             TweenService:Create(icon, TweenInfo.new(0.15), {
+
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
         btn.MouseLeave:Connect(function()
             TweenService:Create(btn, TweenInfo.new(0.15), {
+
                 BackgroundTransparency = 1,
             }):Play()
             TweenService:Create(icon, TweenInfo.new(0.15), {
+
                 ImageColor3 = THEME.AccentPurp,
             }):Play()
         end)
@@ -1153,6 +1961,7 @@ function Nightfall:CreateWindow(options)
         MainFrame.Body.Visible = not isMinimized
         TweenService
             :Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+
                 Size = UDim2.new(0, 1200, 0, targetHeight),
             })
             :Play()
@@ -1447,7 +2256,9 @@ function Nightfall:CreateWindow(options)
         tabBtn.Parent = NavContainer
         local selectionGradient = Instance.new("UIGradient")
         selectionGradient.Transparency = NumberSequence.new({
+
             NumberSequenceKeypoint.new(0, 0),
+
             NumberSequenceKeypoint.new(1, 0.6),
         })
         selectionGradient.Parent = tabBtn
@@ -1508,25 +2319,44 @@ function Nightfall:CreateWindow(options)
         pageList.SortOrder = Enum.SortOrder.LayoutOrder
         pageList.Padding = UDim.new(0, 8)
         pageList.Parent = page
+        local pagePadding = Instance.new("UIPadding")
+        pagePadding.PaddingTop = UDim.new(0, 6)
+        pagePadding.PaddingBottom = UDim.new(0, 20)
+        pagePadding.PaddingLeft = UDim.new(0, 8)
+        pagePadding.PaddingRight = UDim.new(0, 12)
+        pagePadding.Parent = page
+        pageList.Padding = UDim.new(0, 12)
+        page.ScrollBarThickness = 3
+        page.ScrollBarImageColor3 = Color3.fromRGB(75, 63, 91)
+        page.ScrollBarImageTransparency = 0.3
 
         local tabData = {
+
             Button = tabBtn,
+
             Page = page,
+
             Icon = icon,
+
             Label = label,
+
             ActiveBar = activeBar,
         }
 
         tabBtn.MouseEnter:Connect(function()
             if activeTab ~= tabData then
                 navTween(tabBtn, {
+
                     BackgroundTransparency = 0.7,
+
                     BackgroundColor3 = THEME.BgPanelHover,
                 })
                 navTween(label, {
+
                     TextColor3 = THEME.TextPrimary,
                 })
                 navTween(icon, {
+
                     ImageColor3 = THEME.AccentPurp,
                 })
             end
@@ -1535,12 +2365,15 @@ function Nightfall:CreateWindow(options)
         tabBtn.MouseLeave:Connect(function()
             if activeTab ~= tabData then
                 navTween(tabBtn, {
+
                     BackgroundTransparency = 1,
                 })
                 navTween(label, {
+
                     TextColor3 = THEME.TextMuted,
                 })
                 navTween(icon, {
+
                     ImageColor3 = THEME.TextMuted,
                 })
             end
@@ -1553,31 +2386,40 @@ function Nightfall:CreateWindow(options)
 
             for _, t in pairs(tabs) do
                 navTween(t.Button, {
+
                     BackgroundTransparency = 1,
                 })
                 navTween(t.Label, {
+
                     TextColor3 = THEME.TextMuted,
                 })
                 navTween(t.Icon, {
+
                     ImageColor3 = THEME.TextMuted,
                 })
                 navTween(t.ActiveBar, {
+
                     BackgroundTransparency = 1,
                 })
                 t.Page.Visible = false
             end
 
             navTween(tabBtn, {
+
                 BackgroundTransparency = 0.78,
+
                 BackgroundColor3 = THEME.PrimaryPurp,
             })
             navTween(label, {
+
                 TextColor3 = THEME.TextPrimary,
             })
             navTween(icon, {
+
                 ImageColor3 = THEME.AccentPurp,
             })
             navTween(activeBar, {
+
                 BackgroundTransparency = 0,
             })
             page.Visible = true
@@ -1593,6 +2435,7 @@ function Nightfall:CreateWindow(options)
                 ContentArea,
                 TweenInfo.new(0.22, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {
+
                     Position = UDim2.fromOffset(214, 0),
                 }
             )
@@ -1662,18 +2505,18 @@ function Nightfall:CreateWindow(options)
         local card = Instance.new("Frame")
         card.Size = UDim2.new(0, 252, 0, 62)
         card.BackgroundColor3 = THEME.BgPanel
-        card.BackgroundTransparency = 0.35
+        card.BackgroundTransparency = 0.08
         card.ZIndex = 7
         card.Parent = parent
 
         local cardCorner = Instance.new("UICorner")
-        cardCorner.CornerRadius = UDim.new(0, 10)
+        cardCorner.CornerRadius = UDim.new(0, 7)
         cardCorner.Parent = card
 
         local cardStroke = Instance.new("UIStroke")
         cardStroke.Thickness = 1
         cardStroke.Color = THEME.Border
-        cardStroke.Transparency = 0.35
+        cardStroke.Transparency = 0.65
         cardStroke.Parent = card
 
         local cardGrad = Instance.new("UIGradient")
@@ -1735,7 +2578,7 @@ function Nightfall:CreateWindow(options)
         local switch = Instance.new("Frame")
         switch.Size = UDim2.new(0, 40, 0, 22)
         switch.Position = UDim2.new(1, -52, 0.5, -11)
-        switch.BackgroundColor3 = defaultState and THEME.PrimaryPurp or Color3.fromRGB(36, 29, 48)
+        switch.BackgroundColor3 = defaultState and Color3.fromRGB(77, 59, 101) or Color3.fromRGB(36, 29, 48)
         switch.ZIndex = 8
         switch.Parent = card
 
@@ -1771,18 +2614,21 @@ function Nightfall:CreateWindow(options)
 
         local function updateVisual(anim)
             local time = anim and 0.22 or 0
-            local targetColor = state and THEME.PrimaryPurp or Color3.fromRGB(36, 29, 48)
+            local targetColor = state and Color3.fromRGB(77, 59, 101) or Color3.fromRGB(36, 29, 48)
             local targetStroke = state and THEME.AccentPurp or THEME.Border
             local targetPos = state and UDim2.new(1, -19, 0.5, -8) or UDim2.new(0, 3, 0.5, -8)
 
             TweenService:Create(switch, TweenInfo.new(time), {
+
                 BackgroundColor3 = targetColor,
             }):Play()
             TweenService:Create(switchStroke, TweenInfo.new(time), {
+
                 Color = targetStroke,
             }):Play()
             TweenService
                 :Create(thumb, TweenInfo.new(time, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+
                     Position = targetPos,
                 })
                 :Play()
@@ -1790,13 +2636,17 @@ function Nightfall:CreateWindow(options)
 
         clickBtn.MouseEnter:Connect(function()
             TweenService:Create(card, TweenInfo.new(0.18), {
+
                 BackgroundTransparency = 0.2,
+
                 BackgroundColor3 = THEME.BgPanelHover,
             }):Play()
         end)
         clickBtn.MouseLeave:Connect(function()
             TweenService:Create(card, TweenInfo.new(0.18), {
-                BackgroundTransparency = 0.35,
+
+                BackgroundTransparency = 0.08,
+
                 BackgroundColor3 = THEME.BgPanel,
             }):Play()
         end)
@@ -1815,7 +2665,9 @@ function Nightfall:CreateWindow(options)
         end)
 
         return {
+
             Frame = card,
+
             Set = function(_, v)
                 local changed = state ~= v
                 state = v == true
@@ -1824,6 +2676,7 @@ function Nightfall:CreateWindow(options)
                     onToggle(state)
                 end
             end,
+
             Get = function()
                 return state
             end,
@@ -1872,7 +2725,9 @@ function Nightfall:CreateWindow(options)
 
         local fillGrad = Instance.new("UIGradient")
         fillGrad.Color = ColorSequence.new({
+
             ColorSequenceKeypoint.new(0, THEME.PrimaryPurp),
+
             ColorSequenceKeypoint.new(1, THEME.AccentPurp),
         })
         fillGrad.Parent = fill
@@ -1998,9 +2853,11 @@ function Nightfall:CreateWindow(options)
         end)
 
         return {
+
             Set = function(_, value)
                 setValue(value, true)
             end,
+
             Get = function()
                 return currentVal
             end,
@@ -2028,8 +2885,11 @@ function Nightfall:CreateWindow(options)
 
     local HeroGrad = Instance.new("UIGradient")
     HeroGrad.Color = ColorSequence.new({
+
         ColorSequenceKeypoint.new(0, Color3.fromRGB(26, 18, 42)),
+
         ColorSequenceKeypoint.new(0.55, Color3.fromRGB(16, 12, 26)),
+
         ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 7, 16)),
     })
     HeroGrad.Rotation = 20
@@ -2122,8 +2982,11 @@ function Nightfall:CreateWindow(options)
 
     local SkyFade = Instance.new("UIGradient")
     SkyFade.Transparency = NumberSequence.new({
+
         NumberSequenceKeypoint.new(0, 1),
+
         NumberSequenceKeypoint.new(0.35, 0.45),
+
         NumberSequenceKeypoint.new(1, 0.05),
     })
     SkyFade.Parent = SkyGradient
@@ -2166,8 +3029,11 @@ function Nightfall:CreateWindow(options)
 
     local MoonDiscGrad = Instance.new("UIGradient")
     MoonDiscGrad.Color = ColorSequence.new({
+
         ColorSequenceKeypoint.new(0, Color3.fromRGB(245, 230, 255)),
+
         ColorSequenceKeypoint.new(0.6, Color3.fromRGB(205, 170, 245)),
+
         ColorSequenceKeypoint.new(1, Color3.fromRGB(160, 115, 215)),
     })
     MoonDiscGrad.Rotation = 40
@@ -2519,10 +3385,9 @@ function Nightfall:CreateWindow(options)
         OuterBloom.Parent = canvas
         local scale = Instance.new("UIScale")
         scale.Parent = canvas
-        local requestedScale = options.Scale or 0.78
-        if options.Size then
-            requestedScale =
-                math.max(0.5, math.min(options.Size.X.Offset / 1200, options.Size.Y.Offset / 630))
+        local requestedScale = options.Scale or 1.0
+        if options.Scale then
+            requestedScale = math.clamp(tonumber(options.Scale) or 1.0, 0.6, 1.8)
         end
         local function scaleLimit()
             local camera = workspace.CurrentCamera
@@ -2699,8 +3564,11 @@ function Nightfall:CreateWindow(options)
         MainCorner.CornerRadius = UDim.new(0, 15)
         local edgeGradient = Instance.new("UIGradient")
         edgeGradient.Color = ColorSequence.new({
+
             ColorSequenceKeypoint.new(0, Color3.fromRGB(170, 115, 225)),
+
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(70, 45, 100)),
+
             ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 95, 205)),
         })
         edgeGradient.Rotation = 25
@@ -2709,44 +3577,76 @@ function Nightfall:CreateWindow(options)
 
     do
         local glyphs = {
+
             ["N"] = {
+
                 advance = 85,
+
                 top = 8,
+
                 data = [=[5!)"1"0"Y","/#5"W#0"-$9"U$3",%;"T%5"*&>"S&7")'A"R'8"((C"R(9"()D"Q)%"])/"'*F"P*%"^*."&++"8+5"P+$"_+-"&,(";,3"O,$"_,."%-'"=-6"%.&">.4"`--#%/%"?/3"$0%"@01"`/.#A10"a1-"$1$#B20"C3/"$3##D4."a2.$D5/"b5."E6."b61#F7-#c8/"#5$&c9-"$:#"d:*"G9-$e;'"$;$#f<%"e=%"$=%#H<,$d>%"%?%"c?%"%@'"1@+"b@%"&A7"aA%"'B7"I?+%`B&"'C8"_C&"(D7")E6"^D'#+F4"JC*%]F("-G*":G%"\G)"\H(";H$$JG)%[I)#<K#"ZK*"ZL+"JK($JN'#YM,%IP'#IR&#YQ-$HT&#YT.#1V)"HV%"YV/"/W,"ZW."-X/"GW%#ZX/",Y1"FY%"ZY0"+Z3"FZ$"[Z1"pZ$")[5"E[%"[[9"(\7"D\%"\\7"(]$".]3"B]&"]]5"'^$"0^7"^^2"1_5"^_1"1`4"_`/"2a2"`a-"3b0"ab*"4c."bc("5d+"cd&"7e'"ee#"]=],
             },
+
             ["i"] = {
+
                 advance = 26,
+
                 top = 9,
+
                 data = [=[.!%","("*#+#)%,%))+"**)"*+("*,'"+-$"*3#")4%"(5'"(6("'7*"&8,"&9."%:0"$;3##=$"(=-"#>#"(>,#(@+0)O**)X+$7Z#")[,"6[$")\0#*^."*_-"+`,",a*"-b)".c'"0d%"]=],
             },
+
             ["g"] = {
+
                 advance = 45,
+
                 top = 26,
+
                 data = [=[6"#"5#%"5$&"4%("3&*"2'-"2(."0)2"/*5".+$"4+2"-,$"5,4",-%"6-3"*.&"7.2")/'"9//")0&":0."(1'"<1+"'2(">2)"&3)"&4("@3&#?5'"%5)#>6(">7'"=8(#<:)#<<*"$7*(;=+&$>+&;B,$%C+$%F,";E-#&G+"<G,"&H,#<H-#'J,"=J,"'K-"<K-"(L-":L/")M5")N2"*O/">M,$*P-"+Q)"+R'"+S%"?P+%,T#"@T*$@W)$([%"@Z(#'\'"?\("&])"?]'#&^*#>_&"'`*"=`&"<a&"(a*#;b&"*c*"9c&"+d2"-e."]=],
             },
+
             ["h"] = {
+
                 advance = 43,
+
                 top = 8,
+
                 data = [=[8"("5#+"2$)"0%("#&#"/&("$'#"-')"$($",()"%)#"%*$"+))#&+#"*+*"&,-"'-,$=4#"<5$";6&":7'"88*"69-"(0+,5:/"(;=#(=,"8=."9>.":?-";@-"<A,"<B-"=C,#>E,%?I+"?J,'@P*'@V)"?W*#(>+=?Y)#(Z,#'\-"7\#"?[(#&]3"?]'"%^4">^("&_2">_'"'`0">`&")a-"=a'"+b*"=b&",c("<c&"-d&"<d%".e$";e%"/f#":f%"9g%"8h%"7i%"6j%"5k%"4l%"3m%"2n%"1o%"0p%"/q$".r$"-s$",t#"]=],
             },
+
             ["t"] = {
+
                 advance = 30,
+
                 top = 14,
+
                 data = [=[9"""8##"7$#"6%$"5&$"4'$"3(%"2)%"1*&"0+&"/,'".-'",.)"+/*"*0*")1+"(2,"'37"%49"$5:"#6;""7;")8+>:T#")U-"9U$"(V/"8V$"&W5"&X4"(Y1"+Z."-[+".\)"/]("0^&"1_%"2`#"]=],
             },
+
             ["F"] = {
+
                 advance = 73,
+
                 top = 5,
+
                 data = [=[:!."6"7"4#<"2$A"0%E"/&H"-'L",(O"+)R"**V"d*$"*+^"),/"A,F"(-,"E-A"'.+"H.<"'/)"K/8"&0)"M04"&1("I1#"O11"%2("H2$"Q2."%3'"G3%"S3*"F4%"T4("%4&#E5&"V5$"$6&#D6&#C8'"B9("A:*"A;+"@<,"@=-"^=""@>."]>%"@?/"\?'"$8%*@@0"[@)"%A$"@A1"ZA+"AB0"ZB,"%B%#AC1"YC."&D$"BD1"XD0"&E%"BE2"WE1"'F%"CF1"VF2"'G&"CG2"UG2"(H&"DHB")I&"DI5"ZI+"*J&"?J#"EJ3"\J(",K'"<K'"FK2"]K&"-L5"GL1"^L$"0M0"GM2"_M#"3N)"HN2"IO1"JP1#KR1",S%"+T*"LS0#,U+"MU/"/V*"MV0"0W*"NW/"0X+"OX.$0Y,&P[-$Q^,"/^-$.a."Q_+%Qc*#.b-&Pe*#.g,"Pg)"Oh*"/h+#Oi)"/j,"Nj)"0k+"Nk("1l*"Ml("1m+"Lm("2n*"Kn("4o*"Jo("5p,"Gp)"7q7"9r3"=s,"]=],
             },
+
             ["a"] = {
+
                 advance = 44,
+
                 top = 26,
+
                 data = [=[6"""6#$"5$%"4%'"4&("3'+"2(-"1)/"0*2".+$"3+1"-,$"4,3",-%"5-3"+.%"6.2"*/&"8//")0&":0,"(1'";1+"'2("'3'"&4("%5)$$8*%#<+%#@,";2*0$A+#$C,$%F,"%G-#&I-";A+*II#"&J.":J-"HJ$"'K/"8K3"'L4";L0"(M2";M/")N/"*O-"<N-#+P+"=P+",Q(">Q)"-R&"?R("-S%"@S&".T""CT#"]=],
             },
+
             ["l"] = {
+
                 advance = 26,
+
                 top = 8,
+
                 data = [=[8"'"5#*"3$'"1%'"#&#"0&'"#'$".'("$($"-(("%)#",))"&*#",*("&+$"++)"',-#(.,&)3+I:Z""([."9[#"'\0"8\#"&]4"%^5"(_1"+`-"-a*".b)"/c'"0d&"1e$"2f""]=],
             },
         }
@@ -2775,9 +3675,13 @@ function Nightfall:CreateWindow(options)
             frame.ZIndex = z or parent.ZIndex
             frame.Parent = parent
             local geometry = {
+
                 x,
+
                 y,
+
                 w,
+
                 h,
             }
             pixelGeometry[frame] = geometry
@@ -2883,28 +3787,48 @@ function Nightfall:CreateWindow(options)
         roblox.ZIndex = 8
         roblox.Parent = StatusBadge
         for _, r in ipairs({
+
             {
+
                 0,
+
                 0,
+
                 25,
+
                 8,
             },
+
             {
+
                 0,
+
                 17,
+
                 25,
+
                 8,
             },
+
             {
+
                 0,
+
                 8,
+
                 8,
+
                 9,
             },
+
             {
+
                 17,
+
                 8,
+
                 8,
+
                 9,
             },
         }) do
@@ -2928,8 +3852,11 @@ function Nightfall:CreateWindow(options)
         SecText.TextSize = 18
         MiscSecText.TextSize = 18
         for _, row in ipairs({
+
             BannerHeaderRow,
+
             SectionTitle,
+
             MiscSectionTitle,
         }) do
             for _, child in ipairs(row:GetChildren()) do
@@ -2997,8 +3924,11 @@ function Nightfall:CreateWindow(options)
         local sky = solid(ArtContainer, 0, 0, 545, 164, Color3.new(1, 1, 1), 8)
         local skyColor = Instance.new("UIGradient")
         skyColor.Color = ColorSequence.new({
+
             ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 8, 16)),
+
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(16, 10, 28)),
+
             ColorSequenceKeypoint.new(1, Color3.fromRGB(27, 14, 44)),
         })
         skyColor.Parent = sky
@@ -3044,8 +3974,11 @@ function Nightfall:CreateWindow(options)
             )
             local fade = Instance.new("UIGradient")
             fade.Transparency = NumberSequence.new({
+
                 NumberSequenceKeypoint.new(0, 1),
+
                 NumberSequenceKeypoint.new(0.5, 0),
+
                 NumberSequenceKeypoint.new(1, 1),
             })
             fade.Parent = cloud
@@ -3062,8 +3995,11 @@ function Nightfall:CreateWindow(options)
                     3,
                     170 - y,
                     ({
+
                         Color3.fromRGB(29, 16, 46),
+
                         Color3.fromRGB(16, 10, 25),
+
                         Color3.fromRGB(8, 6, 13),
                     })[layer],
                     12 + layer
@@ -3093,8 +4029,11 @@ function Nightfall:CreateWindow(options)
             solid(tower, x, 42, 1, 12, dark, 18)
         end
         for _, x in ipairs({
+
             29,
+
             43,
+
             55,
         }) do
             solid(tower, x, 29, 7, 9, Color3.fromRGB(35, 23, 48), 19)
@@ -3105,9 +4044,13 @@ function Nightfall:CreateWindow(options)
         local scrim = solid(ArtContainer, 0, 0, 545, 164, THEME.BgMain, 21)
         local fade = Instance.new("UIGradient")
         fade.Transparency = NumberSequence.new({
+
             NumberSequenceKeypoint.new(0, 0),
+
             NumberSequenceKeypoint.new(0.40, 0.05),
+
             NumberSequenceKeypoint.new(0.65, 0.85),
+
             NumberSequenceKeypoint.new(1, 1),
         })
         fade.Parent = scrim
@@ -3155,7 +4098,6 @@ function Nightfall:CreateWindow(options)
         ConsoleScroll.Name = "ReleaseHistory"
         ConsoleLayout.Padding = UDim.new(0, 8)
 
-        -- Collapse Button inside Changelogs Header
         local CollapseBtn = Instance.new("TextButton")
         CollapseBtn.Name = "CollapseChangelogsBtn"
         CollapseBtn.Size = UDim2.fromOffset(28, 28)
@@ -3188,40 +4130,45 @@ function Nightfall:CreateWindow(options)
 
         CollapseBtn.MouseEnter:Connect(function()
             TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
+
                 BackgroundColor3 = Color3.fromRGB(36, 22, 54),
             }):Play()
             TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
+
                 Color = THEME.AccentPurp,
             }):Play()
             TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
+
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
 
         CollapseBtn.MouseLeave:Connect(function()
             TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
+
                 BackgroundColor3 = Color3.fromRGB(20, 14, 30),
             }):Play()
             TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
+
                 Color = THEME.Border,
             }):Play()
             TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
+
                 ImageColor3 = THEME.TextMuted,
             }):Play()
         end)
 
-        -- Expand Button docked on the right side of Body when collapsed
         local ExpandBtn = Instance.new("TextButton")
         ExpandBtn.Name = "ExpandChangelogsBtn"
         ExpandBtn.Size = UDim2.fromOffset(128, 30)
-        ExpandBtn.Position = UDim2.new(1, -132, 0, 6)
-        ExpandBtn.BackgroundColor3 = Color3.fromRGB(20, 14, 30)
+        ExpandBtn.Position = UDim2.new(1, -428, 0, 94)
+        ExpandBtn.BackgroundColor3 = Color3.fromRGB(22, 19, 29)
         ExpandBtn.BackgroundTransparency = 0.2
         ExpandBtn.Text = ""
         ExpandBtn.AutoButtonColor = false
         ExpandBtn.Visible = false
         ExpandBtn.ZIndex = 8
-        ExpandBtn.Parent = Body
+        ExpandBtn.Parent = TitleBar
 
         local expandCorner = Instance.new("UICorner")
         expandCorner.CornerRadius = UDim.new(0, 8)
@@ -3230,7 +4177,7 @@ function Nightfall:CreateWindow(options)
         local expandStroke = Instance.new("UIStroke")
         expandStroke.Thickness = 1
         expandStroke.Color = THEME.Border
-        expandStroke.Transparency = 0.3
+        expandStroke.Transparency = 0.65
         expandStroke.Parent = ExpandBtn
 
         local expandChevron = createVectorIcon(
@@ -3263,70 +4210,59 @@ function Nightfall:CreateWindow(options)
 
         ExpandBtn.MouseEnter:Connect(function()
             TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
-                BackgroundColor3 = Color3.fromRGB(36, 22, 54),
+
+                BackgroundColor3 = Color3.fromRGB(32, 27, 41),
             }):Play()
             TweenService:Create(expandStroke, TweenInfo.new(0.18), {
+
                 Color = THEME.AccentPurp,
             }):Play()
             TweenService:Create(expandChevron, TweenInfo.new(0.18), {
+
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
 
         ExpandBtn.MouseLeave:Connect(function()
             TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
+
                 BackgroundColor3 = Color3.fromRGB(20, 14, 30),
             }):Play()
             TweenService:Create(expandStroke, TweenInfo.new(0.18), {
+
                 Color = THEME.Border,
             }):Play()
             TweenService:Create(expandChevron, TweenInfo.new(0.18), {
+
                 ImageColor3 = THEME.TextMuted,
             }):Play()
         end)
 
+        local contentResizeTween
         toggleChangelogs = function(collapsed)
             if collapsed == nil then
                 collapsed = not isChangelogsCollapsed
             end
-            if isChangelogsCollapsed == collapsed then return end
+            if isChangelogsCollapsed == collapsed then
+                return
+            end
             isChangelogsCollapsed = collapsed
 
-            local tweenInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-
-            if collapsed then
-                if changelogsDivider then
-                    changelogsDivider.Visible = false
-                end
-                TweenService:Create(ContentArea, tweenInfo, {
-                    Size = UDim2.new(1, -228, 1, 0),
-                }):Play()
-                local outTween = TweenService:Create(ConsoleFrame, tweenInfo, {
-                    Position = UDim2.new(1, 25, 0, 0),
-                })
-                outTween:Play()
-                outTween.Completed:Connect(function()
-                    if isChangelogsCollapsed then
-                        ConsoleFrame.Visible = false
-                        ExpandBtn.Visible = true
-                    end
-                end)
-            else
-                ExpandBtn.Visible = false
-                ConsoleFrame.Visible = true
-                TweenService:Create(ContentArea, tweenInfo, {
-                    Size = UDim2.new(0, 550, 1, 0),
-                }):Play()
-                local inTween = TweenService:Create(ConsoleFrame, tweenInfo, {
-                    Position = UDim2.new(1, -390, 0, 0),
-                })
-                inTween:Play()
-                inTween.Completed:Connect(function()
-                    if not isChangelogsCollapsed and changelogsDivider then
-                        changelogsDivider.Visible = true
-                    end
-                end)
+            if contentResizeTween then
+                contentResizeTween:Cancel()
             end
+            ConsoleFrame.Position = UDim2.new(1, -390, 0, 0)
+            ConsoleFrame.Visible = not collapsed
+            ExpandBtn.Visible = collapsed
+            if changelogsDivider then
+                changelogsDivider.Visible = not collapsed
+            end
+            contentResizeTween =
+                TweenService:Create(ContentArea, TweenInfo.new(0.18, Enum.EasingStyle.Quad), {
+
+                    Size = collapsed and UDim2.new(1, -228, 1, 0) or UDim2.new(0, 550, 1, 0),
+                })
+            contentResizeTween:Play()
         end
 
         CollapseBtn.Activated:Connect(function()
@@ -3368,11 +4304,14 @@ function Nightfall:CreateWindow(options)
         local function syncSmoke()
             smoke.Position = MainFrame.Position
             smoke.Size = MainFrame.Size
-            smoke.Visible = MainFrame.Visible and not isMinimized
+            smoke.Visible = MainFrame.Visible and not isMinimized and not smoke:GetAttribute("Disabled")
         end
         for _, property in ipairs({
+
             "Position",
+
             "Size",
+
             "Visible",
         }) do
             MainFrame:GetPropertyChangedSignal(property):Connect(syncSmoke)
@@ -3493,17 +4432,23 @@ function Nightfall:CreateWindow(options)
         task.spawn(function()
             local started = os.clock()
             TweenService:Create(loaderScale, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {
+
                 Scale = 1,
             }):Play()
             TweenService:Create(fill, TweenInfo.new(0.4), {
+
                 Size = UDim2.fromScale(0.45, 1),
             }):Play()
             local content = game:GetService("ContentProvider")
             pcall(function()
                 content:PreloadAsync({
+
                     TitleLabel,
+
                     WelcomeTitle,
+
                     ConsoleTitle,
+
                     smoke,
                 })
             end)
@@ -3512,6 +4457,7 @@ function Nightfall:CreateWindow(options)
             end
             status.Text = "Finalizing NightFall..."
             local progress = TweenService:Create(fill, TweenInfo.new(0.45), {
+
                 Size = UDim2.fromScale(1, 1),
             })
             progress:Play()
@@ -3522,12 +4468,14 @@ function Nightfall:CreateWindow(options)
             end
             status.Text = "Ready"
             local close = TweenService:Create(loading, TweenInfo.new(0.2), {
+
                 BackgroundTransparency = 1,
             })
             close:Play()
             for _, child in ipairs(loading:GetDescendants()) do
                 if child:IsA("TextLabel") then
                     TweenService:Create(child, TweenInfo.new(0.2), {
+
                         TextTransparency = 1,
                     }):Play()
                 end
@@ -3542,6 +4490,7 @@ function Nightfall:CreateWindow(options)
             MainFrame.Position = target + UDim2.fromOffset(0, 12 / uiScale.Scale)
             TweenService
                 :Create(MainFrame, TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+
                     Position = target,
                 })
                 :Play()
@@ -3551,43 +4500,254 @@ function Nightfall:CreateWindow(options)
     GameVer.Visible = false
     FootVer.Visible = false
     GameTitle.Text = options.GameTitle or "Prison Life"
-    FootLove.RichText = true
-    FootLove.Text =
-        '<font color="#C4A2ED">Entervalov</font> · developer\n<font color="#C4A2ED">deflise</font> · designer'
-    FootLove.Font = Enum.Font.GothamMedium
-    FootLove.TextSize = 12
-    FootLove.Position = UDim2.fromOffset(8, 48)
-    FootLove.Size = UDim2.new(1, -16, 0, 54)
-    FootLove.BackgroundColor3 = Color3.fromRGB(29, 19, 43)
-    FootLove.BackgroundTransparency = 0.25
-    local creditsCorner = Instance.new("UICorner")
-    creditsCorner.CornerRadius = UDim.new(0, 8)
-    creditsCorner.Parent = FootLove
+
+    for _, child in ipairs(SidebarFooter:GetChildren()) do
+        child:Destroy()
+    end
+    SidebarFooter.Size = UDim2.new(1, 0, 0, 96)
+    SidebarFooter.Position = UDim2.new(0, 0, 1, -100)
+
+    local creatorsCard = Instance.new("Frame")
+    creatorsCard.Name = "CreatorsCard"
+    creatorsCard.Size = UDim2.new(1, -20, 0, 84)
+    creatorsCard.Position = UDim2.new(0, 10, 0, 6)
+    creatorsCard.BackgroundColor3 = Color3.fromRGB(15, 10, 24)
+    creatorsCard.BackgroundTransparency = 0.2
+    creatorsCard.ZIndex = 8
+    creatorsCard.Parent = SidebarFooter
+
+    local cardCorner = Instance.new("UICorner")
+    cardCorner.CornerRadius = UDim.new(0, 9)
+    cardCorner.Parent = creatorsCard
+
+    local cardStroke = Instance.new("UIStroke")
+    cardStroke.Thickness = 1
+    cardStroke.Color = Color3.fromRGB(48, 30, 68)
+    cardStroke.Transparency = 0.3
+    cardStroke.Parent = creatorsCard
+
+    local cardGrad = Instance.new("UIGradient")
+    cardGrad.Color = ColorSequence.new({
+
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(24, 15, 38)),
+
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(12, 8, 20)),
+    })
+    cardGrad.Rotation = 45
+    cardGrad.Parent = creatorsCard
+
+    local cardLayout = Instance.new("UIListLayout")
+    cardLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    cardLayout.Padding = UDim.new(0, 4)
+    cardLayout.Parent = creatorsCard
+
+    local cardPad = Instance.new("UIPadding")
+    cardPad.PaddingLeft = UDim.new(0, 10)
+    cardPad.PaddingRight = UDim.new(0, 10)
+    cardPad.PaddingTop = UDim.new(0, 8)
+    cardPad.PaddingBottom = UDim.new(0, 8)
+    cardPad.Parent = creatorsCard
+
+    local devRow = Instance.new("Frame")
+    devRow.Size = UDim2.new(1, 0, 0, 30)
+    devRow.BackgroundTransparency = 1
+    devRow.LayoutOrder = 1
+    devRow.ZIndex = 9
+    devRow.Parent = creatorsCard
+
+    local devBadge = Instance.new("Frame")
+    devBadge.Size = UDim2.fromOffset(36, 18)
+    devBadge.Position = UDim2.new(0, 0, 0.5, -9)
+    devBadge.BackgroundColor3 = Color3.fromRGB(42, 20, 68)
+    devBadge.ZIndex = 9
+    devBadge.Parent = devRow
+
+    local devBadgeCorner = Instance.new("UICorner")
+    devBadgeCorner.CornerRadius = UDim.new(0, 4)
+    devBadgeCorner.Parent = devBadge
+
+    local devBadgeStroke = Instance.new("UIStroke")
+    devBadgeStroke.Thickness = 1
+    devBadgeStroke.Color = Color3.fromRGB(147, 69, 232)
+    devBadgeStroke.Transparency = 0.3
+    devBadgeStroke.Parent = devBadge
+
+    local devBadgeText = Instance.new("TextLabel")
+    devBadgeText.Size = UDim2.fromScale(1, 1)
+    devBadgeText.BackgroundTransparency = 1
+    devBadgeText.Text = "DEV"
+    devBadgeText.Font = Enum.Font.GothamBold
+    devBadgeText.TextSize = 9
+    devBadgeText.TextColor3 = Color3.fromRGB(192, 132, 252)
+    devBadgeText.ZIndex = 10
+    devBadgeText.Parent = devBadge
+
+    local devName = Instance.new("TextLabel")
+    devName.Size = UDim2.new(1, -44, 0, 16)
+    devName.Position = UDim2.new(0, 44, 0, 0)
+    devName.BackgroundTransparency = 1
+    devName.Text = "Entervalov"
+    devName.Font = Enum.Font.GothamBold
+    devName.TextSize = 12
+    devName.TextColor3 = Color3.fromRGB(240, 230, 252)
+    devName.TextXAlignment = Enum.TextXAlignment.Left
+    devName.ZIndex = 10
+    devName.Parent = devRow
+
+    local devRole = Instance.new("TextLabel")
+    devRole.Size = UDim2.new(1, -44, 0, 12)
+    devRole.Position = UDim2.new(0, 44, 0, 16)
+    devRole.BackgroundTransparency = 1
+    devRole.Text = "lead developer"
+    devRole.Font = Enum.Font.Gotham
+    devRole.TextSize = 10
+    devRole.TextColor3 = Color3.fromRGB(130, 112, 150)
+    devRole.TextXAlignment = Enum.TextXAlignment.Left
+    devRole.ZIndex = 10
+    devRole.Parent = devRow
+
+    local devDiv = Instance.new("Frame")
+    devDiv.Size = UDim2.new(1, 0, 0, 1)
+    devDiv.BackgroundColor3 = Color3.fromRGB(38, 24, 54)
+    devDiv.BorderSizePixel = 0
+    devDiv.LayoutOrder = 2
+    devDiv.ZIndex = 9
+    devDiv.Parent = creatorsCard
+
+    local dsgRow = Instance.new("Frame")
+    dsgRow.Size = UDim2.new(1, 0, 0, 30)
+    dsgRow.BackgroundTransparency = 1
+    dsgRow.LayoutOrder = 3
+    dsgRow.ZIndex = 9
+    dsgRow.Parent = creatorsCard
+
+    local dsgBadge = Instance.new("Frame")
+    dsgBadge.Size = UDim2.fromOffset(36, 18)
+    dsgBadge.Position = UDim2.new(0, 0, 0.5, -9)
+    dsgBadge.BackgroundColor3 = Color3.fromRGB(34, 18, 58)
+    dsgBadge.ZIndex = 9
+    dsgBadge.Parent = dsgRow
+
+    local dsgBadgeCorner = Instance.new("UICorner")
+    dsgBadgeCorner.CornerRadius = UDim.new(0, 4)
+    dsgBadgeCorner.Parent = dsgBadge
+
+    local dsgBadgeStroke = Instance.new("UIStroke")
+    dsgBadgeStroke.Thickness = 1
+    dsgBadgeStroke.Color = Color3.fromRGB(168, 85, 247)
+    dsgBadgeStroke.Transparency = 0.4
+    dsgBadgeStroke.Parent = dsgBadge
+
+    local dsgBadgeText = Instance.new("TextLabel")
+    dsgBadgeText.Size = UDim2.fromScale(1, 1)
+    dsgBadgeText.BackgroundTransparency = 1
+    dsgBadgeText.Text = "DSGN"
+    dsgBadgeText.Font = Enum.Font.GothamBold
+    dsgBadgeText.TextSize = 9
+    dsgBadgeText.TextColor3 = Color3.fromRGB(216, 180, 254)
+    dsgBadgeText.ZIndex = 10
+    dsgBadgeText.Parent = dsgBadge
+
+    local dsgName = Instance.new("TextLabel")
+    dsgName.Size = UDim2.new(1, -44, 0, 16)
+    dsgName.Position = UDim2.new(0, 44, 0, 0)
+    dsgName.BackgroundTransparency = 1
+    dsgName.Text = "deflise"
+    dsgName.Font = Enum.Font.GothamBold
+    dsgName.TextSize = 12
+    dsgName.TextColor3 = Color3.fromRGB(240, 230, 252)
+    dsgName.TextXAlignment = Enum.TextXAlignment.Left
+    dsgName.ZIndex = 10
+    dsgName.Parent = dsgRow
+
+    local dsgRole = Instance.new("TextLabel")
+    dsgRole.Size = UDim2.new(1, -44, 0, 12)
+    dsgRole.Position = UDim2.new(0, 44, 0, 16)
+    dsgRole.BackgroundTransparency = 1
+    dsgRole.Text = "ui/ux design"
+    dsgRole.Font = Enum.Font.Gotham
+    dsgRole.TextSize = 10
+    dsgRole.TextColor3 = Color3.fromRGB(130, 112, 150)
+    dsgRole.TextXAlignment = Enum.TextXAlignment.Left
+    dsgRole.ZIndex = 10
+    dsgRole.Parent = dsgRow
+
+    creatorsCard.MouseEnter:Connect(function()
+        TweenService:Create(cardStroke, TweenInfo.new(0.2), {
+            Color = THEME.AccentPurp,
+        }):Play()
+        TweenService:Create(creatorsCard, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(22, 14, 34),
+        }):Play()
+    end)
+    creatorsCard.MouseLeave:Connect(function()
+        TweenService:Create(cardStroke, TweenInfo.new(0.2), {
+            Color = Color3.fromRGB(48, 30, 68),
+        }):Play()
+        TweenService:Create(creatorsCard, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(15, 10, 24),
+        }):Play()
+    end)
+
     SectionTitle:Destroy()
     Grid:Destroy()
     MiscSectionTitle:Destroy()
     MiscCard:Destroy()
     for _, name in ipairs({
+
         "Player",
+
         "Visuals",
+
         "Settings",
+
+        "Changelogs",
     }) do
-        tabs[name].Button:Destroy()
-        tabs[name].Page:Destroy()
-        tabs[name] = nil
+        if tabs[name] then
+            if tabs[name].Button then
+                tabs[name].Button:Destroy()
+            end
+            if tabs[name].Page then
+                tabs[name].Page:Destroy()
+            end
+            tabs[name] = nil
+        end
     end
 
     local window = {}
+    NavContainer.ScrollBarThickness = 3
+    NavContainer.ScrollBarImageColor3 = Color3.fromRGB(75, 63, 91)
+    NavContainer.ScrollBarImageTransparency = 0.35
+    local navPadding = Instance.new("UIPadding")
+    navPadding.PaddingRight = UDim.new(0, 8)
+    navPadding.PaddingLeft = UDim.new(0, 3)
+    navPadding.PaddingTop = UDim.new(0, 3)
+    navPadding.PaddingBottom = UDim.new(0, 8)
+    navPadding.Parent = NavContainer
     local aliases = {
+
         skull = ICONS.User,
+
         user = ICONS.User,
+
         move = ICONS.Speed,
+
         crosshair = ICONS.Target,
+
         sword = ICONS.Shield,
+
         eye = ICONS.Eye,
-        ["map-pin"] = ICONS.Target,
+
+        ["map-pin"] = ICONS.Pin,
+        sun = ICONS.Sun,
+        layers = ICONS.Layers,
+        palette = ICONS.Palette,
+        heart = ICONS.Heart,
+        box = ICONS.Box,
         globe = ICONS.Package,
+
         settings = ICONS.Settings,
+
         moon = ICONS.Moon,
     }
 
@@ -3655,6 +4815,8 @@ function Nightfall:CreateWindow(options)
         local name = config.Title or "Tab"
         local page = tabs[name] and tabs[name].Page or createTab(name, aliases[config.Icon] or ICONS.Package)
         local tab = {}
+        local sectionBody = page
+        local sectionCount = 0
         local elementOrder = #page:GetChildren()
         local function orderElement(child)
             if child:IsA("GuiObject") then
@@ -3669,21 +4831,157 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Section(config)
-            local row = Instance.new("Frame")
-            row.Size = UDim2.new(1, -8, 0, 38)
-            row.BackgroundTransparency = 1
-            row.ZIndex = 8
-            row.Parent = page
-            text(row, config.Title, 18).TextColor3 = THEME.AccentPurp
+            sectionCount = sectionCount + 1
+            local group = Instance.new("Frame")
+            group.Name = "Section_" .. (config.Title or sectionCount)
+            group.Size = UDim2.new(1, -4, 0, 0)
+            group.AutomaticSize = Enum.AutomaticSize.Y
+            group.BackgroundTransparency = 1
+            group.ZIndex = 8
+            group.Parent = page
+            local groupList = Instance.new("UIListLayout")
+            groupList.SortOrder = Enum.SortOrder.LayoutOrder
+            groupList.Padding = UDim.new(0, 8)
+            groupList.Parent = group
+            local header = Instance.new("TextButton")
+            header.Size = UDim2.new(1, 0, 0, 44)
+            header.Text = ""
+            header.AutoButtonColor = false
+            header.BackgroundColor3 = Color3.fromRGB(20, 17, 28)
+            header.ZIndex = 8
+            header.LayoutOrder = 0
+            header.Parent = group
+            local corner = Instance.new("UICorner")
+            corner.CornerRadius = UDim.new(0, 6)
+            corner.Parent = header
+            local heading = text(header, config.Title, 17)
+            heading.Position = UDim2.fromOffset(14, 9)
+            heading.Size = UDim2.new(1, -54, 0, 26)
+            local mark = text(header, "−", 20)
+            mark.Position = UDim2.new(1, -35, 0, 7)
+            mark.Size = UDim2.fromOffset(24, 28)
+            mark.TextColor3 = THEME.TextMuted
+            local line = Instance.new("Frame")
+            line.Size = UDim2.new(1, -28, 0, 1)
+            line.Position = UDim2.new(0, 14, 1, -1)
+            line.BackgroundColor3 = THEME.Border
+            line.ZIndex = 9
+            line.Parent = header
+            local content = Instance.new("Frame")
+            content.Name = "SectionContent"
+            content.Size = UDim2.new(1, 0, 0, 0)
+            content.AutomaticSize = Enum.AutomaticSize.Y
+            content.BackgroundTransparency = 1
+            content.ZIndex = 8
+            content.LayoutOrder = 1
+            content.Parent = group
+            local layout = Instance.new("UIListLayout")
+            layout.SortOrder = Enum.SortOrder.LayoutOrder
+            layout.Padding = UDim.new(0, 8)
+            layout.Parent = content
+            local order = 0
+            content.ChildAdded:Connect(function(child)
+                if child:IsA("GuiObject") then
+                    order = order + 1
+                    child.LayoutOrder = order
+                end
+            end)
+            content.Visible = config.Collapsed == false or (config.Collapsed == nil and sectionCount <= 2)
+            mark.Text = content.Visible and "−" or "+"
+            header.Activated:Connect(function()
+                content.Visible = not content.Visible
+                mark.Text = content.Visible and "−" or "+"
+            end)
+            sectionBody = content
             return tab
         end
 
+        local function getToggleIcon(title, iconArg)
+            if iconArg and aliases[iconArg] then
+                return aliases[iconArg]
+            end
+            if iconArg and ICONS[iconArg] then
+                return ICONS[iconArg]
+            end
+            local t = (title or ""):lower()
+            if t:find("color") then
+                return ICONS.Palette
+            end
+            if t:find("highlight") or t:find("chams") then
+                return ICONS.Layers
+            end
+            if t:find("bright") or t:find("light") then
+                return ICONS.Sun
+            end
+            if t:find("hitbox") then
+                return ICONS.Box
+            end
+            if t:find("damage") then
+                return ICONS.Cross
+            end
+            if t:find("jump") or t:find("hop") or t:find("gravity") then
+                return ICONS.Arrow
+            end
+            if t:find("respawn") or t:find("death") or t:find("revive") or t:find("heal") then
+                return ICONS.Heart
+            elseif
+                t:find("speed")
+                or t:find("sprint")
+                or t:find("fast")
+                or t:find("bhop")
+                or t:find("walk")
+            then
+                return ICONS.Speed
+            elseif
+                t:find("aim")
+                or t:find("target")
+                or t:find("kill")
+                or t:find("combat")
+                or t:find("silent")
+            then
+                return ICONS.Target
+            elseif
+                t:find("esp")
+                or t:find("visual")
+                or t:find("wall")
+                or t:find("tracer")
+                or t:find("chams")
+                or t:find("see")
+            then
+                return ICONS.Eye
+            elseif t:find("noclip") or t:find("fly") or t:find("invis") or t:find("player") then
+                return ICONS.User
+            elseif
+                t:find("tase")
+                or t:find("shield")
+                or t:find("god")
+                or t:find("anti")
+                or t:find("safe")
+            then
+                return ICONS.Shield
+            elseif
+                t:find("gun")
+                or t:find("weapon")
+                or t:find("fire")
+                or t:find("ammo")
+                or t:find("shoot")
+            then
+                return ICONS.Electricity
+            elseif t:find("setting") or t:find("config") then
+                return ICONS.Settings
+            elseif t:find("night") or t:find("moon") or t:find("dark") then
+                return ICONS.Moon
+            end
+            return ICONS.Package
+        end
+
         function tab:Toggle(config)
+            local iconChoice = getToggleIcon(config.Title, config.Icon)
             local control = createToggleCard(
-                page,
+                sectionBody,
                 config.Title,
                 config.Desc or "",
-                aliases[config.Icon] or ICONS.Diamond,
+                iconChoice,
                 config.Value == true,
                 function(value)
                     callback(config.Callback, value)
@@ -3706,7 +5004,7 @@ function Nightfall:CreateWindow(options)
             local range = config.Value or {}
             local minimum = tonumber(range.Min) or 0
             local maximum = math.max(minimum + 0.000001, tonumber(range.Max) or 100)
-            local frame = card(page, config, config.Desc and 112 or 82)
+            local frame = card(sectionBody, config, config.Desc and 112 or 82)
             local holder = Instance.new("Frame")
             holder.BackgroundTransparency = 1
             holder.Size = UDim2.new(1, 0, 0, 34)
@@ -3727,23 +5025,247 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Button(config)
-            local frame, title = card(page, config, config.Desc and 78 or 48)
-            local button = Instance.new("TextButton")
-            button.BackgroundTransparency = 1
-            button.Text = ""
-            button.Size = UDim2.fromScale(1, 1)
-            button.ZIndex = 10
-            button.Parent = frame
-            button.Activated:Connect(function()
+            local hasDesc = config.Desc and config.Desc ~= ""
+            local frame = Instance.new("Frame")
+            frame.Size = UDim2.new(1, -8, 0, hasDesc and 64 or 50)
+            frame.BackgroundColor3 = THEME.BgPanel
+            frame.BackgroundTransparency = 0.25
+            frame.ZIndex = 8
+            frame.Parent = sectionBody
+
+            local corner = Instance.new("UICorner")
+            corner.CornerRadius = UDim.new(0, 9)
+            corner.Parent = frame
+
+            local stroke = Instance.new("UIStroke")
+            stroke.Color = THEME.Border
+            stroke.Transparency = 0.4
+            stroke.Thickness = 1
+            stroke.Parent = frame
+
+            local iconId = config.Icon and (aliases[config.Icon] or ICONS[config.Icon])
+            if not iconId then
+                local tLow = (config.Title or ""):lower()
+                if
+                    tLow:find("teleport")
+                    or tLow:find("📍")
+                    or tLow:find("base")
+                    or tLow:find("yard")
+                    or tLow:find("prison")
+                    or tLow:find("guard")
+                then
+                    iconId = ICONS.Target
+                elseif
+                    tLow:find("weapon")
+                    or tLow:find("gun")
+                    or tLow:find("shotgun")
+                    or tLow:find("ak")
+                    or tLow:find("m4")
+                    or tLow:find("🔫")
+                then
+                    iconId = ICONS.Shield
+                elseif tLow:find("notif") or tLow:find("test") then
+                    iconId = ICONS.Terminal
+                elseif tLow:find("unload") then
+                    iconId = ICONS.Trash
+                else
+                    iconId = ICONS.Electricity
+                end
+            end
+
+            local iconBox = Instance.new("Frame")
+            iconBox.Size = UDim2.fromOffset(30, 30)
+            iconBox.Position = UDim2.new(0, 10, 0.5, -15)
+            iconBox.BackgroundColor3 = Color3.fromRGB(24, 16, 36)
+            iconBox.BackgroundTransparency = 0.2
+            iconBox.ZIndex = 9
+            iconBox.Parent = frame
+
+            local ibCorner = Instance.new("UICorner")
+            ibCorner.CornerRadius = UDim.new(0, 7)
+            ibCorner.Parent = iconBox
+
+            local ibStroke = Instance.new("UIStroke")
+            ibStroke.Color = Color3.fromRGB(54, 34, 76)
+            ibStroke.Thickness = 1
+            ibStroke.Parent = iconBox
+
+            createVectorIcon(
+                iconBox,
+                iconId,
+                UDim2.fromOffset(15, 15),
+                THEME.AccentPurp,
+                UDim2.fromScale(0.5, 0.5),
+                Vector2.new(0.5, 0.5)
+            )
+
+            local titleLabel = Instance.new("TextLabel")
+            titleLabel.Size = UDim2.new(1, -165, 0, 18)
+            titleLabel.Position = UDim2.new(0, 48, hasDesc and 0 or 0.5, hasDesc and 12 or -9)
+            titleLabel.BackgroundTransparency = 1
+            titleLabel.Text = sanitizeRichText(config.Title or "Button")
+            titleLabel.Font = Enum.Font.GothamBold
+            titleLabel.TextSize = 13
+            titleLabel.TextColor3 = THEME.TextPrimary
+            titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+            titleLabel.TextWrapped = true
+            titleLabel.ZIndex = 9
+            titleLabel.Parent = frame
+
+            if hasDesc then
+                local descLabel = Instance.new("TextLabel")
+                descLabel.Size = UDim2.new(1, -165, 0, 16)
+                descLabel.Position = UDim2.new(0, 48, 0, 32)
+                descLabel.BackgroundTransparency = 1
+                descLabel.Text = sanitizeRichText(config.Desc)
+                descLabel.Font = Enum.Font.Gotham
+                descLabel.TextSize = 11
+                descLabel.TextColor3 = THEME.TextMuted
+                descLabel.TextXAlignment = Enum.TextXAlignment.Left
+                descLabel.TextWrapped = true
+                descLabel.ZIndex = 9
+                descLabel.Parent = frame
+            end
+
+            local bText = config.ButtonText
+            if not bText or bText == "" then
+                local tLow = (config.Title or ""):lower()
+                if
+                    tLow:find("📍")
+                    or tLow:find("teleport")
+                    or tLow:find("base")
+                    or tLow:find("yard")
+                    or tLow:find("prison")
+                    or tLow:find("guard")
+                then
+                    bText = "Teleport"
+                elseif
+                    tLow:find("🔫")
+                    or tLow:find("grab")
+                    or tLow:find("shotgun")
+                    or tLow:find("ak")
+                    or tLow:find("m4")
+                    or tLow:find("weapon")
+                then
+                    bText = "Grab"
+                else
+                    bText = "Execute"
+                end
+            end
+
+            local actionBtn = Instance.new("TextButton")
+            actionBtn.Name = "ActionBtn"
+            actionBtn.Size = UDim2.fromOffset(105, 30)
+            actionBtn.Position = UDim2.new(1, -115, 0.5, -15)
+            actionBtn.BackgroundColor3 = Color3.fromRGB(36, 29, 47)
+            actionBtn.AutoButtonColor = false
+            actionBtn.Text = bText
+            actionBtn.Font = Enum.Font.GothamBold
+            actionBtn.TextSize = 11
+            actionBtn.TextColor3 = Color3.fromRGB(250, 245, 255)
+            actionBtn.ZIndex = 10
+            actionBtn.Parent = frame
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 7)
+            btnCorner.Parent = actionBtn
+
+            local btnStroke = Instance.new("UIStroke")
+            btnStroke.Color = Color3.fromRGB(73, 61, 89)
+            btnStroke.Transparency = 0.3
+            btnStroke.Thickness = 1
+            btnStroke.Parent = actionBtn
+
+            local btnGrad = Instance.new("UIGradient")
+            btnGrad.Color = ColorSequence.new(Color3.new(1, 1, 1), Color3.fromRGB(210, 205, 220))
+            btnGrad.Rotation = 45
+            btnGrad.Parent = actionBtn
+
+            local clickCatcher = Instance.new("TextButton")
+            clickCatcher.Name = "ClickCatcher"
+            clickCatcher.Size = UDim2.fromScale(1, 1)
+            clickCatcher.BackgroundTransparency = 1
+            clickCatcher.Text = ""
+            clickCatcher.AutoButtonColor = false
+            clickCatcher.ZIndex = 11
+            clickCatcher.Parent = frame
+
+            local isDebounced = false
+            local function trigger()
+                if isDebounced then
+                    return
+                end
+                isDebounced = true
+                task.delay(0.2, function()
+                    isDebounced = false
+                end)
+
+                TweenService:Create(actionBtn, TweenInfo.new(0.08), {
+
+                    BackgroundColor3 = Color3.fromRGB(52, 42, 67),
+
+                    Size = UDim2.fromOffset(101, 28),
+
+                    Position = UDim2.new(1, -113, 0.5, -14),
+                }):Play()
+                TweenService:Create(frame, TweenInfo.new(0.08), {
+
+                    BackgroundColor3 = Color3.fromRGB(24, 18, 38),
+                }):Play()
+
+                task.delay(0.1, function()
+                    TweenService:Create(actionBtn, TweenInfo.new(0.15), {
+
+                        BackgroundColor3 = Color3.fromRGB(36, 29, 47),
+
+                        Size = UDim2.fromOffset(105, 30),
+
+                        Position = UDim2.new(1, -115, 0.5, -15),
+                    }):Play()
+                    TweenService:Create(frame, TweenInfo.new(0.15), {
+
+                        BackgroundColor3 = THEME.BgPanel,
+                    }):Play()
+                end)
                 callback(config.Callback)
+            end
+
+            clickCatcher.MouseButton1Click:Connect(trigger)
+            clickCatcher.Activated:Connect(trigger)
+            actionBtn.MouseButton1Click:Connect(trigger)
+            actionBtn.Activated:Connect(trigger)
+
+            clickCatcher.MouseEnter:Connect(function()
+                TweenService:Create(btnStroke, TweenInfo.new(0.18), {
+                    Color = Color3.fromRGB(98, 85, 116),
+                }):Play()
+                TweenService:Create(actionBtn, TweenInfo.new(0.18), {
+                    BackgroundColor3 = Color3.fromRGB(43, 35, 56),
+                }):Play()
+                TweenService:Create(stroke, TweenInfo.new(0.18), {
+                    Color = THEME.Border,
+                    Transparency = 0.3,
+                }):Play()
             end)
-            button.MouseEnter:Connect(function()
-                title.TextColor3 = THEME.AccentPurp
+            clickCatcher.MouseLeave:Connect(function()
+                TweenService:Create(btnStroke, TweenInfo.new(0.18), {
+                    Color = Color3.fromRGB(73, 61, 89),
+                }):Play()
+                TweenService:Create(actionBtn, TweenInfo.new(0.18), {
+                    BackgroundColor3 = Color3.fromRGB(36, 29, 47),
+                }):Play()
+                TweenService:Create(stroke, TweenInfo.new(0.18), {
+                    Color = THEME.Border,
+                    Transparency = 0.4,
+                }):Play()
             end)
-            button.MouseLeave:Connect(function()
-                title.TextColor3 = THEME.TextPrimary
-            end)
+
             return {
+
+                Frame = frame,
+
+                Fire = trigger,
+
                 Destroy = function()
                     frame:Destroy()
                 end,
@@ -3751,7 +5273,7 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Dropdown(config)
-            local frame = card(page, config, config.Desc and 110 or 80)
+            local frame = card(sectionBody, config, config.Desc and 110 or 80)
             local baseHeight = frame.Size.Y.Offset
             local selected = config.Value
             local values = config.Values or {}
@@ -3837,7 +5359,7 @@ function Nightfall:CreateWindow(options)
                 value = Enum.KeyCode[value] or Enum.KeyCode.Unknown
             end
             local waiting = false
-            local frame = card(page, config, config.Desc and 78 or 48)
+            local frame = card(sectionBody, config, config.Desc and 78 or 48)
             local button = Instance.new("TextButton")
             button.Size = UDim2.fromOffset(90, 28)
             button.Position = UDim2.new(1, -102, 0, 8)
@@ -3881,14 +5403,16 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Paragraph(config)
-            return card(page, {
+            return card(sectionBody, {
+
                 Title = config.Title,
+
                 Desc = config.Content or config.Desc,
             }, 90)
         end
 
         function tab:Input(config)
-            local frame = card(page, config, 110)
+            local frame = card(sectionBody, config, 110)
             local input = Instance.new("TextBox")
             input.Size = UDim2.new(1, -24, 0, 30)
             input.Position = UDim2.fromOffset(12, 72)
@@ -3904,10 +5428,12 @@ function Nightfall:CreateWindow(options)
                 callback(config.Callback, input.Text)
             end)
             return {
+
                 Set = function(_, value)
                     input.Text = tostring(value)
                     callback(config.Callback, input.Text)
                 end,
+
                 Get = function()
                     return input.Text
                 end,
@@ -3926,74 +5452,24 @@ function Nightfall:CreateWindow(options)
         return isChangelogsCollapsed
     end
 
-    local TAG_STYLES = {
-        NEW = {
-            Label = "NEW",
-            Icon = ICONS.Diamond,
-            BadgeColor = Color3.fromRGB(168, 85, 247),
-            BadgeBg = Color3.fromRGB(36, 18, 58),
-            BorderColor = Color3.fromRGB(130, 60, 210),
-        },
-        ADD = {
-            Label = "ADD",
-            Icon = ICONS.Electricity,
-            BadgeColor = Color3.fromRGB(54, 216, 137),
-            BadgeBg = Color3.fromRGB(14, 45, 30),
-            BorderColor = Color3.fromRGB(40, 160, 100),
-        },
-        FIX = {
-            Label = "FIX",
-            Icon = ICONS.Shield,
-            BadgeColor = Color3.fromRGB(245, 175, 65),
-            BadgeBg = Color3.fromRGB(50, 35, 16),
-            BorderColor = Color3.fromRGB(180, 125, 45),
-        },
-        FIXED = {
-            Label = "FIX",
-            Icon = ICONS.Shield,
-            BadgeColor = Color3.fromRGB(245, 175, 65),
-            BadgeBg = Color3.fromRGB(50, 35, 16),
-            BorderColor = Color3.fromRGB(180, 125, 45),
-        },
-        UPDATE = {
-            Label = "UPDATE",
-            Icon = ICONS.Speed,
-            BadgeColor = Color3.fromRGB(70, 180, 255),
-            BadgeBg = Color3.fromRGB(16, 38, 60),
-            BorderColor = Color3.fromRGB(50, 130, 195),
-        },
-        IMPROVE = {
-            Label = "UPDATE",
-            Icon = ICONS.Speed,
-            BadgeColor = Color3.fromRGB(70, 180, 255),
-            BadgeBg = Color3.fromRGB(16, 38, 60),
-            BorderColor = Color3.fromRGB(50, 130, 195),
-        },
-        PERF = {
-            Label = "PERF",
-            Icon = ICONS.Speed,
-            BadgeColor = Color3.fromRGB(60, 215, 215),
-            BadgeBg = Color3.fromRGB(15, 48, 52),
-            BorderColor = Color3.fromRGB(45, 155, 155),
-        },
-        REMOVE = {
-            Label = "REMOVE",
-            Icon = ICONS.Trash,
-            BadgeColor = Color3.fromRGB(244, 63, 94),
-            BadgeBg = Color3.fromRGB(52, 16, 24),
-            BorderColor = Color3.fromRGB(180, 45, 70),
-        },
-    }
+    function window:SetSmoke(enabled)
+        local smoke = MainFrame.Parent:FindFirstChild("OuterSmoke")
+        if smoke then
+            smoke:SetAttribute("Disabled", not enabled)
+            smoke.Visible = enabled and MainFrame.Visible and not isMinimized
+        end
+    end
 
-    local function getTagStyle(rawTag)
-        local upper = rawTag and rawTag:upper() or "DEFAULT"
-        return TAG_STYLES[upper] or {
-            Label = upper,
-            Icon = ICONS.Diamond,
-            BadgeColor = THEME.AccentPurp,
-            BadgeBg = Color3.fromRGB(28, 16, 44),
-            BorderColor = THEME.BorderActive,
-        }
+    function window:SetScale(value)
+        local scale = MainFrame.Parent:FindFirstChildOfClass("UIScale")
+        local viewport = workspace.CurrentCamera.ViewportSize
+        scale.Scale =
+            math.clamp(value, 0.5, math.max(0.5, math.min((viewport.X - 48) / 1200, (viewport.Y - 70) / 630)))
+    end
+
+    function window:Center()
+        MainFrame.Parent.Position = UDim2.fromScale(0.5, 0.5)
+        MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
     end
 
     function window:SetChangelogs(source)
@@ -4002,155 +5478,53 @@ function Nightfall:CreateWindow(options)
                 child:Destroy()
             end
         end
-
+        ConsoleScroll.CanvasPosition = Vector2.new(0, 0)
+        ConsoleLayout.Padding = UDim.new(0, 0)
         local order = 0
-        for line in tostring(source):gmatch("[^\r\n]+") do
-            local tag, rest = line:match("^%s*%[([%a%d_%-]+)%]%s*(.*)$")
-            local rawText = tag and rest or line
-            if rawText and rawText:match("%S") then
+        for raw in tostring(source):gmatch("[^\r\n]+") do
+            local line = raw:match("^%s*(.-)%s*$")
+            if line ~= "" then
                 order = order + 1
-                local style = getTagStyle(tag)
-
-                local title, desc = rawText:match("^([^:\-]+)%s*[:%-]%s*(.+)$")
-                if not title then
-                    title = rawText
-                    desc = nil
-                end
-
-                local card = Instance.new("Frame")
-                card.Name = "ChangelogCard_" .. order
-                card.Size = UDim2.new(1, -4, 0, 0)
-                card.AutomaticSize = Enum.AutomaticSize.Y
-                card.BackgroundColor3 = Color3.fromRGB(14, 10, 22)
-                card.BackgroundTransparency = 0.25
-                card.LayoutOrder = order
-                card.ZIndex = 8
-                card.Parent = ConsoleScroll
-
-                local corner = Instance.new("UICorner")
-                corner.CornerRadius = UDim.new(0, 9)
-                corner.Parent = card
-
-                local stroke = Instance.new("UIStroke")
-                stroke.Thickness = 1
-                stroke.Color = Color3.fromRGB(44, 30, 62)
-                stroke.Transparency = 0.3
-                stroke.Parent = card
-
+                local heading = line:match("^#+%s*(.+)")
+                local tag, message = line:match("^%[([%w_%-]+)%]%s*(.*)$")
+                tag = tag and tag:upper() or "NOTE"
+                message = message or line
+                local row = Instance.new("Frame")
+                row.Name = "ReleaseEntry"
+                row.Size = UDim2.new(1, -12, 0, 0)
+                row.AutomaticSize = Enum.AutomaticSize.Y
+                row.BackgroundTransparency = 1
+                row.LayoutOrder = order
+                row.ZIndex = 8
+                row.Parent = ConsoleScroll
                 local pad = Instance.new("UIPadding")
-                pad.PaddingTop = UDim.new(0, 10)
-                pad.PaddingBottom = UDim.new(0, 10)
-                pad.PaddingLeft = UDim.new(0, 12)
-                pad.PaddingRight = UDim.new(0, 12)
-                pad.Parent = card
-
-                local layout = Instance.new("UIListLayout")
-                layout.SortOrder = Enum.SortOrder.LayoutOrder
-                layout.Padding = UDim.new(0, 6)
-                layout.Parent = card
-
-                if tag then
-                    local pill = Instance.new("Frame")
-                    pill.Name = "BadgePill"
-                    pill.Size = UDim2.new(0, 0, 0, 20)
-                    pill.AutomaticSize = Enum.AutomaticSize.X
-                    pill.BackgroundColor3 = style.BadgeBg
-                    pill.BackgroundTransparency = 0.15
-                    pill.LayoutOrder = 1
-                    pill.ZIndex = 9
-                    pill.Parent = card
-
-                    local pillCorner = Instance.new("UICorner")
-                    pillCorner.CornerRadius = UDim.new(0, 5)
-                    pillCorner.Parent = pill
-
-                    local pillStroke = Instance.new("UIStroke")
-                    pillStroke.Thickness = 1
-                    pillStroke.Color = style.BorderColor
-                    pillStroke.Transparency = 0.2
-                    pillStroke.Parent = pill
-
-                    local pillPad = Instance.new("UIPadding")
-                    pillPad.PaddingLeft = UDim.new(0, 6)
-                    pillPad.PaddingRight = UDim.new(0, 8)
-                    pillPad.PaddingTop = UDim.new(0, 2)
-                    pillPad.PaddingBottom = UDim.new(0, 2)
-                    pillPad.Parent = pill
-
-                    local pillLayout = Instance.new("UIListLayout")
-                    pillLayout.FillDirection = Enum.FillDirection.Horizontal
-                    pillLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-                    pillLayout.Padding = UDim.new(0, 5)
-                    pillLayout.Parent = pill
-
-                    createVectorIcon(
-                        pill,
-                        style.Icon,
-                        UDim2.fromOffset(11, 11),
-                        style.BadgeColor
-                    )
-
-                    local pillLabel = Instance.new("TextLabel")
-                    pillLabel.Name = "BadgeText"
-                    pillLabel.Size = UDim2.new(0, 0, 1, 0)
-                    pillLabel.AutomaticSize = Enum.AutomaticSize.X
-                    pillLabel.BackgroundTransparency = 1
-                    pillLabel.Text = style.Label
-                    pillLabel.Font = Enum.Font.GothamBold
-                    pillLabel.TextSize = 10
-                    pillLabel.TextColor3 = style.BadgeColor
-                    pillLabel.ZIndex = 10
-                    pillLabel.Parent = pill
+                pad.PaddingTop = UDim.new(0, heading and 18 or 14)
+                pad.PaddingBottom = UDim.new(0, 14)
+                pad.PaddingLeft = UDim.new(0, 4)
+                pad.PaddingRight = UDim.new(0, 4)
+                pad.Parent = row
+                if not heading then
+                    local badge = text(row, tag, 11)
+                    badge.Position = UDim2.fromOffset(0, 2)
+                    badge.Size = UDim2.fromOffset(62, 20)
+                    badge.TextColor3 = Color3.fromRGB(159, 141, 181)
+                    badge.Font = Enum.Font.GothamMedium
                 end
-
-                local titleLabel = Instance.new("TextLabel")
-                titleLabel.Name = "CardTitle"
-                titleLabel.Size = UDim2.new(1, 0, 0, 0)
-                titleLabel.AutomaticSize = Enum.AutomaticSize.Y
-                titleLabel.BackgroundTransparency = 1
-                titleLabel.Text = title
-                titleLabel.Font = Enum.Font.GothamBold
-                titleLabel.TextSize = 13
-                titleLabel.TextColor3 = Color3.fromRGB(240, 232, 252)
-                titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-                titleLabel.TextWrapped = true
-                titleLabel.LayoutOrder = 2
-                titleLabel.ZIndex = 9
-                titleLabel.Parent = card
-
-                if desc and desc ~= "" then
-                    local descLabel = Instance.new("TextLabel")
-                    descLabel.Name = "CardDesc"
-                    descLabel.Size = UDim2.new(1, 0, 0, 0)
-                    descLabel.AutomaticSize = Enum.AutomaticSize.Y
-                    descLabel.BackgroundTransparency = 1
-                    descLabel.Text = desc
-                    descLabel.Font = Enum.Font.Gotham
-                    descLabel.TextSize = 11
-                    descLabel.TextColor3 = Color3.fromRGB(152, 138, 172)
-                    descLabel.TextXAlignment = Enum.TextXAlignment.Left
-                    descLabel.TextWrapped = true
-                    descLabel.LayoutOrder = 3
-                    descLabel.ZIndex = 9
-                    descLabel.Parent = card
-                end
-
-                card.MouseEnter:Connect(function()
-                    TweenService:Create(card, TweenInfo.new(0.18), {
-                        BackgroundColor3 = Color3.fromRGB(22, 15, 34),
-                    }):Play()
-                    TweenService:Create(stroke, TweenInfo.new(0.18), {
-                        Color = style.BorderColor,
-                    }):Play()
-                end)
-                card.MouseLeave:Connect(function()
-                    TweenService:Create(card, TweenInfo.new(0.18), {
-                        BackgroundColor3 = Color3.fromRGB(14, 10, 22),
-                    }):Play()
-                    TweenService:Create(stroke, TweenInfo.new(0.18), {
-                        Color = Color3.fromRGB(44, 30, 62),
-                    }):Play()
-                end)
+                local label = text(row, heading or message, heading and 17 or 14)
+                label.Position = UDim2.fromOffset(heading and 0 or 70, 0)
+                label.Size = UDim2.new(1, heading and 0 or -70, 0, 0)
+                label.AutomaticSize = Enum.AutomaticSize.Y
+                label.TextWrapped = true
+                label.RichText = false
+                label.TextYAlignment = Enum.TextYAlignment.Top
+                label.TextColor3 = heading and THEME.TextPrimary or Color3.fromRGB(176, 165, 190)
+                local divider = Instance.new("Frame")
+                divider.Size = UDim2.new(1, 0, 0, 1)
+                divider.Position = UDim2.fromOffset(0, -10)
+                divider.BackgroundColor3 = THEME.Border
+                divider.BackgroundTransparency = 0.65
+                divider.ZIndex = 8
+                divider.Parent = row
             end
         end
     end
@@ -4177,7 +5551,12 @@ function Nightfall:CreateWindow(options)
         local iconChoice = ICONS.Diamond
 
         local lowerTitle = titleText:lower()
-        if notifType == "error" or lowerTitle:find("error") or lowerTitle:find("fail") or lowerTitle:find("cancel") then
+        if
+            notifType == "error"
+            or lowerTitle:find("error")
+            or lowerTitle:find("fail")
+            or lowerTitle:find("cancel")
+        then
             accentColor = Color3.fromRGB(244, 63, 94)
             iconChoice = ICONS.Shield
         elseif notifType == "success" or lowerTitle:find("success") or lowerTitle:find("complete") then
@@ -4186,7 +5565,12 @@ function Nightfall:CreateWindow(options)
         elseif notifType == "warn" or notifType == "warning" or lowerTitle:find("warn") then
             accentColor = Color3.fromRGB(251, 191, 36)
             iconChoice = ICONS.Shield
-        elseif notifType == "combat" or lowerTitle:find("kill") or lowerTitle:find("target") or lowerTitle:find("aim") then
+        elseif
+            notifType == "combat"
+            or lowerTitle:find("kill")
+            or lowerTitle:find("target")
+            or lowerTitle:find("aim")
+        then
             accentColor = Color3.fromRGB(180, 85, 255)
             iconChoice = ICONS.Target
         end
@@ -4338,11 +5722,13 @@ function Nightfall:CreateWindow(options)
 
         closeBtn.MouseEnter:Connect(function()
             TweenService:Create(closeIcon, TweenInfo.new(0.15), {
+
                 ImageColor3 = Color3.fromRGB(240, 230, 250),
             }):Play()
         end)
         closeBtn.MouseLeave:Connect(function()
             TweenService:Create(closeIcon, TweenInfo.new(0.15), {
+
                 ImageColor3 = Color3.fromRGB(130, 115, 150),
             }):Play()
         end)
@@ -4365,23 +5751,34 @@ function Nightfall:CreateWindow(options)
         progressBar.Parent = progressTrack
 
         TweenService:Create(card, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+
             Position = UDim2.fromOffset(0, 0),
         }):Play()
 
-        local progressTween = TweenService:Create(progressBar, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
-            Size = UDim2.new(0, 0, 1, 0),
-        })
+        local progressTween =
+            TweenService:Create(progressBar, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
+
+                Size = UDim2.new(0, 0, 1, 0),
+            })
         progressTween:Play()
 
         local dismissed = false
         local function dismiss()
-            if dismissed then return end
+            if dismissed then
+                return
+            end
             dismissed = true
             progressTween:Cancel()
-            local outTween = TweenService:Create(card, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-                Position = UDim2.fromOffset(380, 0),
-                BackgroundTransparency = 1,
-            })
+            local outTween = TweenService:Create(
+                card,
+                TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+                {
+
+                    Position = UDim2.fromOffset(380, 0),
+
+                    BackgroundTransparency = 1,
+                }
+            )
             outTween:Play()
             outTween.Completed:Connect(function()
                 holder:Destroy()
