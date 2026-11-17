@@ -1594,6 +1594,69 @@ function Nightfall:CreateWindow(options)
         ICON_PATHS[ICONS[name]] = paths
     end
 
+    local function arc(cx, cy, radius, first, last)
+        local points = {}
+        local steps = math.ceil(math.abs(last - first) / 8)
+        for i = 0, steps do
+            local angle = math.rad(first + (last - first) * i / steps)
+            table.insert(points, cx + math.cos(angle) * radius)
+            table.insert(points, cy + math.sin(angle) * radius)
+        end
+        return points
+    end
+    ICON_PATHS[ICONS.Respawn] = {
+        arc(12, 12, 8, 35, 310),
+        { 17, 2, 17, 6, 21, 6 },
+        { 12, 8, 12, 16 },
+        { 8, 12, 16, 12 },
+    }
+    ICON_PATHS[ICONS.Return] = {
+        { 8, 4, 3, 9, 8, 14 },
+        { 3, 9, 14, 9 },
+        arc(14, 14, 5, -90, 90),
+        { 14, 19, 9, 19 },
+    }
+    ICON_PATHS[ICONS.Criminal] = {
+        {
+            3,
+            7,
+            6,
+            8,
+            9,
+            9,
+            12,
+            10,
+            15,
+            9,
+            18,
+            8,
+            21,
+            7,
+            20.5,
+            11,
+            20,
+            14,
+            18,
+            17,
+            16,
+            18,
+            12,
+            16,
+            8,
+            18,
+            6,
+            17,
+            4,
+            14,
+            3.5,
+            11,
+            3,
+            7,
+        },
+        { 6, 11, 9, 12, 7, 13 },
+        { 18, 11, 15, 12, 17, 13 },
+    }
+
     local ICON_FILLS = {
         [ICONS.Home] = {
             {
@@ -1742,21 +1805,44 @@ function Nightfall:CreateWindow(options)
         img.ZIndex = (parent.ZIndex or 1) + 1
         img.Parent = parent
         local parts = {}
+        local strokeWidth = 1.65
+        local joints = {}
+        local function joint(x, y)
+            local key = string.format("%.3f:%.3f", x, y)
+            if joints[key] then
+                return
+            end
+            joints[key] = true
+            local dot = Instance.new("Frame")
+            dot.AnchorPoint = Vector2.new(0.5, 0.5)
+            dot.Position = UDim2.fromScale(x / 24, y / 24)
+            dot.Size = UDim2.fromScale(strokeWidth / 24, strokeWidth / 24)
+            dot.BackgroundColor3 = img.ImageColor3
+            dot.BorderSizePixel = 0
+            dot.ZIndex = img.ZIndex
+            dot.Parent = img
+            local corner = Instance.new("UICorner")
+            corner.CornerRadius = UDim.new(0.5, 0)
+            corner.Parent = dot
+            table.insert(parts, dot)
+        end
         local function segment(x1, y1, x2, y2)
             local part = Instance.new("Frame")
             part.AnchorPoint = Vector2.new(0.5, 0.5)
             part.Position = UDim2.fromScale((x1 + x2) / 48, (y1 + y2) / 48)
-            part.Size = UDim2.new(math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) / 24, 1, 0, 1.8)
+            part.Size = UDim2.fromScale(math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) / 24, strokeWidth / 24)
             part.Rotation = math.deg(math.atan2(y2 - y1, x2 - x1))
             part.BorderSizePixel = 0
             part.BackgroundColor3 = img.ImageColor3
             part.ZIndex = img.ZIndex
             part.Parent = img
             table.insert(parts, part)
+            joint(x1, y1)
+            joint(x2, y2)
         end
         local function ring(cx, cy, radius)
-            for i = 0, 23 do
-                local a, b = i * math.pi / 12, (i + 1) * math.pi / 12
+            for i = 0, 47 do
+                local a, b = i * math.pi / 24, (i + 1) * math.pi / 24
                 segment(
                     cx + math.cos(a) * radius,
                     cy + math.sin(a) * radius,
