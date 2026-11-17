@@ -2367,15 +2367,11 @@ function Nightfall:CreateWindow(options)
     end
 
     local isMinimized = false
+    local minimizeWindow
     createWinBtn("MinBtn", ICONS.Minus, 0, function()
-        isMinimized = not isMinimized
-        local targetHeight = isMinimized and 144 or 630
-        MainFrame.Body.Visible = not isMinimized
-        TweenService
-            :Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-                Size = UDim2.new(0, 1200, 0, targetHeight),
-            })
-            :Play()
+        if minimizeWindow then
+            minimizeWindow()
+        end
     end)
 
     local fitWindow
@@ -3752,9 +3748,9 @@ function Nightfall:CreateWindow(options)
         OuterBloom.Parent = canvas
         local scale = Instance.new("UIScale")
         scale.Parent = canvas
-        local requestedScale = options.Scale or 1.0
+        local requestedScale = options.Scale or 0.78
         if options.Scale then
-            requestedScale = math.clamp(tonumber(options.Scale) or 1.0, 0.6, 1.8)
+            requestedScale = math.clamp(tonumber(options.Scale) or 0.78, 0.6, 1.8)
         end
         local function scaleLimit()
             local camera = workspace.CurrentCamera
@@ -3988,8 +3984,8 @@ function Nightfall:CreateWindow(options)
         local function snapGeometry(frame, geometry)
             local scale = windowScale and windowScale.Scale or 1
             local x, y, w, h = table.unpack(geometry)
-            local left, top = math.floor(x * scale + 0.5), math.floor(y * scale + 0.5)
-            local right, bottom = math.floor((x + w) * scale + 0.5), math.floor((y + h) * scale + 0.5)
+            local left, top = math.floor(x * scale), math.floor(y * scale)
+            local right, bottom = math.ceil((x + w) * scale), math.ceil((y + h) * scale)
             frame.Position = UDim2.fromOffset(left / scale, top / scale)
 
             frame.Size = UDim2.fromOffset(
@@ -4151,6 +4147,18 @@ function Nightfall:CreateWindow(options)
             shade.Color = ColorSequence.new(Color3.new(1, 1, 1), Color3.new(1, 1, 1))
             shade.Rotation = 90
             shade.Parent = bar
+        end
+        for _, child in ipairs(roblox:GetChildren()) do
+            child:Destroy()
+        end
+        for _, rect in ipairs({ { 0, 0, 25, 8 }, { 0, 17, 25, 8 }, { 0, 8, 8, 9 }, { 17, 8, 8, 9 } }) do
+            local piece = Instance.new("Frame")
+            piece.BorderSizePixel = 0
+            piece.BackgroundColor3 = Color3.fromRGB(204, 197, 216)
+            piece.Position = UDim2.fromOffset(rect[1], rect[2])
+            piece.Size = UDim2.fromOffset(rect[3], rect[4])
+            piece.ZIndex = 8
+            piece.Parent = roblox
         end
 
         SubtitleLabel.Text = "D A R K N E S S  I S  T H E  I N T E R F A C E ."
@@ -4979,6 +4987,79 @@ function Nightfall:CreateWindow(options)
     end
 
     local window = {}
+    do
+        local bubble = Instance.new("TextButton")
+        bubble.Name = "NightFallOrb"
+        bubble.Size = UDim2.fromOffset(64, 64)
+        bubble.Position = UDim2.new(0, 24, 0.5, -32)
+        bubble.BackgroundColor3 = Color3.fromRGB(15, 11, 23)
+        bubble.Text = ""
+        bubble.Visible = false
+        bubble.AutoButtonColor = false
+        bubble.ZIndex = 80
+        bubble.Parent = ScreenGui
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(1, 0)
+        corner.Parent = bubble
+        local border = Instance.new("UIStroke")
+        border.Color = THEME.AccentPurp
+        border.Transparency = 0.35
+        border.Parent = bubble
+        local emblem = LogoBox:Clone()
+        emblem.Position = UDim2.fromOffset(4, 3)
+        emblem.Parent = bubble
+        local emblemScale = Instance.new("UIScale")
+        emblemScale.Scale = 0.43
+        emblemScale.Parent = emblem
+        local busy = false
+        local storedPosition
+        minimizeWindow = function()
+            if busy or isMinimized then
+                return
+            end
+            busy = true
+            storedPosition = MainFrame.Position
+            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {
+                Position = storedPosition + UDim2.fromOffset(0, 32),
+            })
+            tween:Play()
+            tween.Completed:Once(function()
+                if not ScreenGui.Parent then
+                    return
+                end
+                isMinimized = true
+                MainFrame.Visible = false
+                MainFrame.Position = storedPosition
+                bubble.Size = UDim2.fromOffset(48, 48)
+                bubble.Visible = true
+                TweenService:Create(bubble, TweenInfo.new(0.25, Enum.EasingStyle.Back), {
+                    Size = UDim2.fromOffset(64, 64),
+                }):Play()
+                busy = false
+            end)
+        end
+        bubble.Activated:Connect(function()
+            if busy then
+                return
+            end
+            busy = true
+            bubble.Visible = false
+            isMinimized = false
+            MainFrame.Position = storedPosition + UDim2.fromOffset(0, 32)
+            MainFrame.Visible = true
+            local tween = TweenService:Create(
+                MainFrame,
+                TweenInfo.new(0.28, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                {
+                    Position = storedPosition,
+                }
+            )
+            tween:Play()
+            tween.Completed:Once(function()
+                busy = false
+            end)
+        end)
+    end
     NavContainer.ScrollBarThickness = 3
     NavContainer.ScrollBarImageColor3 = Color3.fromRGB(75, 63, 91)
     NavContainer.ScrollBarImageTransparency = 0.35
@@ -5073,6 +5154,47 @@ function Nightfall:CreateWindow(options)
         local page = tabs[name] and tabs[name].Page or createTab(name, aliases[config.Icon] or ICONS.Package)
         local tab = {}
         local sectionBody = page
+        local functionGroup
+        local function settingsParent(config)
+            if config.Standalone or not functionGroup then
+                return sectionBody
+            end
+            if functionGroup.Settings then
+                return functionGroup.Settings
+            end
+            local indent = Instance.new("Frame")
+            indent.Name = "FunctionSettings"
+            indent.Size = UDim2.new(1, 0, 0, 0)
+            indent.AutomaticSize = Enum.AutomaticSize.Y
+            indent.BackgroundTransparency = 1
+            indent.ZIndex = 8
+            indent.Parent = sectionBody
+            local padding = Instance.new("UIPadding")
+            padding.PaddingLeft = UDim.new(0, 26)
+            padding.PaddingTop = UDim.new(0, 2)
+            padding.PaddingBottom = UDim.new(0, 6)
+            padding.Parent = indent
+            local list = Instance.new("UIListLayout")
+            list.Padding = UDim.new(0, 6)
+            list.SortOrder = Enum.SortOrder.LayoutOrder
+            list.Parent = indent
+            local number = 0
+            indent.ChildAdded:Connect(function(child)
+                if child:IsA("GuiObject") then
+                    number = number + 1
+                    child.LayoutOrder = number
+                    local rail = Instance.new("Frame")
+                    rail.Position = UDim2.fromOffset(-15, 0)
+                    rail.Size = UDim2.new(0, 2, 1, 0)
+                    rail.BorderSizePixel = 0
+                    rail.BackgroundColor3 = Color3.fromRGB(64, 47, 82)
+                    rail.ZIndex = 8
+                    rail.Parent = child
+                end
+            end)
+            functionGroup.Settings = indent
+            return indent
+        end
         local sectionCount = 0
         local elementOrder = #page:GetChildren()
         local function orderElement(child)
@@ -5088,6 +5210,7 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Section(config)
+            functionGroup = nil
             sectionCount = sectionCount + 1
             local group = Instance.new("Frame")
             group.Name = "Section_" .. (config.Title or sectionCount)
@@ -5261,6 +5384,7 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Toggle(config)
+            functionGroup = {}
             local iconChoice = getToggleIcon(config.Title, config.Icon)
             local control = createToggleCard(
                 sectionBody,
@@ -5289,7 +5413,7 @@ function Nightfall:CreateWindow(options)
             local range = config.Value or {}
             local minimum = tonumber(range.Min) or 0
             local maximum = math.max(minimum + 0.000001, tonumber(range.Max) or 100)
-            local frame = card(sectionBody, config, config.Desc and 112 or 82)
+            local frame = card(settingsParent(config), config, config.Desc and 112 or 82)
             local holder = Instance.new("Frame")
             holder.BackgroundTransparency = 1
             holder.Size = UDim2.new(1, 0, 0, 34)
@@ -5549,7 +5673,7 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Dropdown(config)
-            local frame = card(sectionBody, config, config.Desc and 110 or 80)
+            local frame = card(settingsParent(config), config, config.Desc and 110 or 80)
             local baseHeight = frame.Size.Y.Offset
             local selected = config.Value
             local values = config.Values or {}
@@ -5637,7 +5761,7 @@ function Nightfall:CreateWindow(options)
                 value = Enum.KeyCode[value] or Enum.KeyCode.Unknown
             end
             local waiting = false
-            local frame = card(sectionBody, config, config.Desc and 78 or 48)
+            local frame = card(settingsParent(config), config, config.Desc and 78 or 48)
             local button = Instance.new("TextButton")
             button.Size = UDim2.fromOffset(90, 28)
             button.Position = UDim2.new(1, -102, 0, 8)
