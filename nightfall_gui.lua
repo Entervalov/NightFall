@@ -2668,11 +2668,14 @@ function Nightfall:CreateWindow(options)
 
             Frame = card,
 
-            Set = function(_, v)
+            Set = function(_, v, silent)
+                if state == (v == true) then
+                    return
+                end
                 local changed = state ~= v
                 state = v == true
                 updateVisual(false)
-                if changed and onToggle then
+                if changed and onToggle and not silent then
                     onToggle(state)
                 end
             end,
@@ -2854,8 +2857,8 @@ function Nightfall:CreateWindow(options)
 
         return {
 
-            Set = function(_, value)
-                setValue(value, true)
+            Set = function(_, value, silent)
+                setValue(value, not silent)
             end,
 
             Get = function()
@@ -3539,7 +3542,7 @@ function Nightfall:CreateWindow(options)
     do
         local function style(instance)
             if instance:IsA("TextLabel") or instance:IsA("TextButton") or instance:IsA("TextBox") then
-                instance.Font = Enum.Font.Code
+                instance.Font = Enum.Font.GothamMedium
             end
             if instance:IsA("GuiObject") then
                 instance.BorderSizePixel = 0
@@ -3910,8 +3913,9 @@ function Nightfall:CreateWindow(options)
         end
 
         ArtContainer:ClearAllChildren()
-        ArtContainer.Size = UDim2.fromScale(1, 1)
-        ArtContainer.Position = UDim2.fromOffset(0, 0)
+        ArtContainer.Size = UDim2.new(0, 545, 1, 0)
+        ArtContainer.AnchorPoint = Vector2.new(1, 0)
+        ArtContainer.Position = UDim2.fromScale(1, 0)
         ArtContainer.ClipsDescendants = true
         local rng = Random.new(1047)
         local function ellipse(parent, x, y, w, h, color, alpha, z)
@@ -4511,7 +4515,7 @@ function Nightfall:CreateWindow(options)
     creatorsCard.Name = "CreatorsCard"
     creatorsCard.Size = UDim2.new(1, -20, 0, 84)
     creatorsCard.Position = UDim2.new(0, 10, 0, 6)
-    creatorsCard.BackgroundColor3 = Color3.fromRGB(15, 10, 24)
+    creatorsCard.BackgroundColor3 = Color3.fromRGB(37, 26, 51)
     creatorsCard.BackgroundTransparency = 0.2
     creatorsCard.ZIndex = 8
     creatorsCard.Parent = SidebarFooter
@@ -4588,7 +4592,7 @@ function Nightfall:CreateWindow(options)
     devName.BackgroundTransparency = 1
     devName.Text = "Entervalov"
     devName.Font = Enum.Font.GothamBold
-    devName.TextSize = 12
+    devName.TextSize = 15
     devName.TextColor3 = Color3.fromRGB(240, 230, 252)
     devName.TextXAlignment = Enum.TextXAlignment.Left
     devName.ZIndex = 10
@@ -4600,7 +4604,7 @@ function Nightfall:CreateWindow(options)
     devRole.BackgroundTransparency = 1
     devRole.Text = "lead developer"
     devRole.Font = Enum.Font.Gotham
-    devRole.TextSize = 10
+    devRole.TextSize = 12
     devRole.TextColor3 = Color3.fromRGB(130, 112, 150)
     devRole.TextXAlignment = Enum.TextXAlignment.Left
     devRole.ZIndex = 10
@@ -4654,7 +4658,7 @@ function Nightfall:CreateWindow(options)
     dsgName.BackgroundTransparency = 1
     dsgName.Text = "deflise"
     dsgName.Font = Enum.Font.GothamBold
-    dsgName.TextSize = 12
+    dsgName.TextSize = 15
     dsgName.TextColor3 = Color3.fromRGB(240, 230, 252)
     dsgName.TextXAlignment = Enum.TextXAlignment.Left
     dsgName.ZIndex = 10
@@ -4666,7 +4670,7 @@ function Nightfall:CreateWindow(options)
     dsgRole.BackgroundTransparency = 1
     dsgRole.Text = "ui/ux design"
     dsgRole.Font = Enum.Font.Gotham
-    dsgRole.TextSize = 10
+    dsgRole.TextSize = 12
     dsgRole.TextColor3 = Color3.fromRGB(130, 112, 150)
     dsgRole.TextXAlignment = Enum.TextXAlignment.Left
     dsgRole.ZIndex = 10
@@ -5288,7 +5292,7 @@ function Nightfall:CreateWindow(options)
             button.Parent = frame
             local list = Instance.new("ScrollingFrame")
             list.Position = UDim2.fromOffset(12, baseHeight)
-            list.Size = UDim2.new(1, -24, 0, 150)
+            list.Size = UDim2.new(1, -24, 0, math.min(150, #values * 30))
             list.BackgroundTransparency = 1
             list.AutomaticCanvasSize = Enum.AutomaticSize.Y
             list.CanvasSize = UDim2.new()
@@ -5313,6 +5317,8 @@ function Nightfall:CreateWindow(options)
             end
             function control:Refresh(items)
                 values = items or {}
+                list.Size = UDim2.new(1, -24, 0, math.min(150, #values * 30))
+                frame.Size = UDim2.new(1, -8, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
                 for _, child in ipairs(list:GetChildren()) do
                     if child:IsA("TextButton") then
                         child:Destroy()
@@ -5346,7 +5352,7 @@ function Nightfall:CreateWindow(options)
             button.Activated:Connect(function()
                 open = not open
                 list.Visible = open
-                frame.Size = UDim2.new(1, -8, 0, baseHeight + (open and 158 or 0))
+                frame.Size = UDim2.new(1, -8, 0, baseHeight + (open and math.min(150, #values * 30) + 8 or 0))
             end)
             control:Refresh(values)
             display()
