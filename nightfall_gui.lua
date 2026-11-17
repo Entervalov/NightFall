@@ -31,80 +31,44 @@ function Nightfall:CreateWindow(options)
     end
 
     local THEME = {
-
         BgMain = Color3.fromRGB(7, 6, 11),
-
         BgSecondary = Color3.fromRGB(13, 10, 20),
-
         BgPanel = Color3.fromRGB(16, 12, 25),
-
         BgPanelHover = Color3.fromRGB(24, 18, 36),
-
         BgInner = Color3.fromRGB(11, 8, 17),
-
         Border = Color3.fromRGB(48, 32, 68),
-
         BorderActive = Color3.fromRGB(139, 66, 232),
-
         PrimaryPurp = Color3.fromRGB(117, 60, 186),
-
         AccentPurp = Color3.fromRGB(151, 98, 207),
-
         AccentGlow = Color3.fromRGB(150, 60, 255),
-
         TextPrimary = Color3.fromRGB(211, 199, 229),
-
         TextMuted = Color3.fromRGB(130, 116, 147),
-
         TextDark = Color3.fromRGB(85, 74, 98),
-
         SuccessGreen = Color3.fromRGB(54, 216, 137),
-
         DangerRed = Color3.fromRGB(244, 63, 94),
-
         WarnYellow = Color3.fromRGB(251, 191, 36),
     }
 
     local ICONS = {
-
         Home = "rbxassetid://10723407389",
-
         User = "rbxassetid://10747373176",
-
         Eye = "rbxassetid://10723346959",
-
         Settings = "rbxassetid://10734950309",
-
         Terminal = "rbxassetid://10734982144",
-
         Target = "rbxassetid://10734977012",
-
         Speed = "rbxassetid://10723395708",
-
         Shield = "rbxassetid://10734951847",
-
         Trash = "rbxassetid://10747362393",
-
         Diamond = "rbxassetid://10709819149",
-
         Electricity = "rbxassetid://10723345749",
-
         Moon = "rbxassetid://10734897102",
-
         Package = "rbxassetid://10734909540",
-
         Minus = "rbxassetid://10734896206",
-
         Square = "rbxassetid://10734965702",
-
         Close = "rbxassetid://10747384394",
-
         ChevronRight = "rbxassetid://10709782497",
-
         ChevronLeft = "rbxassetid://10709782559",
-
         Glow = "",
-
         Shadow = "",
         Sun = "local:sun",
         Layers = "local:layers",
@@ -390,1029 +354,1374 @@ function Nightfall:CreateWindow(options)
             },
         },
         [ICONS.Home] = {
-
             {
-
                 3,
-
                 11,
-
                 12,
-
                 3,
-
                 21,
-
                 11,
             },
-
             {
-
                 5,
-
                 10,
-
                 5,
-
                 21,
-
                 10,
-
                 21,
-
                 10,
-
                 14,
-
                 14,
-
                 14,
-
                 14,
-
                 21,
-
                 19,
-
                 21,
-
                 19,
-
                 10,
             },
         },
-
         [ICONS.User] = {
-
             {
-
                 4,
-
                 21,
-
                 4,
-
                 18,
-
                 7,
-
                 14,
-
                 17,
-
                 14,
-
                 20,
-
                 18,
-
                 20,
-
                 21,
             },
         },
-
         [ICONS.Eye] = {
-
             {
-
                 2,
-
                 12,
-
                 6,
-
                 7,
-
                 12,
-
                 5,
-
                 18,
-
                 7,
-
                 22,
-
                 12,
-
                 18,
-
                 17,
-
                 12,
-
                 19,
-
                 6,
-
                 17,
-
                 2,
-
                 12,
             },
         },
-
         [ICONS.Settings] = {
-
             {
-
                 9,
-
                 3,
-
                 15,
-
                 3,
-
                 16,
-
                 6,
-
                 19,
-
                 7,
-
                 22,
-
                 10,
-
                 20,
-
                 13,
-
                 20,
-
                 17,
-
                 17,
-
                 18,
-
                 15,
-
                 22,
-
                 11,
-
                 21,
-
                 9,
-
                 18,
-
                 5,
-
                 18,
-
                 3,
-
                 15,
-
                 5,
-
                 12,
-
                 4,
-
                 8,
-
                 7,
-
                 6,
-
                 9,
-
                 3,
             },
         },
-
         [ICONS.Terminal] = {
-
             {
-
                 4,
-
                 5,
-
                 10,
-
                 11,
-
                 4,
-
                 17,
             },
-
             {
-
                 12,
-
                 19,
-
                 21,
-
                 19,
             },
         },
-
         [ICONS.Target] = {
-
             {
-
                 12,
-
                 1,
-
                 12,
-
                 6,
             },
-
             {
-
                 12,
-
                 18,
-
                 12,
-
                 23,
             },
-
             {
-
                 1,
-
                 12,
-
                 6,
-
                 12,
             },
-
             {
-
                 18,
-
                 12,
-
                 23,
-
                 12,
             },
         },
-
         [ICONS.Speed] = {
-
             {
-
                 13,
-
                 7,
-
                 9,
-
                 12,
-
                 14,
-
                 15,
-
                 11,
-
                 22,
             },
-
             {
-
                 9,
-
                 12,
-
                 5,
-
                 11,
-
                 2,
-
                 15,
             },
-
             {
-
                 12,
-
                 9,
-
                 17,
-
                 12,
-
                 21,
-
                 10,
             },
-
             {
-
                 9,
-
                 16,
-
                 5,
-
                 21,
             },
         },
-
         [ICONS.Shield] = {
-
             {
-
                 12,
-
                 2,
-
                 21,
-
                 6,
-
                 20,
-
                 14,
-
                 17,
-
                 19,
-
                 12,
-
                 22,
-
                 7,
-
                 19,
-
                 4,
-
                 14,
-
                 3,
-
                 6,
-
                 12,
-
                 2,
             },
-
             {
-
                 12,
-
                 3,
-
                 12,
-
                 21,
             },
         },
-
         [ICONS.Trash] = {
-
             {
-
                 3,
-
                 6,
-
                 21,
-
                 6,
             },
-
             {
-
                 8,
-
                 6,
-
                 8,
-
                 3,
-
                 16,
-
                 3,
-
                 16,
-
                 6,
             },
-
             {
-
                 6,
-
                 7,
-
                 7,
-
                 21,
-
                 17,
-
                 21,
-
                 18,
-
                 7,
             },
-
             {
-
                 10,
-
                 10,
-
                 10,
-
                 17,
             },
-
             {
-
                 14,
-
                 10,
-
                 14,
-
                 17,
             },
         },
-
         [ICONS.Diamond] = {
-
             {
-
                 12,
-
                 1,
-
                 15,
-
                 9,
-
                 23,
-
                 12,
-
                 15,
-
                 15,
-
                 12,
-
                 23,
-
                 9,
-
                 15,
-
                 1,
-
                 12,
-
                 9,
-
                 9,
-
                 12,
-
                 1,
             },
         },
-
         [ICONS.Electricity] = {
-
             {
-
                 13,
-
                 2,
-
                 4,
-
                 14,
-
                 11,
-
                 14,
-
                 9,
-
                 23,
-
                 21,
-
                 9,
-
                 13,
-
                 9,
-
                 13,
-
                 2,
             },
         },
-
         [ICONS.Moon] = {
-
             {
-
                 17,
-
                 2,
-
                 10,
-
                 3,
-
                 5,
-
                 7,
-
                 3,
-
                 13,
-
                 5,
-
                 19,
-
                 10,
-
                 22,
-
                 16,
-
                 22,
-
                 21,
-
                 18,
-
                 22,
-
                 14,
-
                 17,
-
                 17,
-
                 12,
-
                 16,
-
                 9,
-
                 12,
-
                 9,
-
                 7,
-
                 12,
-
                 3,
-
                 17,
-
                 2,
             },
         },
-
         [ICONS.Package] = {
-
             {
-
                 12,
-
                 2,
-
                 22,
-
                 7,
-
                 22,
-
                 17,
-
                 12,
-
                 23,
-
                 2,
-
                 17,
-
                 2,
-
                 7,
-
                 12,
-
                 2,
             },
-
             {
-
                 2,
-
                 7,
-
                 12,
-
                 12,
-
                 22,
-
                 7,
             },
-
             {
-
                 12,
-
                 12,
-
                 12,
-
                 23,
             },
-
             {
-
                 7,
-
                 5,
-
                 17,
-
                 10,
             },
         },
-
         [ICONS.Minus] = {
-
             {
-
                 4,
-
                 12,
-
                 20,
-
                 12,
             },
         },
-
         [ICONS.Square] = {
-
             {
-
                 4,
-
                 4,
-
                 20,
-
                 4,
-
                 20,
-
                 20,
-
                 4,
-
                 20,
-
                 4,
-
                 4,
             },
         },
-
         [ICONS.Close] = {
-
             {
-
                 4,
-
                 4,
-
                 20,
-
                 20,
             },
-
             {
-
                 20,
-
                 4,
-
                 4,
-
                 20,
             },
         },
-
         [ICONS.ChevronRight] = {
-
             {
-
                 9,
-
                 6,
-
                 15,
-
                 12,
-
                 9,
-
                 18,
             },
         },
-
         [ICONS.ChevronLeft] = {
-
             {
-
                 15,
-
                 6,
-
                 9,
-
                 12,
-
                 15,
-
                 18,
             },
         },
     }
 
-    local ICON_FILLS = {
-
-        [ICONS.Home] = {
-
+    local functionIcons = {
+        Respawn = {
             {
-
-                2,
-
-                11,
-
-                12,
-
-                2,
-
-                22,
-
-                11,
-
                 19,
-
-                11,
-
-                19,
-
-                22,
-
-                14,
-
-                22,
-
-                14,
-
-                15,
-
-                10,
-
-                15,
-
-                10,
-
-                22,
-
-                5,
-
-                22,
-
-                5,
-
-                11,
-            },
-        },
-
-        [ICONS.User] = {
-
-            {
-
-                3,
-
-                22,
-
-                3,
-
-                19,
-
-                5,
-
-                15,
-
-                9,
-
-                13,
-
-                15,
-
-                13,
-
-                19,
-
-                15,
-
-                21,
-
-                19,
-
-                21,
-
-                22,
-            },
-        },
-
-        [ICONS.Diamond] = {
-
-            {
-
-                12,
-
-                0,
-
-                15,
-
-                9,
-
-                24,
-
-                12,
-
-                15,
-
-                15,
-
-                12,
-
-                24,
-
-                9,
-
-                15,
-
-                0,
-
-                12,
-
-                9,
-
-                9,
-            },
-        },
-
-        [ICONS.Electricity] = {
-
-            {
-
-                11,
-
-                1,
-
-                4,
-
-                14,
-
-                11,
-
-                14,
-
-                8,
-
-                24,
-
-                21,
-
-                9,
-
-                13,
-
-                9,
-
-                17,
-
-                1,
-            },
-        },
-
-        [ICONS.Shield] = {
-
-            {
-
-                12,
-
-                2,
-
-                12,
-
-                22,
-
                 7,
-
-                19,
-
-                4,
-
-                14,
-
+                15,
                 3,
-
+                8,
+                3,
+                3,
+                8,
+                3,
+                15,
+                8,
+                20,
+                15,
+                20,
+                20,
+                15,
+            },
+            {
+                19,
+                2,
+                19,
+                7,
+                14,
+                7,
+            },
+            {
+                12,
+                8,
+                12,
+                16,
+            },
+            {
+                8,
+                12,
+                16,
+                12,
+            },
+        },
+        Return = {
+            {
+                3,
+                8,
+                17,
+                8,
+                21,
+                12,
+                21,
+                17,
+                17,
+                21,
+                11,
+                21,
+            },
+            {
+                7,
+                3,
+                2,
+                8,
+                7,
+                13,
+            },
+            {
+                12,
+                12,
+                12,
+                16,
+                16,
+                16,
+            },
+        },
+        Criminal = {
+            {
+                3,
+                7,
+                12,
+                10,
+                21,
+                7,
+                20,
+                15,
+                16,
+                19,
+                12,
+                17,
+                8,
+                19,
+                4,
+                15,
+                3,
+                7,
+            },
+            {
+                6,
+                11,
+                9,
+                12,
+                6,
+                13,
+            },
+            {
+                18,
+                11,
+                15,
+                12,
+                18,
+                13,
+            },
+        },
+        Ghost = {
+            {
+                5,
+                21,
+                5,
+                8,
+                7,
+                4,
+                12,
+                2,
+                17,
+                4,
+                19,
+                8,
+                19,
+                21,
+                15,
+                18,
+                12,
+                21,
+                9,
+                18,
+                5,
+                21,
+            },
+            {
+                9,
+                8,
+                9,
+                11,
+            },
+            {
+                15,
+                8,
+                15,
+                11,
+            },
+        },
+        Noclip = {
+            {
+                14,
+                2,
+                21,
+                2,
+                21,
+                22,
+                14,
+                22,
+            },
+            {
+                14,
+                3,
+                14,
+                7,
+            },
+            {
+                14,
+                17,
+                14,
+                21,
+            },
+            {
+                2,
+                12,
+                18,
+                12,
+            },
+            {
+                10,
+                6,
+                16,
+                12,
+                10,
+                18,
+            },
+        },
+        Boost = {
+            {
+                3,
+                17,
+                8,
+                12,
+                13,
+                17,
+            },
+            {
+                3,
+                10,
+                8,
+                5,
+                13,
+                10,
+            },
+            {
+                17,
+                20,
+                17,
+                4,
+            },
+            {
+                14,
+                7,
+                17,
+                4,
+                20,
+                7,
+            },
+        },
+        Momentum = {
+            {
+                2,
+                7,
+                10,
+                7,
+            },
+            {
+                2,
+                12,
+                7,
+                12,
+            },
+            {
+                2,
+                17,
+                10,
+                17,
+            },
+            {
+                12,
+                5,
+                20,
+                12,
+                12,
+                19,
+            },
+            {
+                8,
+                12,
+                20,
+                12,
+            },
+        },
+        Bhop = {
+            {
+                2,
+                20,
+                5,
+                10,
+                8,
+                6,
+                11,
+                10,
+                14,
+                20,
+                17,
+                10,
+                20,
+                6,
+                22,
+                10,
+            },
+            {
+                2,
+                22,
+                22,
+                22,
+            },
+        },
+        Sprint = {
+            {
+                14,
+                3,
+                17,
+                3,
+                17,
+                6,
+                14,
+                6,
+                14,
+                3,
+            },
+            {
+                13,
+                8,
+                9,
+                13,
+                14,
+                16,
+                11,
+                22,
+            },
+            {
+                12,
+                9,
+                18,
+                12,
+                22,
+                10,
+            },
+            {
+                9,
+                13,
+                5,
+                12,
+            },
+            {
+                9,
+                17,
+                5,
+                21,
+            },
+            {
+                2,
+                5,
+                9,
+                5,
+            },
+            {
+                1,
+                8,
+                6,
+                8,
+            },
+        },
+        AntiJump = {
+            {
+                5,
+                17,
+                12,
+                10,
+                19,
+                17,
+            },
+            {
+                12,
+                10,
+                12,
+                22,
+            },
+            {
+                3,
+                3,
+                21,
+                3,
+            },
+            {
+                4,
+                6,
+                20,
                 6,
             },
         },
-
-        [ICONS.Package] = {
-
+        InfJump = {
             {
-
-                3,
-
-                8,
-
-                11,
-
-                12,
-
-                11,
-
-                22,
-
-                3,
-
-                17,
-            },
-
-            {
-
-                13,
-
-                12,
-
-                21,
-
-                8,
-
-                21,
-
-                17,
-
-                13,
-
-                22,
-            },
-
-            {
-
-                3,
-
-                6,
-
-                12,
-
                 2,
-
-                21,
-
+                9,
+                5,
                 6,
-
+                9,
+                6,
+                15,
                 12,
+                19,
+                12,
+                22,
+                9,
+                19,
+                6,
+                15,
+                6,
+                9,
+                12,
+                5,
+                12,
+                2,
+                9,
+            },
+            {
+                12,
+                22,
+                12,
+                15,
+            },
+            {
+                8,
+                19,
+                12,
+                15,
+                16,
+                19,
+            },
+        },
+        Hitbox = {
+            {
+                3,
+                3,
+                8,
+                3,
+            },
+            {
+                3,
+                3,
+                3,
+                8,
+            },
+            {
+                16,
+                3,
+                21,
+                3,
+                21,
+                8,
+            },
+            {
+                3,
+                16,
+                3,
+                21,
+                8,
+                21,
+            },
+            {
+                16,
+                21,
+                21,
+                21,
+                21,
+                16,
+            },
+            {
+                7,
+                7,
+                17,
+                7,
+                17,
+                17,
+                7,
+                17,
+                7,
+                7,
+            },
+        },
+        Reveal = {
+            {
+                2,
+                12,
+                6,
+                7,
+                12,
+                5,
+                18,
+                7,
+                22,
+                12,
+                18,
+                17,
+                12,
+                19,
+                6,
+                17,
+                2,
+                12,
+            },
+            {
+                12,
+                8,
+                16,
+                12,
+                12,
+                16,
+                8,
+                12,
+                12,
+                8,
+            },
+            {
+                12,
+                1,
+                12,
+                3,
+            },
+            {
+                3,
+                3,
+                5,
+                5,
+            },
+            {
+                21,
+                3,
+                19,
+                5,
+            },
+        },
+        Taser = {
+            {
+                12,
+                2,
+                20,
+                5,
+                20,
+                13,
+                17,
+                19,
+                12,
+                22,
+                7,
+                19,
+                4,
+                13,
+                4,
+                5,
+                12,
+                2,
+            },
+            {
+                13,
+                6,
+                8,
+                13,
+                13,
+                13,
+                11,
+                18,
+                17,
+                10,
+                12,
+                10,
+            },
+        },
+        Anchor = {
+            {
+                12,
+                3,
+                15,
+                6,
+                12,
+                9,
+                9,
+                6,
+                12,
+                3,
+            },
+            {
+                12,
+                9,
+                12,
+                21,
+            },
+            {
+                7,
+                11,
+                17,
+                11,
+            },
+            {
+                3,
+                14,
+                4,
+                18,
+                8,
+                21,
+                16,
+                21,
+                20,
+                18,
+                21,
+                14,
+            },
+            {
+                3,
+                14,
+                3,
+                18,
+            },
+            {
+                21,
+                14,
+                21,
+                18,
+            },
+        },
+        Weapon = {
+            {
+                2,
+                6,
+                21,
+                6,
+                21,
+                11,
+                13,
+                11,
+                11,
+                14,
+                8,
+                14,
+                7,
+                21,
+                3,
+                21,
+                5,
+                11,
+                2,
+                11,
+                2,
+                6,
+            },
+            {
+                10,
+                11,
+                10,
+                14,
+            },
+            {
+                17,
+                3,
+                20,
+                3,
+            },
+            {
+                8,
+                8,
+                18,
+                8,
+            },
+        },
+        Map = {
+            {
+                2,
+                5,
+                8,
+                2,
+                16,
+                5,
+                22,
+                2,
+                22,
+                19,
+                16,
+                22,
+                8,
+                19,
+                2,
+                22,
+                2,
+                5,
+            },
+            {
+                8,
+                3,
+                8,
+                18,
+            },
+            {
+                16,
+                6,
+                16,
+                21,
+            },
+        },
+        Spin = {
+            {
+                5,
+                8,
+                8,
+                3,
+                16,
+                3,
+                20,
+                8,
+            },
+            {
+                20,
+                3,
+                20,
+                8,
+                15,
+                8,
+            },
+            {
+                19,
+                16,
+                16,
+                21,
+                8,
+                21,
+                4,
+                16,
+            },
+            {
+                4,
+                21,
+                4,
+                16,
+                9,
+                16,
+            },
+            {
+                12,
+                9,
+                15,
+                12,
+                12,
+                15,
+                9,
+                12,
+                12,
+                9,
+            },
+        },
+        Hunt = {
+            {
+                2,
+                8,
+                2,
+                3,
+                7,
+                3,
+            },
+            {
+                17,
+                3,
+                22,
+                3,
+                22,
+                8,
+            },
+            {
+                2,
+                16,
+                2,
+                21,
+                7,
+                21,
+            },
+            {
+                17,
+                21,
+                22,
+                21,
+                22,
+                16,
+            },
+            {
+                12,
+                6,
+                15,
+                9,
+                12,
+                12,
+                9,
+                9,
+                12,
+                6,
+            },
+            {
+                7,
+                18,
+                8,
+                15,
+                16,
+                15,
+                17,
+                18,
+            },
+        },
+        WeaponStyle = {
+            {
+                3,
+                6,
+                20,
+                6,
+                20,
+                11,
+                12,
+                11,
+                10,
+                15,
+                7,
+                15,
+                6,
+                21,
+                2,
+                21,
+                4,
+                11,
+            },
+            {
+                17,
+                14,
+                22,
+                19,
+                19,
+                22,
+                14,
+                17,
+                17,
+                14,
+            },
+            {
+                19,
+                16,
+                16,
+                19,
+            },
+        },
+    }
+    for name, paths in pairs(functionIcons) do
+        ICONS[name] = "local:" .. name
+        ICON_PATHS[ICONS[name]] = paths
+    end
 
+    local ICON_FILLS = {
+        [ICONS.Home] = {
+            {
+                2,
+                11,
+                12,
+                2,
+                22,
+                11,
+                19,
+                11,
+                19,
+                22,
+                14,
+                22,
+                14,
+                15,
+                10,
+                15,
+                10,
+                22,
+                5,
+                22,
+                5,
+                11,
+            },
+        },
+        [ICONS.User] = {
+            {
+                3,
+                22,
+                3,
+                19,
+                5,
+                15,
+                9,
+                13,
+                15,
+                13,
+                19,
+                15,
+                21,
+                19,
+                21,
+                22,
+            },
+        },
+        [ICONS.Diamond] = {
+            {
+                12,
+                0,
+                15,
+                9,
+                24,
+                12,
+                15,
+                15,
+                12,
+                24,
+                9,
+                15,
+                0,
+                12,
+                9,
+                9,
+            },
+        },
+        [ICONS.Electricity] = {
+            {
+                11,
+                1,
+                4,
+                14,
+                11,
+                14,
+                8,
+                24,
+                21,
+                9,
+                13,
+                9,
+                17,
+                1,
+            },
+        },
+        [ICONS.Shield] = {
+            {
+                12,
+                2,
+                12,
+                22,
+                7,
+                19,
+                4,
+                14,
+                3,
+                6,
+            },
+        },
+        [ICONS.Package] = {
+            {
+                3,
+                8,
+                11,
+                12,
+                11,
+                22,
+                3,
+                17,
+            },
+            {
+                13,
+                12,
+                21,
+                8,
+                21,
+                17,
+                13,
+                22,
+            },
+            {
+                3,
+                6,
+                12,
+                2,
+                21,
+                6,
+                12,
                 10,
             },
         },
@@ -1494,7 +1803,6 @@ function Nightfall:CreateWindow(options)
             table.insert(gear, gear[1])
             table.insert(gear, gear[2])
             paths = {
-
                 gear,
             }
         end
@@ -1623,13 +1931,9 @@ function Nightfall:CreateWindow(options)
             end
         end
         for _, property in ipairs({
-
             "Position",
-
             "Size",
-
             "Visible",
-
             "Parent",
         }) do
             MainFrame:GetPropertyChangedSignal(property):Connect(updateEdges)
@@ -1684,11 +1988,8 @@ function Nightfall:CreateWindow(options)
 
     local HeaderGlowFade = Instance.new("UIGradient")
     HeaderGlowFade.Transparency = NumberSequence.new({
-
         NumberSequenceKeypoint.new(0, 0.4),
-
         NumberSequenceKeypoint.new(0.8, 0.9),
-
         NumberSequenceKeypoint.new(1, 1),
     })
     HeaderGlowFade.Parent = HeaderGlow
@@ -1758,9 +2059,7 @@ function Nightfall:CreateWindow(options)
 
     local TitleGrad = Instance.new("UIGradient")
     TitleGrad.Color = ColorSequence.new({
-
         ColorSequenceKeypoint.new(0, Color3.fromRGB(171, 112, 224)),
-
         ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 49, 159)),
     })
     TitleGrad.Rotation = 90
@@ -1929,21 +2228,17 @@ function Nightfall:CreateWindow(options)
 
         btn.MouseEnter:Connect(function()
             TweenService:Create(btn, TweenInfo.new(0.15), {
-
                 BackgroundTransparency = 1,
             }):Play()
             TweenService:Create(icon, TweenInfo.new(0.15), {
-
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
         btn.MouseLeave:Connect(function()
             TweenService:Create(btn, TweenInfo.new(0.15), {
-
                 BackgroundTransparency = 1,
             }):Play()
             TweenService:Create(icon, TweenInfo.new(0.15), {
-
                 ImageColor3 = THEME.AccentPurp,
             }):Play()
         end)
@@ -1961,7 +2256,6 @@ function Nightfall:CreateWindow(options)
         MainFrame.Body.Visible = not isMinimized
         TweenService
             :Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-
                 Size = UDim2.new(0, 1200, 0, targetHeight),
             })
             :Play()
@@ -2256,9 +2550,7 @@ function Nightfall:CreateWindow(options)
         tabBtn.Parent = NavContainer
         local selectionGradient = Instance.new("UIGradient")
         selectionGradient.Transparency = NumberSequence.new({
-
             NumberSequenceKeypoint.new(0, 0),
-
             NumberSequenceKeypoint.new(1, 0.6),
         })
         selectionGradient.Parent = tabBtn
@@ -2331,32 +2623,23 @@ function Nightfall:CreateWindow(options)
         page.ScrollBarImageTransparency = 0.3
 
         local tabData = {
-
             Button = tabBtn,
-
             Page = page,
-
             Icon = icon,
-
             Label = label,
-
             ActiveBar = activeBar,
         }
 
         tabBtn.MouseEnter:Connect(function()
             if activeTab ~= tabData then
                 navTween(tabBtn, {
-
                     BackgroundTransparency = 0.7,
-
                     BackgroundColor3 = THEME.BgPanelHover,
                 })
                 navTween(label, {
-
                     TextColor3 = THEME.TextPrimary,
                 })
                 navTween(icon, {
-
                     ImageColor3 = THEME.AccentPurp,
                 })
             end
@@ -2365,15 +2648,12 @@ function Nightfall:CreateWindow(options)
         tabBtn.MouseLeave:Connect(function()
             if activeTab ~= tabData then
                 navTween(tabBtn, {
-
                     BackgroundTransparency = 1,
                 })
                 navTween(label, {
-
                     TextColor3 = THEME.TextMuted,
                 })
                 navTween(icon, {
-
                     ImageColor3 = THEME.TextMuted,
                 })
             end
@@ -2386,40 +2666,31 @@ function Nightfall:CreateWindow(options)
 
             for _, t in pairs(tabs) do
                 navTween(t.Button, {
-
                     BackgroundTransparency = 1,
                 })
                 navTween(t.Label, {
-
                     TextColor3 = THEME.TextMuted,
                 })
                 navTween(t.Icon, {
-
                     ImageColor3 = THEME.TextMuted,
                 })
                 navTween(t.ActiveBar, {
-
                     BackgroundTransparency = 1,
                 })
                 t.Page.Visible = false
             end
 
             navTween(tabBtn, {
-
                 BackgroundTransparency = 0.78,
-
                 BackgroundColor3 = THEME.PrimaryPurp,
             })
             navTween(label, {
-
                 TextColor3 = THEME.TextPrimary,
             })
             navTween(icon, {
-
                 ImageColor3 = THEME.AccentPurp,
             })
             navTween(activeBar, {
-
                 BackgroundTransparency = 0,
             })
             page.Visible = true
@@ -2435,7 +2706,6 @@ function Nightfall:CreateWindow(options)
                 ContentArea,
                 TweenInfo.new(0.22, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {
-
                     Position = UDim2.fromOffset(214, 0),
                 }
             )
@@ -2619,16 +2889,13 @@ function Nightfall:CreateWindow(options)
             local targetPos = state and UDim2.new(1, -19, 0.5, -8) or UDim2.new(0, 3, 0.5, -8)
 
             TweenService:Create(switch, TweenInfo.new(time), {
-
                 BackgroundColor3 = targetColor,
             }):Play()
             TweenService:Create(switchStroke, TweenInfo.new(time), {
-
                 Color = targetStroke,
             }):Play()
             TweenService
                 :Create(thumb, TweenInfo.new(time, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-
                     Position = targetPos,
                 })
                 :Play()
@@ -2636,17 +2903,13 @@ function Nightfall:CreateWindow(options)
 
         clickBtn.MouseEnter:Connect(function()
             TweenService:Create(card, TweenInfo.new(0.18), {
-
                 BackgroundTransparency = 0.2,
-
                 BackgroundColor3 = THEME.BgPanelHover,
             }):Play()
         end)
         clickBtn.MouseLeave:Connect(function()
             TweenService:Create(card, TweenInfo.new(0.18), {
-
                 BackgroundTransparency = 0.08,
-
                 BackgroundColor3 = THEME.BgPanel,
             }):Play()
         end)
@@ -2665,9 +2928,7 @@ function Nightfall:CreateWindow(options)
         end)
 
         return {
-
             Frame = card,
-
             Set = function(_, v, silent)
                 if state == (v == true) then
                     return
@@ -2679,7 +2940,6 @@ function Nightfall:CreateWindow(options)
                     onToggle(state)
                 end
             end,
-
             Get = function()
                 return state
             end,
@@ -2728,9 +2988,7 @@ function Nightfall:CreateWindow(options)
 
         local fillGrad = Instance.new("UIGradient")
         fillGrad.Color = ColorSequence.new({
-
             ColorSequenceKeypoint.new(0, THEME.PrimaryPurp),
-
             ColorSequenceKeypoint.new(1, THEME.AccentPurp),
         })
         fillGrad.Parent = fill
@@ -2856,11 +3114,9 @@ function Nightfall:CreateWindow(options)
         end)
 
         return {
-
             Set = function(_, value, silent)
                 setValue(value, not silent)
             end,
-
             Get = function()
                 return currentVal
             end,
@@ -2888,11 +3144,8 @@ function Nightfall:CreateWindow(options)
 
     local HeroGrad = Instance.new("UIGradient")
     HeroGrad.Color = ColorSequence.new({
-
         ColorSequenceKeypoint.new(0, Color3.fromRGB(26, 18, 42)),
-
         ColorSequenceKeypoint.new(0.55, Color3.fromRGB(16, 12, 26)),
-
         ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 7, 16)),
     })
     HeroGrad.Rotation = 20
@@ -2985,11 +3238,8 @@ function Nightfall:CreateWindow(options)
 
     local SkyFade = Instance.new("UIGradient")
     SkyFade.Transparency = NumberSequence.new({
-
         NumberSequenceKeypoint.new(0, 1),
-
         NumberSequenceKeypoint.new(0.35, 0.45),
-
         NumberSequenceKeypoint.new(1, 0.05),
     })
     SkyFade.Parent = SkyGradient
@@ -3032,11 +3282,8 @@ function Nightfall:CreateWindow(options)
 
     local MoonDiscGrad = Instance.new("UIGradient")
     MoonDiscGrad.Color = ColorSequence.new({
-
         ColorSequenceKeypoint.new(0, Color3.fromRGB(245, 230, 255)),
-
         ColorSequenceKeypoint.new(0.6, Color3.fromRGB(205, 170, 245)),
-
         ColorSequenceKeypoint.new(1, Color3.fromRGB(160, 115, 215)),
     })
     MoonDiscGrad.Rotation = 40
@@ -3567,11 +3814,8 @@ function Nightfall:CreateWindow(options)
         MainCorner.CornerRadius = UDim.new(0, 15)
         local edgeGradient = Instance.new("UIGradient")
         edgeGradient.Color = ColorSequence.new({
-
             ColorSequenceKeypoint.new(0, Color3.fromRGB(170, 115, 225)),
-
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(70, 45, 100)),
-
             ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 95, 205)),
         })
         edgeGradient.Rotation = 25
@@ -3580,76 +3824,44 @@ function Nightfall:CreateWindow(options)
 
     do
         local glyphs = {
-
             ["N"] = {
-
                 advance = 85,
-
                 top = 8,
-
                 data = [=[5!)"1"0"Y","/#5"W#0"-$9"U$3",%;"T%5"*&>"S&7")'A"R'8"((C"R(9"()D"Q)%"])/"'*F"P*%"^*."&++"8+5"P+$"_+-"&,(";,3"O,$"_,."%-'"=-6"%.&">.4"`--#%/%"?/3"$0%"@01"`/.#A10"a1-"$1$#B20"C3/"$3##D4."a2.$D5/"b5."E6."b61#F7-#c8/"#5$&c9-"$:#"d:*"G9-$e;'"$;$#f<%"e=%"$=%#H<,$d>%"%?%"c?%"%@'"1@+"b@%"&A7"aA%"'B7"I?+%`B&"'C8"_C&"(D7")E6"^D'#+F4"JC*%]F("-G*":G%"\G)"\H(";H$$JG)%[I)#<K#"ZK*"ZL+"JK($JN'#YM,%IP'#IR&#YQ-$HT&#YT.#1V)"HV%"YV/"/W,"ZW."-X/"GW%#ZX/",Y1"FY%"ZY0"+Z3"FZ$"[Z1"pZ$")[5"E[%"[[9"(\7"D\%"\\7"(]$".]3"B]&"]]5"'^$"0^7"^^2"1_5"^_1"1`4"_`/"2a2"`a-"3b0"ab*"4c."bc("5d+"cd&"7e'"ee#"]=],
             },
-
             ["i"] = {
-
                 advance = 26,
-
                 top = 9,
-
                 data = [=[.!%","("*#+#)%,%))+"**)"*+("*,'"+-$"*3#")4%"(5'"(6("'7*"&8,"&9."%:0"$;3##=$"(=-"#>#"(>,#(@+0)O**)X+$7Z#")[,"6[$")\0#*^."*_-"+`,",a*"-b)".c'"0d%"]=],
             },
-
             ["g"] = {
-
                 advance = 45,
-
                 top = 26,
-
                 data = [=[6"#"5#%"5$&"4%("3&*"2'-"2(."0)2"/*5".+$"4+2"-,$"5,4",-%"6-3"*.&"7.2")/'"9//")0&":0."(1'"<1+"'2(">2)"&3)"&4("@3&#?5'"%5)#>6(">7'"=8(#<:)#<<*"$7*(;=+&$>+&;B,$%C+$%F,";E-#&G+"<G,"&H,#<H-#'J,"=J,"'K-"<K-"(L-":L/")M5")N2"*O/">M,$*P-"+Q)"+R'"+S%"?P+%,T#"@T*$@W)$([%"@Z(#'\'"?\("&])"?]'#&^*#>_&"'`*"=`&"<a&"(a*#;b&"*c*"9c&"+d2"-e."]=],
             },
-
             ["h"] = {
-
                 advance = 43,
-
                 top = 8,
-
                 data = [=[8"("5#+"2$)"0%("#&#"/&("$'#"-')"$($",()"%)#"%*$"+))#&+#"*+*"&,-"'-,$=4#"<5$";6&":7'"88*"69-"(0+,5:/"(;=#(=,"8=."9>.":?-";@-"<A,"<B-"=C,#>E,%?I+"?J,'@P*'@V)"?W*#(>+=?Y)#(Z,#'\-"7\#"?[(#&]3"?]'"%^4">^("&_2">_'"'`0">`&")a-"=a'"+b*"=b&",c("<c&"-d&"<d%".e$";e%"/f#":f%"9g%"8h%"7i%"6j%"5k%"4l%"3m%"2n%"1o%"0p%"/q$".r$"-s$",t#"]=],
             },
-
             ["t"] = {
-
                 advance = 30,
-
                 top = 14,
-
                 data = [=[9"""8##"7$#"6%$"5&$"4'$"3(%"2)%"1*&"0+&"/,'".-'",.)"+/*"*0*")1+"(2,"'37"%49"$5:"#6;""7;")8+>:T#")U-"9U$"(V/"8V$"&W5"&X4"(Y1"+Z."-[+".\)"/]("0^&"1_%"2`#"]=],
             },
-
             ["F"] = {
-
                 advance = 73,
-
                 top = 5,
-
                 data = [=[:!."6"7"4#<"2$A"0%E"/&H"-'L",(O"+)R"**V"d*$"*+^"),/"A,F"(-,"E-A"'.+"H.<"'/)"K/8"&0)"M04"&1("I1#"O11"%2("H2$"Q2."%3'"G3%"S3*"F4%"T4("%4&#E5&"V5$"$6&#D6&#C8'"B9("A:*"A;+"@<,"@=-"^=""@>."]>%"@?/"\?'"$8%*@@0"[@)"%A$"@A1"ZA+"AB0"ZB,"%B%#AC1"YC."&D$"BD1"XD0"&E%"BE2"WE1"'F%"CF1"VF2"'G&"CG2"UG2"(H&"DHB")I&"DI5"ZI+"*J&"?J#"EJ3"\J(",K'"<K'"FK2"]K&"-L5"GL1"^L$"0M0"GM2"_M#"3N)"HN2"IO1"JP1#KR1",S%"+T*"LS0#,U+"MU/"/V*"MV0"0W*"NW/"0X+"OX.$0Y,&P[-$Q^,"/^-$.a."Q_+%Qc*#.b-&Pe*#.g,"Pg)"Oh*"/h+#Oi)"/j,"Nj)"0k+"Nk("1l*"Ml("1m+"Lm("2n*"Kn("4o*"Jo("5p,"Gp)"7q7"9r3"=s,"]=],
             },
-
             ["a"] = {
-
                 advance = 44,
-
                 top = 26,
-
                 data = [=[6"""6#$"5$%"4%'"4&("3'+"2(-"1)/"0*2".+$"3+1"-,$"4,3",-%"5-3"+.%"6.2"*/&"8//")0&":0,"(1'";1+"'2("'3'"&4("%5)$$8*%#<+%#@,";2*0$A+#$C,$%F,"%G-#&I-";A+*II#"&J.":J-"HJ$"'K/"8K3"'L4";L0"(M2";M/")N/"*O-"<N-#+P+"=P+",Q(">Q)"-R&"?R("-S%"@S&".T""CT#"]=],
             },
-
             ["l"] = {
-
                 advance = 26,
-
                 top = 8,
-
                 data = [=[8"'"5#*"3$'"1%'"#&#"0&'"#'$".'("$($"-(("%)#",))"&*#",*("&+$"++)"',-#(.,&)3+I:Z""([."9[#"'\0"8\#"&]4"%^5"(_1"+`-"-a*".b)"/c'"0d&"1e$"2f""]=],
             },
         }
@@ -3678,13 +3890,9 @@ function Nightfall:CreateWindow(options)
             frame.ZIndex = z or parent.ZIndex
             frame.Parent = parent
             local geometry = {
-
                 x,
-
                 y,
-
                 w,
-
                 h,
             }
             pixelGeometry[frame] = geometry
@@ -3790,48 +3998,28 @@ function Nightfall:CreateWindow(options)
         roblox.ZIndex = 8
         roblox.Parent = StatusBadge
         for _, r in ipairs({
-
             {
-
                 0,
-
                 0,
-
                 25,
-
                 8,
             },
-
             {
-
                 0,
-
                 17,
-
                 25,
-
                 8,
             },
-
             {
-
                 0,
-
                 8,
-
                 8,
-
                 9,
             },
-
             {
-
                 17,
-
                 8,
-
                 8,
-
                 9,
             },
         }) do
@@ -3855,11 +4043,8 @@ function Nightfall:CreateWindow(options)
         SecText.TextSize = 18
         MiscSecText.TextSize = 18
         for _, row in ipairs({
-
             BannerHeaderRow,
-
             SectionTitle,
-
             MiscSectionTitle,
         }) do
             for _, child in ipairs(row:GetChildren()) do
@@ -3928,11 +4113,8 @@ function Nightfall:CreateWindow(options)
         local sky = solid(ArtContainer, 0, 0, 545, 164, Color3.new(1, 1, 1), 8)
         local skyColor = Instance.new("UIGradient")
         skyColor.Color = ColorSequence.new({
-
             ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 8, 16)),
-
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(16, 10, 28)),
-
             ColorSequenceKeypoint.new(1, Color3.fromRGB(27, 14, 44)),
         })
         skyColor.Parent = sky
@@ -3978,11 +4160,8 @@ function Nightfall:CreateWindow(options)
             )
             local fade = Instance.new("UIGradient")
             fade.Transparency = NumberSequence.new({
-
                 NumberSequenceKeypoint.new(0, 1),
-
                 NumberSequenceKeypoint.new(0.5, 0),
-
                 NumberSequenceKeypoint.new(1, 1),
             })
             fade.Parent = cloud
@@ -3999,11 +4178,8 @@ function Nightfall:CreateWindow(options)
                     3,
                     170 - y,
                     ({
-
                         Color3.fromRGB(29, 16, 46),
-
                         Color3.fromRGB(16, 10, 25),
-
                         Color3.fromRGB(8, 6, 13),
                     })[layer],
                     12 + layer
@@ -4033,11 +4209,8 @@ function Nightfall:CreateWindow(options)
             solid(tower, x, 42, 1, 12, dark, 18)
         end
         for _, x in ipairs({
-
             29,
-
             43,
-
             55,
         }) do
             solid(tower, x, 29, 7, 9, Color3.fromRGB(35, 23, 48), 19)
@@ -4048,13 +4221,9 @@ function Nightfall:CreateWindow(options)
         local scrim = solid(ArtContainer, 0, 0, 545, 164, THEME.BgMain, 21)
         local fade = Instance.new("UIGradient")
         fade.Transparency = NumberSequence.new({
-
             NumberSequenceKeypoint.new(0, 0),
-
             NumberSequenceKeypoint.new(0.40, 0.05),
-
             NumberSequenceKeypoint.new(0.65, 0.85),
-
             NumberSequenceKeypoint.new(1, 1),
         })
         fade.Parent = scrim
@@ -4134,30 +4303,24 @@ function Nightfall:CreateWindow(options)
 
         CollapseBtn.MouseEnter:Connect(function()
             TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
-
                 BackgroundColor3 = Color3.fromRGB(36, 22, 54),
             }):Play()
             TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
-
                 Color = THEME.AccentPurp,
             }):Play()
             TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
-
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
 
         CollapseBtn.MouseLeave:Connect(function()
             TweenService:Create(CollapseBtn, TweenInfo.new(0.18), {
-
                 BackgroundColor3 = Color3.fromRGB(20, 14, 30),
             }):Play()
             TweenService:Create(collapseStroke, TweenInfo.new(0.18), {
-
                 Color = THEME.Border,
             }):Play()
             TweenService:Create(collapseIcon, TweenInfo.new(0.18), {
-
                 ImageColor3 = THEME.TextMuted,
             }):Play()
         end)
@@ -4214,30 +4377,24 @@ function Nightfall:CreateWindow(options)
 
         ExpandBtn.MouseEnter:Connect(function()
             TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
-
                 BackgroundColor3 = Color3.fromRGB(32, 27, 41),
             }):Play()
             TweenService:Create(expandStroke, TweenInfo.new(0.18), {
-
                 Color = THEME.AccentPurp,
             }):Play()
             TweenService:Create(expandChevron, TweenInfo.new(0.18), {
-
                 ImageColor3 = THEME.TextPrimary,
             }):Play()
         end)
 
         ExpandBtn.MouseLeave:Connect(function()
             TweenService:Create(ExpandBtn, TweenInfo.new(0.18), {
-
                 BackgroundColor3 = Color3.fromRGB(20, 14, 30),
             }):Play()
             TweenService:Create(expandStroke, TweenInfo.new(0.18), {
-
                 Color = THEME.Border,
             }):Play()
             TweenService:Create(expandChevron, TweenInfo.new(0.18), {
-
                 ImageColor3 = THEME.TextMuted,
             }):Play()
         end)
@@ -4263,7 +4420,6 @@ function Nightfall:CreateWindow(options)
             end
             contentResizeTween =
                 TweenService:Create(ContentArea, TweenInfo.new(0.18, Enum.EasingStyle.Quad), {
-
                     Size = collapsed and UDim2.new(1, -228, 1, 0) or UDim2.new(0, 550, 1, 0),
                 })
             contentResizeTween:Play()
@@ -4311,11 +4467,8 @@ function Nightfall:CreateWindow(options)
             smoke.Visible = MainFrame.Visible and not isMinimized and not smoke:GetAttribute("Disabled")
         end
         for _, property in ipairs({
-
             "Position",
-
             "Size",
-
             "Visible",
         }) do
             MainFrame:GetPropertyChangedSignal(property):Connect(syncSmoke)
@@ -4436,23 +4589,17 @@ function Nightfall:CreateWindow(options)
         task.spawn(function()
             local started = os.clock()
             TweenService:Create(loaderScale, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {
-
                 Scale = 1,
             }):Play()
             TweenService:Create(fill, TweenInfo.new(0.4), {
-
                 Size = UDim2.fromScale(0.45, 1),
             }):Play()
             local content = game:GetService("ContentProvider")
             pcall(function()
                 content:PreloadAsync({
-
                     TitleLabel,
-
                     WelcomeTitle,
-
                     ConsoleTitle,
-
                     smoke,
                 })
             end)
@@ -4461,7 +4608,6 @@ function Nightfall:CreateWindow(options)
             end
             status.Text = "Finalizing NightFall..."
             local progress = TweenService:Create(fill, TweenInfo.new(0.45), {
-
                 Size = UDim2.fromScale(1, 1),
             })
             progress:Play()
@@ -4472,14 +4618,12 @@ function Nightfall:CreateWindow(options)
             end
             status.Text = "Ready"
             local close = TweenService:Create(loading, TweenInfo.new(0.2), {
-
                 BackgroundTransparency = 1,
             })
             close:Play()
             for _, child in ipairs(loading:GetDescendants()) do
                 if child:IsA("TextLabel") then
                     TweenService:Create(child, TweenInfo.new(0.2), {
-
                         TextTransparency = 1,
                     }):Play()
                 end
@@ -4494,7 +4638,6 @@ function Nightfall:CreateWindow(options)
             MainFrame.Position = target + UDim2.fromOffset(0, 12 / uiScale.Scale)
             TweenService
                 :Create(MainFrame, TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-
                     Position = target,
                 })
                 :Play()
@@ -4532,9 +4675,7 @@ function Nightfall:CreateWindow(options)
 
     local cardGrad = Instance.new("UIGradient")
     cardGrad.Color = ColorSequence.new({
-
         ColorSequenceKeypoint.new(0, Color3.fromRGB(24, 15, 38)),
-
         ColorSequenceKeypoint.new(1, Color3.fromRGB(12, 8, 20)),
     })
     cardGrad.Rotation = 45
@@ -4698,13 +4839,9 @@ function Nightfall:CreateWindow(options)
     MiscSectionTitle:Destroy()
     MiscCard:Destroy()
     for _, name in ipairs({
-
         "Player",
-
         "Visuals",
-
         "Settings",
-
         "Changelogs",
     }) do
         if tabs[name] then
@@ -4729,29 +4866,22 @@ function Nightfall:CreateWindow(options)
     navPadding.PaddingBottom = UDim.new(0, 8)
     navPadding.Parent = NavContainer
     local aliases = {
-
         skull = ICONS.User,
-
         user = ICONS.User,
-
         move = ICONS.Speed,
-
         crosshair = ICONS.Target,
-
-        sword = ICONS.Shield,
-
+        sword = ICONS.Weapon,
+        weapon = ICONS.Weapon,
+        map = ICONS.Map,
         eye = ICONS.Eye,
-
-        ["map-pin"] = ICONS.Pin,
+        ["map-pin"] = ICONS.Map,
         sun = ICONS.Sun,
         layers = ICONS.Layers,
         palette = ICONS.Palette,
         heart = ICONS.Heart,
         box = ICONS.Box,
         globe = ICONS.Package,
-
         settings = ICONS.Settings,
-
         moon = ICONS.Moon,
     }
 
@@ -4908,6 +5038,34 @@ function Nightfall:CreateWindow(options)
                 return ICONS[iconArg]
             end
             local t = (title or ""):lower()
+            local exact = {
+                ["quickrespawn"] = ICONS.Respawn,
+                ["returnondeath"] = ICONS.Return,
+                ["autocriminal"] = ICONS.Criminal,
+                ["feinvisible"] = ICONS.Ghost,
+                ["invisible"] = ICONS.Ghost,
+                ["noclip"] = ICONS.Noclip,
+                ["consecutiveboost"] = ICONS.Boost,
+                ["preservemomentum"] = ICONS.Momentum,
+                ["bhop"] = ICONS.Bhop,
+                ["autohop"] = ICONS.Bhop,
+                ["autosprint"] = ICONS.Sprint,
+                ["antijump"] = ICONS.AntiJump,
+                ["infjump"] = ICONS.InfJump,
+                ["hitbox"] = ICONS.Hitbox,
+                ["hitboxexpander"] = ICONS.Hitbox,
+                ["antiinvis"] = ICONS.Reveal,
+                ["tasebypass"] = ICONS.Taser,
+                ["antifling"] = ICONS.Anchor,
+                ["spinbot"] = ICONS.Spin,
+                ["autokilltarget"] = ICONS.Hunt,
+                ["customweaponvisual"] = ICONS.WeaponStyle,
+                ["customweaponvisuals"] = ICONS.WeaponStyle,
+            }
+            local normalized = t:gsub("[^%w]", "")
+            if exact[normalized] then
+                return exact[normalized]
+            end
             if t:find("color") then
                 return ICONS.Palette
             end
@@ -5058,7 +5216,7 @@ function Nightfall:CreateWindow(options)
                     or tLow:find("prison")
                     or tLow:find("guard")
                 then
-                    iconId = ICONS.Target
+                    iconId = ICONS.Pin
                 elseif
                     tLow:find("weapon")
                     or tLow:find("gun")
@@ -5067,7 +5225,7 @@ function Nightfall:CreateWindow(options)
                     or tLow:find("m4")
                     or tLow:find("🔫")
                 then
-                    iconId = ICONS.Shield
+                    iconId = ICONS.Weapon
                 elseif tLow:find("notif") or tLow:find("test") then
                     iconId = ICONS.Terminal
                 elseif tLow:find("unload") then
@@ -5205,29 +5363,23 @@ function Nightfall:CreateWindow(options)
                 end)
 
                 TweenService:Create(actionBtn, TweenInfo.new(0.08), {
-
                     BackgroundColor3 = Color3.fromRGB(52, 42, 67),
-
                     Size = UDim2.fromOffset(101, 28),
-
                     Position = UDim2.new(1, -113, 0.5, -14),
                 }):Play()
                 TweenService:Create(frame, TweenInfo.new(0.08), {
-
                     BackgroundColor3 = Color3.fromRGB(24, 18, 38),
                 }):Play()
 
                 task.delay(0.1, function()
-                    TweenService:Create(actionBtn, TweenInfo.new(0.15), {
-
-                        BackgroundColor3 = Color3.fromRGB(36, 29, 47),
-
-                        Size = UDim2.fromOffset(105, 30),
-
-                        Position = UDim2.new(1, -115, 0.5, -15),
-                    }):Play()
+                    TweenService
+                        :Create(actionBtn, TweenInfo.new(0.15), {
+                            BackgroundColor3 = Color3.fromRGB(36, 29, 47),
+                            Size = UDim2.fromOffset(105, 30),
+                            Position = UDim2.new(1, -115, 0.5, -15),
+                        })
+                        :Play()
                     TweenService:Create(frame, TweenInfo.new(0.15), {
-
                         BackgroundColor3 = THEME.BgPanel,
                     }):Play()
                 end)
@@ -5265,11 +5417,8 @@ function Nightfall:CreateWindow(options)
             end)
 
             return {
-
                 Frame = frame,
-
                 Fire = trigger,
-
                 Destroy = function()
                     frame:Destroy()
                 end,
@@ -5410,9 +5559,7 @@ function Nightfall:CreateWindow(options)
 
         function tab:Paragraph(config)
             return card(sectionBody, {
-
                 Title = config.Title,
-
                 Desc = config.Content or config.Desc,
             }, 90)
         end
@@ -5434,12 +5581,10 @@ function Nightfall:CreateWindow(options)
                 callback(config.Callback, input.Text)
             end)
             return {
-
                 Set = function(_, value)
                     input.Text = tostring(value)
                     callback(config.Callback, input.Text)
                 end,
-
                 Get = function()
                     return input.Text
                 end,
@@ -5728,13 +5873,11 @@ function Nightfall:CreateWindow(options)
 
         closeBtn.MouseEnter:Connect(function()
             TweenService:Create(closeIcon, TweenInfo.new(0.15), {
-
                 ImageColor3 = Color3.fromRGB(240, 230, 250),
             }):Play()
         end)
         closeBtn.MouseLeave:Connect(function()
             TweenService:Create(closeIcon, TweenInfo.new(0.15), {
-
                 ImageColor3 = Color3.fromRGB(130, 115, 150),
             }):Play()
         end)
@@ -5757,13 +5900,11 @@ function Nightfall:CreateWindow(options)
         progressBar.Parent = progressTrack
 
         TweenService:Create(card, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-
             Position = UDim2.fromOffset(0, 0),
         }):Play()
 
         local progressTween =
             TweenService:Create(progressBar, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
-
                 Size = UDim2.new(0, 0, 1, 0),
             })
         progressTween:Play()
@@ -5779,9 +5920,7 @@ function Nightfall:CreateWindow(options)
                 card,
                 TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
                 {
-
                     Position = UDim2.fromOffset(380, 0),
-
                     BackgroundTransparency = 1,
                 }
             )
