@@ -1961,6 +1961,7 @@ function Nightfall:CreateWindow(options)
     ScreenGui.Name = "NightFall_" .. tostring(math.random(100000, 999999))
     ScreenGui.ResetOnSpawn = false
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.IgnoreGuiInset = true
     ScreenGui.Destroying:Connect(function()
         for _, connection in ipairs(connections) do
             connection:Disconnect()
@@ -5050,14 +5051,22 @@ function Nightfall:CreateWindow(options)
         transitionBorder.Color = THEME.AccentPurp
         transitionBorder.Transparency = 0.5
         transitionBorder.Parent = transition
+        local storedBoundsPos, storedBoundsSize
         local function bounds()
             local inset = ScreenGui.IgnoreGuiInset and Vector2.zero or game:GetService("GuiService"):GetGuiInset()
             return MainFrame.AbsolutePosition - inset, MainFrame.AbsoluteSize
         end
         local function quietDecor()
             for _, child in ipairs(MainFrame.Parent:GetChildren()) do
-                if child:IsA("GuiObject") and child ~= MainFrame then
+                if child:IsA("GuiObject") and child ~= MainFrame and child ~= transition then
                     child.Visible = false
+                end
+            end
+        end
+        local function restoreDecor()
+            for _, child in ipairs(MainFrame.Parent:GetChildren()) do
+                if child:IsA("GuiObject") and child ~= MainFrame and child ~= transition then
+                    child.Visible = true
                 end
             end
         end
@@ -5099,9 +5108,9 @@ function Nightfall:CreateWindow(options)
             end
             busy = true
             storedPosition = MainFrame.Position
-            local position, size = bounds()
-            transition.Position = UDim2.fromOffset(position.X, position.Y)
-            transition.Size = UDim2.fromOffset(size.X, size.Y)
+            storedBoundsPos, storedBoundsSize = bounds()
+            transition.Position = UDim2.fromOffset(storedBoundsPos.X, storedBoundsPos.Y)
+            transition.Size = UDim2.fromOffset(storedBoundsSize.X, storedBoundsSize.Y)
             transition.Visible = true
             isMinimized = true
             MainFrame.Visible = false
@@ -5135,14 +5144,17 @@ function Nightfall:CreateWindow(options)
             transition.Position = bubble.Position
             transition.Size = UDim2.fromOffset(64, 64)
             transition.Visible = true
-            MainFrame.Position = storedPosition
-            local position, size = bounds()
+            local targetPos = storedBoundsPos
+            local targetSize = storedBoundsSize
+            if not targetPos or not targetSize then
+                targetPos, targetSize = bounds()
+            end
             local tween = TweenService:Create(
                 transition,
-                TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {
-                    Position = UDim2.fromOffset(position.X, position.Y),
-                    Size = UDim2.fromOffset(size.X, size.Y),
+                    Position = UDim2.fromOffset(targetPos.X, targetPos.Y),
+                    Size = UDim2.fromOffset(targetSize.X, targetSize.Y),
                 }
             )
             tween:Play()
@@ -5151,6 +5163,7 @@ function Nightfall:CreateWindow(options)
                 transition.Visible = false
                 isMinimized = false
                 MainFrame.Visible = true
+                restoreDecor()
                 busy = false
             end)
         end)
@@ -5169,6 +5182,7 @@ function Nightfall:CreateWindow(options)
         user = ICONS.User,
         move = ICONS.Speed,
         crosshair = ICONS.Target,
+        target = ICONS.Target,
         sword = ICONS.Weapon,
         weapon = ICONS.Weapon,
         map = ICONS.Map,
@@ -5180,7 +5194,13 @@ function Nightfall:CreateWindow(options)
         heart = ICONS.Heart,
         box = ICONS.Box,
         globe = ICONS.Package,
+        package = ICONS.Package,
+        configs = ICONS.Package,
+        config = ICONS.Package,
         settings = ICONS.Settings,
+        shield = ICONS.Shield,
+        trash = ICONS.Trash,
+        home = ICONS.Home,
         moon = ICONS.Moon,
     }
 
@@ -6018,9 +6038,8 @@ function Nightfall:CreateWindow(options)
             if line ~= "" then
                 order = order + 1
                 local heading = line:match("^#+%s*(.+)")
-                local tag, message = line:match("^%[([%w_%-]+)%]%s*(.*)$")
-                tag = tag and tag:upper() or "NOTE"
-                message = message or line
+                local cleanText = line:gsub("^#+%s*", ""):gsub("^%s*%[[^%]]+%]%s*", ""):gsub("^%s*%d+%.%s*", "")
+
                 local row = Instance.new("Frame")
                 row.Name = "ReleaseEntry"
                 row.Size = UDim2.new(1, -12, 0, 0)
@@ -6029,51 +6048,26 @@ function Nightfall:CreateWindow(options)
                 row.LayoutOrder = order
                 row.ZIndex = 8
                 row.Parent = ConsoleScroll
+
                 local pad = Instance.new("UIPadding")
-                pad.PaddingTop = UDim.new(0, heading and 18 or 14)
-                pad.PaddingBottom = UDim.new(0, 14)
-                pad.PaddingLeft = UDim.new(0, 4)
-                pad.PaddingRight = UDim.new(0, 4)
+                pad.PaddingTop = UDim.new(0, heading and 14 or 10)
+                pad.PaddingBottom = UDim.new(0, 10)
+                pad.PaddingLeft = UDim.new(0, 6)
+                pad.PaddingRight = UDim.new(0, 6)
                 pad.Parent = row
-                if not heading then
-                    local tagIcons = {
-                        NEW = ICONS.Diamond,
-                        ADD = ICONS.Cross,
-                        FIX = ICONS.Settings,
-                        UPDATE = ICONS.Respawn,
-                        REMOVE = ICONS.Trash,
-                        PERF = ICONS.Speed,
-                    }
-                    createVectorIcon(
-                        row,
-                        tagIcons[tag] or ICONS.Package,
-                        UDim2.fromOffset(15, 15),
-                        THEME.AccentPurp,
-                        UDim2.fromOffset(5, 5)
-                    )
-                    local badge = text(row, tag, 11)
-                    badge.Position = UDim2.fromOffset(26, 2)
-                    badge.Size = UDim2.fromOffset(58, 22)
-                    badge.TextColor3 = Color3.fromRGB(159, 141, 181)
-                    badge.Font = Enum.Font.GothamMedium
-                    badge.BackgroundColor3 = Color3.fromRGB(29, 23, 39)
-                    badge.BackgroundTransparency = 0
-                    badge.TextXAlignment = Enum.TextXAlignment.Center
-                    local corner = Instance.new("UICorner")
-                    corner.CornerRadius = UDim.new(0, 4)
-                    corner.Parent = badge
-                end
-                local label = text(row, heading or message, heading and 17 or 14)
-                label.Position = UDim2.fromOffset(heading and 0 or 94, 0)
-                label.Size = UDim2.new(1, heading and 0 or -94, 0, 0)
+
+                local label = text(row, heading or cleanText, heading and 15 or 13)
+                label.Position = UDim2.fromOffset(0, 0)
+                label.Size = UDim2.new(1, 0, 0, 0)
                 label.AutomaticSize = Enum.AutomaticSize.Y
                 label.TextWrapped = true
                 label.RichText = false
                 label.TextYAlignment = Enum.TextYAlignment.Top
-                label.TextColor3 = heading and THEME.TextPrimary or Color3.fromRGB(176, 165, 190)
+                label.TextColor3 = heading and THEME.TextPrimary or Color3.fromRGB(185, 175, 205)
+
                 local divider = Instance.new("Frame")
                 divider.Size = UDim2.new(1, 0, 0, 1)
-                divider.Position = UDim2.fromOffset(0, -10)
+                divider.Position = UDim2.fromOffset(0, -5)
                 divider.BackgroundColor3 = THEME.Border
                 divider.BackgroundTransparency = 0.65
                 divider.ZIndex = 8
@@ -6341,11 +6335,11 @@ function Nightfall:CreateWindow(options)
     window:SetChangelogs(
         options.Changelogs
             or table.concat({
-                "[ADD] Added Noclip: Walk through walls and map boundaries with customizable keybind",
-                "[FIX] Fix QuickRespawn: Separated into Fast Respawn and Return on Death functions",
-                "[UPDATE] Redesigned UI: Complete Gothic Dark Fantasy glassmorphism interface overhaul",
-                "[FIX] Fix Auto Kill Target: Improved player targeting, locking, and team safety checks",
-                "[ADD] Added Config Manager: Built-in presets (Default, Legit, Rage) and custom Save/Load"
+                "Added Noclip - Walk through walls and map boundaries with customizable keybind",
+                "Fix QuickRespawn - Separated into Fast Respawn and Return on Death functions",
+                "Redesigned UI - Complete Gothic Dark Fantasy glassmorphism interface overhaul",
+                "Fix Auto Kill Target - Improved player targeting, locking, and team safety checks",
+                "Added Config Manager - Built-in presets (Default, Legit, Rage) and custom Save/Load"
             }, "\n")
     )
     self.Window = window
