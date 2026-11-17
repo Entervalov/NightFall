@@ -3789,9 +3789,28 @@ function Nightfall:CreateWindow(options)
                 pointerPosition = input.Position
             end
         end)
-        connect(game:GetService("RunService").RenderStepped, function()
+        local dragRenderName = ScreenGui.Name .. "_Drag"
+        local runService = game:GetService("RunService")
+        local decorHidden = false
+        local function dragDecor(hidden)
+            for _, child in ipairs(canvas:GetChildren()) do
+                if child:IsA("GuiObject") and (child.Name == "OuterSmoke" or child.Name:match("^CharcoalEdge")) then
+                    child.Visible = not hidden and MainFrame.Visible and not isMinimized
+                        and not child:GetAttribute("Disabled")
+                end
+            end
+        end
+        runService:BindToRenderStep(dragRenderName, Enum.RenderPriority.Input.Value + 1, function()
             if not dragging then
+                if decorHidden then
+                    decorHidden = false
+                    dragDecor(false)
+                end
                 return
+            end
+            if not decorHidden then
+                decorHidden = true
+                dragDecor(true)
             end
             local pointer
             if dragInput and dragInput.UserInputType == Enum.UserInputType.Touch then
@@ -3807,6 +3826,9 @@ function Nightfall:CreateWindow(options)
                 startPos.Y.Scale,
                 startPos.Y.Offset + math.round(delta.Y)
             )
+        end)
+        ScreenGui.Destroying:Connect(function()
+            runService:UnbindFromRenderStep(dragRenderName)
         end)
 
         local grip = Instance.new("TextButton")
@@ -5013,8 +5035,32 @@ function Nightfall:CreateWindow(options)
         emblemScale.Parent = emblem
         local busy = false
         local storedPosition
-        local motionScale = Instance.new("UIScale")
-        motionScale.Parent = MainFrame
+        local transition = Instance.new("Frame")
+        transition.Name = "WindowTransition"
+        transition.BackgroundColor3 = THEME.BgMain
+        transition.BackgroundTransparency = 0.15
+        transition.BorderSizePixel = 0
+        transition.Visible = false
+        transition.ZIndex = 79
+        transition.Parent = ScreenGui
+        local transitionCorner = Instance.new("UICorner")
+        transitionCorner.CornerRadius = UDim.new(0, 16)
+        transitionCorner.Parent = transition
+        local transitionBorder = Instance.new("UIStroke")
+        transitionBorder.Color = THEME.AccentPurp
+        transitionBorder.Transparency = 0.5
+        transitionBorder.Parent = transition
+        local function bounds()
+            local inset = ScreenGui.IgnoreGuiInset and Vector2.zero or game:GetService("GuiService"):GetGuiInset()
+            return MainFrame.AbsolutePosition - inset, MainFrame.AbsoluteSize
+        end
+        local function quietDecor()
+            for _, child in ipairs(MainFrame.Parent:GetChildren()) do
+                if child:IsA("GuiObject") and child ~= MainFrame then
+                    child.Visible = false
+                end
+            end
+        end
         local dragged = false
         local press, bubbleStart, tracking
         bubble.InputBegan:Connect(function(input)
@@ -5053,17 +5099,23 @@ function Nightfall:CreateWindow(options)
             end
             busy = true
             storedPosition = MainFrame.Position
-            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                Position = orbPosition(),
+            local position, size = bounds()
+            transition.Position = UDim2.fromOffset(position.X, position.Y)
+            transition.Size = UDim2.fromOffset(size.X, size.Y)
+            transition.Visible = true
+            isMinimized = true
+            MainFrame.Visible = false
+            quietDecor()
+            local tween = TweenService:Create(transition, TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
+                Position = bubble.Position,
+                Size = UDim2.fromOffset(64, 64),
             })
-            TweenService:Create(motionScale, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), { Scale = 0.05 }):Play()
             tween:Play()
             tween.Completed:Once(function()
                 if not ScreenGui.Parent then
                     return
                 end
-                isMinimized = true
-                MainFrame.Visible = false
+                transition.Visible = false
                 MainFrame.Position = storedPosition
                 bubble.Size = UDim2.fromOffset(48, 48)
                 bubble.Visible = true
@@ -5080,20 +5132,25 @@ function Nightfall:CreateWindow(options)
             end
             busy = true
             bubble.Visible = false
-            isMinimized = false
-            MainFrame.Position = orbPosition()
-            motionScale.Scale = 0.05
-            MainFrame.Visible = true
+            transition.Position = bubble.Position
+            transition.Size = UDim2.fromOffset(64, 64)
+            transition.Visible = true
+            MainFrame.Position = storedPosition
+            local position, size = bounds()
             local tween = TweenService:Create(
-                MainFrame,
+                transition,
                 TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {
-                    Position = storedPosition,
+                    Position = UDim2.fromOffset(position.X, position.Y),
+                    Size = UDim2.fromOffset(size.X, size.Y),
                 }
             )
             tween:Play()
-            TweenService:Create(motionScale, TweenInfo.new(0.38, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), { Scale = 1 }):Play()
             tween.Completed:Once(function()
+                if not ScreenGui.Parent then return end
+                transition.Visible = false
+                isMinimized = false
+                MainFrame.Visible = true
                 busy = false
             end)
         end)
