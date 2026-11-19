@@ -2188,7 +2188,7 @@ function Nightfall:CreateWindow(options)
     SubtitleLabel.Position = UDim2.new(0, 206, 0, 104)
     SubtitleLabel.Size = UDim2.new(0, 470, 0, 20)
     SubtitleLabel.BackgroundTransparency = 1
-    SubtitleLabel.Text = "D A R K N E S S  I S  T H E  I N T E R F A C E ."
+    SubtitleLabel.Text = "D A R K N E S S  I S  T H E  Q U A L I Y Y ."
     SubtitleLabel.Font = Enum.Font.Code
     SubtitleLabel.TextSize = 13
     SubtitleLabel.TextColor3 = THEME.TextMuted
