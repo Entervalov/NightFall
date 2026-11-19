@@ -4184,7 +4184,7 @@ function Nightfall:CreateWindow(options)
             piece.Parent = roblox
         end
 
-        SubtitleLabel.Text = "D A R K N E S S  I S  T H E  I N T E R F A C E ."
+        SubtitleLabel.Text = "D A R K N E S S  I S  T H E  Q U A L I T Y ."
         SubtitleLabel.TextSize = 13
         SubtitleLabel.Position = UDim2.fromOffset(206, 107)
         SubtitleLabel.TextSize = 14
