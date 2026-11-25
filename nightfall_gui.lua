@@ -1,5 +1,9 @@
 local Nightfall = {}
 
+local DEV_USERS = {
+    "lastpeakerss",
+}
+
 function Nightfall:CreateWindow(options)
     options = options or {}
     local TweenService = game:GetService("TweenService")
@@ -78,6 +82,7 @@ function Nightfall:CreateWindow(options)
         Arrow = "local:arrow",
         Cross = "local:cross",
         Box = "local:box",
+        Keyboard = "rbxassetid://10734898107",
     }
 
     local ICON_PATHS = {
@@ -2188,7 +2193,7 @@ function Nightfall:CreateWindow(options)
     SubtitleLabel.Position = UDim2.new(0, 206, 0, 104)
     SubtitleLabel.Size = UDim2.new(0, 470, 0, 20)
     SubtitleLabel.BackgroundTransparency = 1
-    SubtitleLabel.Text = "D A R K N E S S  I S  T H E  Q U A L I Y Y ."
+    SubtitleLabel.Text = "D A R K N E S S  I S  T H E  I N T E R F A C E ."
     SubtitleLabel.Font = Enum.Font.Code
     SubtitleLabel.TextSize = 13
     SubtitleLabel.TextColor3 = THEME.TextMuted
@@ -4184,7 +4189,7 @@ function Nightfall:CreateWindow(options)
             piece.Parent = roblox
         end
 
-        SubtitleLabel.Text = "D A R K N E S S  I S  T H E  Q U A L I T Y ."
+        SubtitleLabel.Text = "D A R K N E S S  I S  T H E  I N T E R F A C E ."
         SubtitleLabel.TextSize = 13
         SubtitleLabel.Position = UDim2.fromOffset(206, 107)
         SubtitleLabel.TextSize = 14
@@ -5202,6 +5207,10 @@ function Nightfall:CreateWindow(options)
         trash = ICONS.Trash,
         home = ICONS.Home,
         moon = ICONS.Moon,
+        keyboard = ICONS.Keyboard,
+        keybinds = ICONS.Keyboard,
+        keybind = ICONS.Keyboard,
+        binds = ICONS.Keyboard,
     }
 
     local function callback(fn, ...)
@@ -5912,31 +5921,50 @@ function Nightfall:CreateWindow(options)
         function tab:Keybind(config)
             local value = config.Value or Enum.KeyCode.Unknown
             if type(value) == "string" then
-                value = Enum.KeyCode[value] or Enum.KeyCode.Unknown
+                value = (value ~= "None" and Enum.KeyCode[value]) or Enum.KeyCode.Unknown
             end
             local waiting = false
             local frame = card(settingsParent(config), config, config.Desc and 78 or 48)
             local button = Instance.new("TextButton")
-            button.Size = UDim2.fromOffset(90, 28)
-            button.Position = UDim2.new(1, -102, 0, 8)
+            button.Size = UDim2.fromOffset(94, 28)
+            button.Position = UDim2.new(1, -106, 0, 8)
             button.BackgroundColor3 = THEME.BgInner
             button.TextColor3 = THEME.AccentPurp
-            button.Text = value.Name
-            button.TextSize = 14
+            button.Text = (value == Enum.KeyCode.Unknown and "[ None ]") or value.Name
+            button.TextSize = 13
+            button.Font = Enum.Font.Code
             button.ZIndex = 10
             button.Parent = frame
+            local bCorner = Instance.new("UICorner")
+            bCorner.CornerRadius = UDim.new(0, 6)
+            bCorner.Parent = button
+            local bStroke = Instance.new("UIStroke")
+            bStroke.Color = THEME.Border
+            bStroke.Transparency = 0.5
+            bStroke.Parent = button
             button.Activated:Connect(function()
                 waiting = true
-                button.Text = "..."
+                button.Text = "[ ... ]"
             end)
             local control = {}
             function control:Set(key)
+                if not key or key == "None" or key == "Unknown" or key == Enum.KeyCode.Unknown then
+                    value = Enum.KeyCode.Unknown
+                    button.Text = "[ None ]"
+                    if config.Changed then
+                        callback(config.Changed, value)
+                    end
+                    return
+                end
                 local nextKey = type(key) == "string" and Enum.KeyCode[key] or key
                 if not nextKey or nextKey.EnumType ~= Enum.KeyCode then
                     return
                 end
                 value = nextKey
-                button.Text = value.Name
+                button.Text = (value == Enum.KeyCode.Unknown and "[ None ]") or value.Name
+                if config.Changed then
+                    callback(config.Changed, value)
+                end
             end
             function control:Get()
                 return value
@@ -5945,13 +5973,14 @@ function Nightfall:CreateWindow(options)
                 if UserInputService:GetFocusedTextBox() then
                     return
                 end
-                if waiting and input.KeyCode ~= Enum.KeyCode.Unknown then
+                if waiting and input.UserInputType == Enum.UserInputType.Keyboard then
                     waiting = false
-                    if input.KeyCode ~= Enum.KeyCode.Escape then
+                    if input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.Backspace or input.KeyCode == Enum.KeyCode.Delete then
+                        control:Set(Enum.KeyCode.Unknown)
+                    elseif input.KeyCode ~= Enum.KeyCode.Unknown then
                         control:Set(input.KeyCode)
                     end
-                    button.Text = value.Name
-                elseif not processed and input.KeyCode == value then
+                elseif not processed and input.UserInputType == Enum.UserInputType.Keyboard and value ~= Enum.KeyCode.Unknown and input.KeyCode == value then
                     callback(config.Callback, value)
                 end
             end)
@@ -6335,13 +6364,191 @@ function Nightfall:CreateWindow(options)
     window:SetChangelogs(
         options.Changelogs
             or table.concat({
-                "Added Noclip - Walk through walls and map boundaries with customizable keybind",
-                "Fix QuickRespawn - Separated into Fast Respawn and Return on Death functions",
-                "Redesigned UI - Complete Gothic Dark Fantasy glassmorphism interface overhaul",
-                "Fix Auto Kill Target - Improved player targeting, locking, and team safety checks",
-                "Added Config Manager - Built-in presets (Default, Legit, Rage) and custom Save/Load"
+                "Added Noclip",
+                "Fix QuickRespawn",
+                "Redesigned UI",
+                "Fix Auto Kill Target",
+                "Added Config Manager",
+                "Expanded Config Profiles",
+                "Added Silent Aim",
+                "Added Weapon Scroll"
             }, "\n")
     )
+    do
+        local devLookup = {}
+        local devTags = {}
+        local devAttaching = {}
+        local devCharConns = {}
+        local lastDevScan = 0
+
+        local function getBillboardParent()
+            local ok, cg = pcall(function()
+                local f = Instance.new("Folder")
+                f.Parent = CoreGui
+                f:Destroy()
+                return CoreGui
+            end)
+            if ok and cg then return cg end
+            return LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 5)
+        end
+
+        local function addDev(entry)
+            if type(entry) == "string" and entry ~= "" then
+                devLookup[entry:lower()] = true
+            elseif type(entry) == "number" then
+                devLookup[entry] = true
+            end
+        end
+
+        for _, list in ipairs({ DEV_USERS, options.Developers }) do
+            if type(list) == "table" then
+                for k, v in pairs(list) do
+                    addDev(v == true and k or v)
+                end
+            end
+        end
+
+        local function isDevPlayer(player)
+            if not player then return false end
+            return devLookup[player.Name:lower()] == true or devLookup[player.UserId] == true
+        end
+
+        local function removeDevTag(player)
+            devAttaching[player] = nil
+            local tag = devTags[player]
+            if tag then
+                devTags[player] = nil
+                if tag.gui then pcall(function() tag.gui:Destroy() end) end
+            end
+        end
+
+        local function attachDevTag(player, char)
+            if not char or not isDevPlayer(player) or devAttaching[player] then return end
+            devAttaching[player] = true
+            task.spawn(function()
+                local head = char:FindFirstChild("Head") or char:WaitForChild("Head", 6)
+                devAttaching[player] = nil
+                if not head or not head.Parent or player.Character ~= char or not ScreenGui.Parent then return end
+
+                local curTag = devTags[player]
+                if curTag and curTag.gui and curTag.gui.Parent and curTag.head == head then return end
+                removeDevTag(player)
+
+                local parent = getBillboardParent()
+                if not parent then return end
+
+                local bb = Instance.new("BillboardGui")
+                bb.Name = "NightFall_DevTag_" .. tostring(player.UserId)
+                bb.Adornee = head
+                bb.Size = UDim2.fromOffset(108, 34)
+                bb.StudsOffset = Vector3.new(0, 2.75, 0)
+                bb.AlwaysOnTop = true
+                bb.MaxDistance = 120
+                bb.LightInfluence = 0
+                bb.ClipsDescendants = false
+                bb.ResetOnSpawn = false
+                bb.Parent = parent
+
+                local lbl = Instance.new("TextLabel")
+                lbl.Name = "DevLabel"
+                lbl.Size = UDim2.fromScale(1, 1)
+                lbl.BackgroundTransparency = 1
+                lbl.Text = "DEV"
+                lbl.Font = Enum.Font.GothamBlack
+                pcall(function()
+                    lbl.FontFace = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.ExtraBold)
+                end)
+                lbl.TextScaled = true
+                lbl.TextColor3 = Color3.new(1, 1, 1)
+                lbl.ZIndex = 2
+                lbl.Parent = bb
+
+                local stroke = Instance.new("UIStroke")
+                stroke.Color = Color3.fromRGB(4, 28, 34)
+                stroke.Thickness = 2.2
+                stroke.Transparency = 0.15
+                stroke.Parent = lbl
+
+                local grad = Instance.new("UIGradient")
+                grad.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 175, 195)),
+                    ColorSequenceKeypoint.new(0.25, Color3.fromRGB(45, 245, 225)),
+                    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(175, 255, 250)),
+                    ColorSequenceKeypoint.new(0.75, Color3.fromRGB(20, 225, 200)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 175, 195)),
+                })
+                grad.Rotation = 12
+                grad.Parent = lbl
+
+                devTags[player] = { gui = bb, grad = grad, head = head }
+            end)
+        end
+
+        local function watchDevPlayer(player)
+            if not isDevPlayer(player) or devCharConns[player] then return end
+            devCharConns[player] = connect(player.CharacterAdded, function(char)
+                attachDevTag(player, char)
+            end)
+            if player.Character then
+                attachDevTag(player, player.Character)
+            end
+        end
+
+        for _, player in ipairs(Players:GetPlayers()) do
+            watchDevPlayer(player)
+        end
+        connect(Players.PlayerAdded, watchDevPlayer)
+        connect(Players.PlayerRemoving, function(player)
+            removeDevTag(player)
+            if devCharConns[player] then
+                devCharConns[player]:Disconnect()
+                devCharConns[player] = nil
+            end
+        end)
+
+        connect(game:GetService("RunService").RenderStepped, function()
+            local t = os.clock()
+            if (t - lastDevScan) >= 0.6 then
+                lastDevScan = t
+                for _, p in ipairs(Players:GetPlayers()) do
+                    if isDevPlayer(p) then
+                        local ch = p.Character
+                        local hd = ch and ch:FindFirstChild("Head")
+                        local tag = devTags[p]
+                        if hd and (not tag or not tag.gui or not tag.gui.Parent or tag.head ~= hd) then
+                            attachDevTag(p, ch)
+                        end
+                    end
+                end
+            end
+            if not next(devTags) then return end
+            local shift = Vector2.new(math.sin(t * 2.2) * 0.72, 0)
+            local bob = Vector3.new(0, 2.75 + math.sin(t * 2.5) * 0.12, 0)
+            for player, tag in pairs(devTags) do
+                if tag.gui and tag.gui.Parent and tag.head and tag.head.Parent then
+                    tag.grad.Offset = shift
+                    tag.gui.StudsOffset = bob
+                else
+                    removeDevTag(player)
+                end
+            end
+        end)
+
+        ScreenGui.Destroying:Connect(function()
+            for player in pairs(devTags) do
+                removeDevTag(player)
+            end
+            devCharConns = {}
+        end)
+
+        function window:AddDeveloper(nameOrId)
+            addDev(nameOrId)
+            for _, player in ipairs(Players:GetPlayers()) do
+                watchDevPlayer(player)
+            end
+        end
+    end
+
     self.Window = window
     return window
 end
