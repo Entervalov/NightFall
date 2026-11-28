@@ -822,17 +822,19 @@ function Nightfall:CreateWindow(options)
             { 3, 5, 8, 3, 16, 3, 21, 5, 21, 8, 17, 10, 7, 10, 3, 8 },
             { 6, 13, 9, 15, 15, 15, 18, 13 }, { 9, 18, 12, 20, 15, 18 }, { 12, 20, 12, 22 },
         },
-        QuietTarget = {
-            { 3, 10, 7, 10, 12, 6, 12, 18, 7, 14, 3, 14, 3, 10 },
-            { 16, 9, 21, 14 }, { 21, 9, 16, 14 },
+        AimReticle = {
+            { 3, 8, 3, 3, 8, 3 }, { 16, 3, 21, 3, 21, 8 },
+            { 21, 16, 21, 21, 16, 21 }, { 8, 21, 3, 21, 3, 16 },
+            { 12, 8, 12, 16 }, { 8, 12, 16, 12 },
         },
         FovCircle = {
             { 9, 3, 15, 3, 21, 9, 21, 15, 15, 21, 9, 21, 3, 15, 3, 9, 9, 3 },
             { 12, 9, 12, 15 }, { 9, 12, 15, 12 },
         },
         WallCheck = {
-            { 3, 5, 21, 5, 21, 18, 3, 18, 3, 5 }, { 3, 11, 13, 11 },
-            { 9, 5, 9, 11 }, { 7, 11, 7, 18 }, { 13, 14, 16, 17, 22, 11 },
+            { 3, 5, 21, 5 }, { 3, 5, 3, 17, 10, 17 }, { 3, 11, 11, 11 },
+            { 10, 5, 10, 11 }, { 7, 11, 7, 17 },
+            { 14, 15, 17, 18, 22, 12 },
         },
         TeamCheck = {
             { 5, 6, 9, 6, 11, 8, 11, 11, 9, 13, 5, 13, 3, 11, 3, 8, 5, 6 },
@@ -859,6 +861,46 @@ function Nightfall:CreateWindow(options)
         WeaponWheel = {
             { 9, 3, 15, 3, 19, 7, 19, 17, 15, 21, 9, 21, 5, 17, 5, 7, 9, 3 },
             { 12, 7, 12, 13 }, { 5, 13, 19, 13 },
+        },
+        RapidFire = {
+            { 3, 8, 16, 8, 20, 11, 16, 14, 8, 14, 8, 11, 3, 11 },
+            { 3, 5, 11, 5 }, { 3, 18, 14, 18 }, { 21, 5, 23, 4 }, { 21, 17, 23, 18 },
+        },
+        Shotgun = {
+            { 2, 10, 6, 10, 8, 8, 22, 8, 22, 12, 16, 12, 16, 14, 8, 14, 2, 18, 2, 10 },
+            { 12, 12, 16, 12 },
+        },
+        AkRifle = {
+            { 2, 10, 7, 8, 15, 8, 15, 10, 22, 10, 22, 12, 14, 12, 13, 16, 16, 20, 12, 20,
+                9, 16, 9, 13, 6, 13, 2, 16, 2, 10 },
+        },
+        M4Rifle = {
+            { 2, 8, 6, 8, 7, 10, 9, 10, 9, 7, 13, 7, 14, 9, 19, 9, 19, 10, 22, 10, 22, 12,
+                14, 12, 14, 18, 10, 18, 10, 13, 7, 13, 2, 15, 2, 8 },
+        },
+        FalRifle = {
+            { 2, 10, 7, 8, 15, 8, 17, 10, 22, 10, 22, 12, 15, 12, 14, 16, 10, 16, 10, 12,
+                7, 12, 3, 16, 2, 16, 2, 10 },
+            { 11, 5, 16, 5 },
+        },
+        Mp5 = {
+            { 2, 10, 6, 10, 8, 8, 17, 8, 17, 10, 21, 10, 21, 13, 14, 13, 14, 19, 11, 19,
+                10, 13, 6, 13, 2, 15, 2, 10 },
+            { 16, 5, 16, 8 },
+        },
+        SniperRifle = {
+            { 2, 10, 7, 9, 16, 9, 17, 11, 22, 11, 22, 13, 13, 13, 11, 16, 8, 16, 9, 13, 6, 13, 2, 17, 2, 10 },
+            { 8, 4, 16, 4, 16, 6, 8, 6, 8, 4 },
+        },
+        EspBoxes = {
+            { 2, 7, 2, 3, 7, 3 }, { 17, 3, 22, 3, 22, 7 },
+            { 22, 17, 22, 21, 17, 21 }, { 7, 21, 2, 21, 2, 17 },
+            { 10, 7, 14, 7, 15, 9, 14, 11, 10, 11, 9, 9, 10, 7 },
+            { 7, 17, 7, 15, 10, 13, 14, 13, 17, 15, 17, 17 },
+        },
+        Underground = {
+            { 3, 7, 21, 7 }, { 3, 11, 7, 11 }, { 17, 11, 21, 11 },
+            { 12, 11, 12, 21 }, { 8, 17, 12, 21, 16, 17 },
         },
         AmmoCounter = {
             { 3, 21, 3, 9, 6, 4, 9, 9, 9, 21, 3, 21 }, { 3, 17, 9, 17 },
@@ -909,8 +951,8 @@ function Nightfall:CreateWindow(options)
             { 5, 3, 5, 8 }, { 2, 5, 8, 5 }, { 19, 3, 19, 6 },
         },
         CameraFov = {
-            { 4, 4, 20, 4, 20, 20, 4, 20, 4, 4 },
-            { 7, 9, 7, 15, 12, 13, 17, 16, 17, 8, 12, 11, 7, 9 },
+            { 3, 7, 8, 7, 9, 4, 15, 4, 16, 7, 21, 7, 21, 20, 3, 20, 3, 7 },
+            { 8, 11, 12, 15, 16, 11 },
         },
         KillfeedBell = {
             { 4, 17, 6, 14, 6, 8, 9, 4, 15, 4, 18, 8, 18, 14, 20, 17, 4, 17 },
@@ -1595,42 +1637,9 @@ function Nightfall:CreateWindow(options)
             },
         },
         Spin = {
-            {
-                5,
-                8,
-                8,
-                3,
-                16,
-                3,
-                20,
-                8,
-            },
-            {
-                20,
-                3,
-                20,
-                8,
-                15,
-                8,
-            },
-            {
-                19,
-                16,
-                16,
-                21,
-                8,
-                21,
-                4,
-                16,
-            },
-            {
-                4,
-                21,
-                4,
-                16,
-                9,
-                16,
-            },
+            { 3, 10, 5, 6, 9, 3, 14, 3, 18, 5, 21, 9 }, { 16, 9, 21, 9, 21, 4 },
+            { 21, 14, 19, 18, 15, 21, 10, 21, 6, 19, 3, 15 }, { 8, 15, 3, 15, 3, 20 },
+            { 12, 10, 12, 14 },
             {
                 12,
                 9,
@@ -1701,44 +1710,9 @@ function Nightfall:CreateWindow(options)
             },
         },
         WeaponStyle = {
-            {
-                3,
-                6,
-                20,
-                6,
-                20,
-                11,
-                12,
-                11,
-                10,
-                15,
-                7,
-                15,
-                6,
-                21,
-                2,
-                21,
-                4,
-                11,
-            },
-            {
-                17,
-                14,
-                22,
-                19,
-                19,
-                22,
-                14,
-                17,
-                17,
-                14,
-            },
-            {
-                19,
-                16,
-                16,
-                19,
-            },
+            { 3, 10, 16, 10, 16, 14, 10, 14, 8, 20, 4, 20, 6, 14, 3, 14, 3, 10 },
+            { 18, 3, 18, 7 }, { 16, 5, 20, 5 },
+            { 20, 15, 20, 21 }, { 17, 18, 23, 18 },
         },
     }
     for name, paths in pairs(functionIcons) do
@@ -1988,7 +1962,7 @@ function Nightfall:CreateWindow(options)
         img.ZIndex = (parent.ZIndex or 1) + 1
         img.Parent = parent
         local parts = {}
-        local strokeWidth = 1.65
+        local strokeWidth = 2
         local joints = {}
         local function joint(x, y)
             local key = string.format("%.3f:%.3f", x, y)
@@ -3921,10 +3895,7 @@ function Nightfall:CreateWindow(options)
         local scale = Instance.new("UIScale")
         scale.Parent = canvas
         windowCanvas = canvas
-        local requestedScale = options.Scale or 0.78
-        if options.Scale then
-            requestedScale = math.clamp(tonumber(options.Scale) or 0.78, 0.6, 1.8)
-        end
+        local requestedScale = math.clamp(tonumber(options.Scale) or 0.90, 0.6, 1.8)
         local function scaleLimit()
             local camera = workspace.CurrentCamera
             if not camera then
@@ -5302,7 +5273,7 @@ function Nightfall:CreateWindow(options)
             end
         end
 
-        local dragged = false
+        local dragged, orbMoved = false, false
         local press, bubbleStart, tracking
         bubble.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -5318,10 +5289,14 @@ function Nightfall:CreateWindow(options)
             local delta = input.Position - press
             if math.abs(delta.X) + math.abs(delta.Y) > 5 then dragged = true end
             if dragged then
-                local viewport = workspace.CurrentCamera.ViewportSize
+                local viewport = ScreenGui.AbsoluteSize
                 local x = bubbleStart.X.Scale * viewport.X + bubbleStart.X.Offset + delta.X
                 local y = bubbleStart.Y.Scale * viewport.Y + bubbleStart.Y.Offset + delta.Y
-                bubble.Position = UDim2.fromOffset(math.clamp(x, 40, viewport.X - 40), math.clamp(y, 40, viewport.Y - 60))
+                bubble.Position = UDim2.fromOffset(
+                    math.clamp(x, 32, math.max(32, viewport.X - 32)),
+                    math.clamp(y, 32, math.max(32, viewport.Y - 32))
+                )
+                orbMoved = true
             end
         end)
         connect(UserInputService.InputEnded, function(input)
@@ -5357,6 +5332,18 @@ function Nightfall:CreateWindow(options)
             end
             bubble.Visible = false
             tracking = nil
+            if orbMoved then
+                local viewport = ScreenGui.AbsoluteSize
+                local bounds = MainFrame.AbsoluteSize
+                local x = bubble.Position.X.Offset
+                local y = bubble.Position.Y.Offset
+                MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
+                restingCanvasPos = UDim2.fromOffset(
+                    math.clamp(x, bounds.X / 2, math.max(bounds.X / 2, viewport.X - bounds.X / 2)),
+                    math.clamp(y, bounds.Y / 2, math.max(bounds.Y / 2, viewport.Y - bounds.Y / 2))
+                )
+                orbMoved = false
+            end
             setWindowOpen(true)
         end
 
@@ -5415,7 +5402,7 @@ function Nightfall:CreateWindow(options)
         cartelekinesis = ICONS.CarTelekinesis,
         carneonhighlight = ICONS.CarNeon,
         cartornado = ICONS.CarTornado,
-        silentaim = ICONS.QuietTarget,
+        silentaim = ICONS.AimReticle,
         showfovcircle = ICONS.FovCircle,
         fovcirclecolor = ICONS.Palette,
         wallcheck = ICONS.WallCheck,
@@ -5423,8 +5410,27 @@ function Nightfall:CreateWindow(options)
         antikilltarget = ICONS.TargetDefense,
         antikillfreecam = ICONS.Freecam,
         antiaimbotblink = ICONS.AimBlink,
+        spinbot = ICONS.Spin,
+        underground = ICONS.Underground,
+        esp = ICONS.EspBoxes,
+        espboxes = ICONS.EspBoxes,
+        rapidfire = ICONS.RapidFire,
+        firerate = ICONS.RapidFire,
+        customweaponvisual = ICONS.WeaponStyle,
+        customweaponvisuals = ICONS.WeaponStyle,
         autoweapon = ICONS.AutoWeapon,
         weaponscroll = ICONS.WeaponWheel,
+        scrolldelay = ICONS.WeaponWheel,
+        targetweapon = ICONS.Weapon,
+        shotgunremington870 = ICONS.Shotgun,
+        grabremingtonshotgun = ICONS.Shotgun,
+        ak47 = ICONS.AkRifle,
+        grabak47 = ICONS.AkRifle,
+        m4a1 = ICONS.M4Rifle,
+        grabm4a1 = ICONS.M4Rifle,
+        fnfal = ICONS.FalRifle,
+        mp5 = ICONS.Mp5,
+        sniper = ICONS.SniperRifle,
         customammocounter = ICONS.AmmoCounter,
         reloadtimerbar = ICONS.ReloadBar,
         showweapon = ICONS.WeaponView,
@@ -5438,6 +5444,7 @@ function Nightfall:CreateWindow(options)
         nofog = ICONS.NoFog,
         customsky = ICONS.CustomSky,
         customcamerafov = ICONS.CameraFov,
+        customcamerapov = ICONS.CameraFov,
         sutomcamerafov = ICONS.CameraFov,
         killfeednotifications = ICONS.KillfeedBell,
         centerwindow = ICONS.CenterWindow,
@@ -5701,10 +5708,7 @@ function Nightfall:CreateWindow(options)
                 ["antiinvis"] = ICONS.Reveal,
                 ["tasebypass"] = ICONS.Taser,
                 ["antifling"] = ICONS.Anchor,
-                ["spinbot"] = ICONS.Spin,
                 ["autokilltarget"] = ICONS.Hunt,
-                ["customweaponvisual"] = ICONS.WeaponStyle,
-                ["customweaponvisuals"] = ICONS.WeaponStyle,
             }
             local normalized = t:gsub("[^%w]", "")
             if exact[normalized] then
@@ -5906,7 +5910,7 @@ function Nightfall:CreateWindow(options)
             createVectorIcon(
                 iconBox,
                 iconId,
-                UDim2.fromOffset(15, 15),
+                UDim2.fromOffset(22, 22),
                 THEME.AccentPurp,
                 UDim2.fromScale(0.5, 0.5),
                 Vector2.new(0.5, 0.5)
@@ -5916,7 +5920,8 @@ function Nightfall:CreateWindow(options)
             titleLabel.Size = UDim2.new(1, -165, 0, 18)
             titleLabel.Position = UDim2.new(0, 48, hasDesc and 0 or 0.5, hasDesc and 12 or -9)
             titleLabel.BackgroundTransparency = 1
-            titleLabel.Text = sanitizeRichText(config.Title or "Button")
+            local title = config.Title or "Button"
+            titleLabel.Text = sanitizeRichText((title:gsub("^🔫%s*", "")))
             titleLabel.Font = Enum.Font.GothamBold
             titleLabel.TextSize = 13
             titleLabel.TextColor3 = THEME.TextPrimary
