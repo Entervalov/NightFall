@@ -801,6 +801,129 @@ function Nightfall:CreateWindow(options)
     }
 
     local functionIcons = {
+        Car = {
+            { 5, 12, 7, 7, 17, 7, 19, 12, 21, 14, 21, 18, 3, 18, 3, 14, 5, 12, 19, 12 },
+            { 6, 18, 6, 21 }, { 18, 18, 18, 21 }, { 6, 15, 8, 15 }, { 16, 15, 18, 15 },
+        },
+        CarFly = {
+            { 8, 11, 9, 8, 15, 8, 16, 11, 18, 13, 18, 17, 6, 17, 6, 13, 8, 11, 16, 11 },
+            { 6, 13, 2, 10, 2, 14, 6, 16 }, { 18, 13, 22, 10, 22, 14, 18, 16 },
+            { 8, 17, 8, 19 }, { 16, 17, 16, 19 },
+        },
+        CarTelekinesis = {
+            { 6, 13, 8, 9, 16, 9, 18, 13, 20, 15, 20, 19, 4, 19, 4, 15, 6, 13, 18, 13 },
+            { 7, 19, 7, 21 }, { 17, 19, 17, 21 }, { 12, 7, 12, 2 }, { 9, 5, 12, 2, 15, 5 },
+        },
+        CarNeon = {
+            { 6, 12, 8, 8, 16, 8, 18, 12, 20, 14, 20, 18, 4, 18, 4, 14, 6, 12, 18, 12 },
+            { 7, 18, 7, 20 }, { 17, 18, 17, 20 }, { 4, 7, 2, 5 }, { 12, 6, 12, 3 }, { 20, 7, 22, 5 },
+        },
+        CarTornado = {
+            { 3, 5, 8, 3, 16, 3, 21, 5, 21, 8, 17, 10, 7, 10, 3, 8 },
+            { 6, 13, 9, 15, 15, 15, 18, 13 }, { 9, 18, 12, 20, 15, 18 }, { 12, 20, 12, 22 },
+        },
+        QuietTarget = {
+            { 3, 10, 7, 10, 12, 6, 12, 18, 7, 14, 3, 14, 3, 10 },
+            { 16, 9, 21, 14 }, { 21, 9, 16, 14 },
+        },
+        FovCircle = {
+            { 9, 3, 15, 3, 21, 9, 21, 15, 15, 21, 9, 21, 3, 15, 3, 9, 9, 3 },
+            { 12, 9, 12, 15 }, { 9, 12, 15, 12 },
+        },
+        WallCheck = {
+            { 3, 5, 21, 5, 21, 18, 3, 18, 3, 5 }, { 3, 11, 13, 11 },
+            { 9, 5, 9, 11 }, { 7, 11, 7, 18 }, { 13, 14, 16, 17, 22, 11 },
+        },
+        TeamCheck = {
+            { 5, 6, 9, 6, 11, 8, 11, 11, 9, 13, 5, 13, 3, 11, 3, 8, 5, 6 },
+            { 2, 20, 2, 17, 5, 15, 9, 15, 12, 17, 12, 20 },
+            { 13, 13, 16, 16, 22, 9 },
+        },
+        TargetDefense = {
+            { 12, 2, 21, 6, 20, 15, 17, 19, 12, 22, 7, 19, 4, 15, 3, 6, 12, 2 },
+            { 12, 8, 12, 16 }, { 8, 12, 16, 12 },
+        },
+        Freecam = {
+            { 3, 6, 16, 6, 16, 18, 3, 18, 3, 6 }, { 16, 10, 22, 7, 22, 17, 16, 14 },
+            { 9, 9, 9, 15 }, { 6, 12, 12, 12 },
+        },
+        AimBlink = {
+            { 3, 9, 3, 5, 7, 5 }, { 3, 15, 3, 19, 7, 19 },
+            { 17, 5, 21, 5, 21, 9 }, { 17, 19, 21, 19, 21, 15 },
+            { 13, 5, 8, 13, 13, 13, 11, 20, 17, 10, 12, 10, 13, 5 },
+        },
+        AutoWeapon = {
+            { 2, 5, 21, 5, 21, 10, 12, 10, 9, 16, 4, 16, 6, 10, 2, 10, 2, 5 },
+            { 13, 20, 17, 16, 21, 20 }, { 17, 16, 17, 22 },
+        },
+        WeaponWheel = {
+            { 9, 3, 15, 3, 19, 7, 19, 17, 15, 21, 9, 21, 5, 17, 5, 7, 9, 3 },
+            { 12, 7, 12, 13 }, { 5, 13, 19, 13 },
+        },
+        AmmoCounter = {
+            { 3, 21, 3, 9, 6, 4, 9, 9, 9, 21, 3, 21 }, { 3, 17, 9, 17 },
+            { 13, 9, 21, 9 }, { 13, 14, 21, 14 }, { 13, 19, 21, 19 },
+        },
+        ReloadBar = {
+            { 4, 9, 4, 6, 8, 3, 16, 3, 20, 7, 20, 11 }, { 16, 8, 20, 12, 23, 8 },
+            { 3, 16, 21, 16, 21, 21, 3, 21, 3, 16 }, { 8, 16, 8, 21 }, { 13, 16, 13, 21 },
+        },
+        WeaponView = {
+            { 3, 9, 3, 5, 8, 5 }, { 16, 5, 21, 5, 21, 9 },
+            { 3, 15, 3, 19, 8, 19 }, { 16, 19, 21, 19, 21, 15 },
+            { 8, 10, 17, 10, 17, 13, 12, 13, 10, 16, 7, 16, 9, 13, 7, 13, 8, 10 },
+        },
+        Tracers = {
+            { 3, 20, 19, 4 }, { 14, 4, 19, 4, 19, 9 }, { 4, 14, 11, 7 }, { 10, 20, 16, 14 },
+        },
+        TargetLine = {
+            { 3, 21, 13, 11 }, { 12, 4, 15, 2, 19, 2, 22, 5, 22, 9, 19, 12, 15, 12, 12, 9, 12, 4 },
+            { 17, 5, 17, 9 }, { 15, 7, 19, 7 },
+        },
+        Hitmarker = {
+            { 3, 3, 8, 8 }, { 21, 3, 16, 8 }, { 3, 21, 8, 16 }, { 21, 21, 16, 16 },
+        },
+        CrosshairStyle = {
+            { 12, 2, 12, 8 }, { 12, 16, 12, 22 }, { 2, 12, 8, 12 }, { 16, 12, 22, 12 },
+            { 12, 10, 14, 12, 12, 14, 10, 12, 12, 10 },
+        },
+        PurpleBullets = {
+            { 4, 21, 4, 10, 8, 4, 12, 10, 12, 21, 4, 21 }, { 4, 17, 12, 17 },
+            { 18, 7, 19, 11, 23, 12, 19, 13, 18, 17, 17, 13, 13, 12, 17, 11, 18, 7 },
+        },
+        PlayerTrail = {
+            { 13, 4, 17, 4, 19, 6, 19, 9, 17, 11, 13, 11, 11, 9, 11, 6, 13, 4 },
+            { 10, 16, 13, 13, 17, 13, 21, 17, 21, 21, 10, 21 },
+            { 2, 10, 7, 10 }, { 3, 15, 8, 15 }, { 2, 20, 6, 20 },
+        },
+        KillEffect = {
+            { 12, 2, 14, 8, 20, 5, 17, 10, 22, 12, 17, 14, 20, 20, 14, 17, 12, 22, 10, 17,
+                4, 20, 7, 14, 2, 12, 7, 10, 4, 5, 10, 8, 12, 2 },
+        },
+        NoFog = {
+            { 3, 7, 9, 7, 11, 5, 17, 5, 20, 7 }, { 3, 12, 8, 12 }, { 16, 12, 21, 12 },
+            { 4, 17, 10, 17 }, { 15, 17, 21, 17 }, { 4, 21, 21, 3 },
+        },
+        CustomSky = {
+            { 5, 19, 3, 17, 3, 14, 5, 12, 8, 12, 10, 8, 15, 8, 18, 12, 20, 12, 22, 14, 22, 17, 20, 19, 5, 19 },
+            { 5, 3, 5, 8 }, { 2, 5, 8, 5 }, { 19, 3, 19, 6 },
+        },
+        CameraFov = {
+            { 4, 4, 20, 4, 20, 20, 4, 20, 4, 4 },
+            { 7, 9, 7, 15, 12, 13, 17, 16, 17, 8, 12, 11, 7, 9 },
+        },
+        KillfeedBell = {
+            { 4, 17, 6, 14, 6, 8, 9, 4, 15, 4, 18, 8, 18, 14, 20, 17, 4, 17 },
+            { 9, 20, 11, 22, 13, 22, 15, 20 }, { 12, 2, 12, 4 },
+        },
+        CenterWindow = {
+            { 9, 9, 15, 9, 15, 15, 9, 15, 9, 9 }, { 12, 2, 12, 6 }, { 12, 18, 12, 22 },
+            { 2, 12, 6, 12 }, { 18, 12, 22, 12 },
+        },
+        AntiAfk = {
+            { 12, 3, 17, 3, 21, 7, 21, 13, 17, 17, 12, 17, 8, 13, 8, 7, 12, 3 },
+            { 14, 6, 14, 10, 17, 12 }, { 3, 10, 6, 10 }, { 2, 15, 6, 15 }, { 4, 20, 13, 20 },
+        },
         Respawn = {
             {
                 19,
@@ -2039,6 +2162,7 @@ function Nightfall:CreateWindow(options)
     OuterBloom.ZIndex = 1
     OuterBloom.Parent = ScreenGui
 
+    local isWindowAnimating = false
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
     MainFrame.Size = UDim2.new(0, 1200, 0, 630)
@@ -2074,7 +2198,7 @@ function Nightfall:CreateWindow(options)
                 shadow.Parent = MainFrame.Parent
                 shadow.Position = MainFrame.Position + UDim2.fromOffset(-spread, -spread + 3)
                 shadow.Size = MainFrame.Size + UDim2.fromOffset(spread * 2, spread * 2)
-                shadow.Visible = MainFrame.Visible
+                shadow.Visible = MainFrame.Visible and not isWindowAnimating
             end
         end
         for _, property in ipairs({
@@ -2399,12 +2523,9 @@ function Nightfall:CreateWindow(options)
     local isMinimized = false
     local isWindowOpen = true
     local isClosingDestroy = false
-    local isWindowAnimating = false
-    local windowCanvas, windowScale
+    local isWindowLoading = true
+    local windowCanvas
     local restingCanvasPos = UDim2.fromScale(0.5, 0.5)
-    local targetCanvasScale = 0.78
-    local activeWindowTweens = {}
-    local windowAnimToken = 0
     local minimizeWindow, restoreWindow, setWindowOpen, animateDestroy, applyWindowScale
     createWinBtn("MinBtn", ICONS.Minus, 0, function()
         if minimizeWindow then
@@ -2433,6 +2554,9 @@ function Nightfall:CreateWindow(options)
     local dragInput, dragStart, startPos
 
     TitleBar.InputBegan:Connect(function(input)
+        if isWindowAnimating then
+            return
+        end
         if
             input.UserInputType == Enum.UserInputType.MouseButton1
             or input.UserInputType == Enum.UserInputType.Touch
@@ -3797,7 +3921,6 @@ function Nightfall:CreateWindow(options)
         local scale = Instance.new("UIScale")
         scale.Parent = canvas
         windowCanvas = canvas
-        windowScale = scale
         local requestedScale = options.Scale or 0.78
         if options.Scale then
             requestedScale = math.clamp(tonumber(options.Scale) or 0.78, 0.6, 1.8)
@@ -3815,13 +3938,13 @@ function Nightfall:CreateWindow(options)
             if not camera then
                 return
             end
-            targetCanvasScale = math.min(scaleLimit(), expanded and scaleLimit() or requestedScale)
+            local targetCanvasScale = math.min(scaleLimit(), expanded and scaleLimit() or requestedScale)
             MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
             if smooth then
                 TweenService:Create(scale, TweenInfo.new(0.24, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
                     Scale = targetCanvasScale,
                 }):Play()
-            elseif not isWindowAnimating then
+            else
                 scale.Scale = targetCanvasScale
             end
         end
@@ -3855,7 +3978,7 @@ function Nightfall:CreateWindow(options)
         local function dragDecor(hidden)
             for _, child in ipairs(canvas:GetChildren()) do
                 if child:IsA("GuiObject") and (child.Name == "OuterSmoke" or child.Name:match("^CharcoalEdge")) then
-                    child.Visible = not hidden and MainFrame.Visible and not isMinimized
+                    child.Visible = not hidden and MainFrame.Visible and not isWindowAnimating
                         and not child:GetAttribute("Disabled")
                 end
             end
@@ -3922,7 +4045,7 @@ function Nightfall:CreateWindow(options)
         previewStroke.Parent = resizePreview
         local resizePointer
         grip.InputBegan:Connect(function(input)
-            if isMinimized then
+            if isWindowAnimating then
                 return
             end
             if
@@ -3951,6 +4074,10 @@ function Nightfall:CreateWindow(options)
             resizePointer = input.Position
         end)
         connect(game:GetService("RunService").RenderStepped, function()
+            if resizing and isWindowAnimating then
+                resizePreview.Visible = false
+                resizing = false
+            end
             if not resizing or not resizePointer then
                 return
             end
@@ -3966,7 +4093,6 @@ function Nightfall:CreateWindow(options)
         connect(UserInputService.InputEnded, function(input)
             if input == resizeTouch or input.UserInputType == Enum.UserInputType.MouseButton1 then
                 if resizing then
-                    targetCanvasScale = requestedScale
                     scale.Scale = requestedScale
                     local origin = canvas.AbsolutePosition
                     MainFrame.Position = UDim2.fromOffset(
@@ -4679,7 +4805,7 @@ function Nightfall:CreateWindow(options)
         local function syncSmoke()
             smoke.Position = MainFrame.Position
             smoke.Size = MainFrame.Size
-            smoke.Visible = MainFrame.Visible and not isMinimized and not smoke:GetAttribute("Disabled")
+            smoke.Visible = MainFrame.Visible and not isWindowAnimating and not smoke:GetAttribute("Disabled")
         end
         for _, property in ipairs({
             "Position",
@@ -4801,6 +4927,7 @@ function Nightfall:CreateWindow(options)
         fill.ZIndex = 52
         fill.Parent = track
         MainFrame.Visible = false
+        OuterBloom.Visible = false
         task.spawn(function()
             local started = os.clock()
             TweenService:Create(loaderScale, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {
@@ -4848,14 +4975,10 @@ function Nightfall:CreateWindow(options)
             if not ScreenGui.Parent then
                 return
             end
-            MainFrame.Visible = true
-            local target = MainFrame.Position
-            MainFrame.Position = target + UDim2.fromOffset(0, 12 / uiScale.Scale)
-            TweenService
-                :Create(MainFrame, TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-                    Position = target,
-                })
-                :Play()
+            isWindowLoading = false
+            if isWindowOpen then
+                setWindowOpen(true)
+            end
         end)
     end
 
@@ -5100,23 +5223,9 @@ function Nightfall:CreateWindow(options)
         emblemScale.Scale = 0.43
         emblemScale.Parent = emblem
 
-        local function cancelWindowTweens()
-            windowAnimToken = windowAnimToken + 1
-            for _, tw in ipairs(activeWindowTweens) do
-                pcall(function() tw:Cancel() end)
-            end
-            activeWindowTweens = {}
-        end
-
-        local function playWindowTween(object, info, props)
-            local tw = TweenService:Create(object, info, props)
-            table.insert(activeWindowTweens, tw)
-            tw:Play()
-            return tw
-        end
+        local windowTween, bloomTween, orbTween
 
         local function setDecorVisible(visible)
-            if not windowCanvas then return end
             for _, child in ipairs(windowCanvas:GetChildren()) do
                 if child:IsA("GuiObject") and (child.Name == "OuterSmoke" or child.Name:match("^CharcoalEdge")) then
                     child.Visible = visible and not child:GetAttribute("Disabled")
@@ -5124,102 +5233,69 @@ function Nightfall:CreateWindow(options)
             end
         end
 
-        local function getOrbScreenCenter()
-            local vp = ScreenGui.AbsoluteSize
-            if vp.X <= 0 or vp.Y <= 0 then
-                local cam = workspace.CurrentCamera
-                vp = cam and cam.ViewportSize or Vector2.new(1280, 720)
+        local function slideWindow(shouldOpen, onFinished)
+            if windowTween then
+                windowTween:Cancel()
             end
-            return UDim2.fromOffset(
-                bubble.Position.X.Scale * vp.X + bubble.Position.X.Offset,
-                bubble.Position.Y.Scale * vp.Y + bubble.Position.Y.Offset
-            )
-        end
-
-        local function offsetCanvasPosition(basePos, dy)
-            return UDim2.new(basePos.X.Scale, basePos.X.Offset, basePos.Y.Scale, basePos.Y.Offset + dy)
-        end
-
-        setWindowOpen = function(shouldOpen, forceFromHidden)
-            if isClosingDestroy or not windowCanvas or not windowScale then return end
-            shouldOpen = shouldOpen == true
-            if shouldOpen == isWindowOpen and not forceFromHidden and MainFrame.Visible == shouldOpen then
-                return
+            if bloomTween then
+                bloomTween:Cancel()
             end
-
-            cancelWindowTweens()
-            local token = windowAnimToken
+            dragging = false
             isWindowAnimating = true
-
-            if shouldOpen then
-                isWindowOpen = true
-                isMinimized = false
-                bubble.Visible = false
-
-                local hiddenStart = forceFromHidden or not MainFrame.Visible
-                if hiddenStart then
-                    windowScale.Scale = targetCanvasScale * 0.90
-                    windowCanvas.Position = offsetCanvasPosition(restingCanvasPos, 18)
-                    OuterBloom.ImageTransparency = 1
-                end
+            local hiddenPosition = restingCanvasPos + UDim2.fromOffset(0, 24)
+            if shouldOpen and not MainFrame.Visible then
+                windowCanvas.Position = hiddenPosition
+                OuterBloom.ImageTransparency = 1
                 MainFrame.Visible = true
                 OuterBloom.Visible = true
-                setDecorVisible(true)
-
-                local info = TweenInfo.new(0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
-                local scaleTween = playWindowTween(windowScale, info, { Scale = targetCanvasScale })
-                playWindowTween(windowCanvas, info, { Position = restingCanvasPos })
-                playWindowTween(OuterBloom, info, { ImageTransparency = 0.68 })
-                scaleTween.Completed:Once(function()
-                    if token == windowAnimToken then
-                        isWindowAnimating = false
-                    end
-                end)
-            else
-                isWindowOpen = false
-                local info = TweenInfo.new(0.20, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
-                local scaleTween = playWindowTween(windowScale, info, { Scale = targetCanvasScale * 0.90 })
-                playWindowTween(windowCanvas, info, { Position = offsetCanvasPosition(restingCanvasPos, 14) })
-                playWindowTween(OuterBloom, info, { ImageTransparency = 1 })
-                scaleTween.Completed:Once(function()
-                    if token ~= windowAnimToken or isWindowOpen or not ScreenGui.Parent then
-                        return
-                    end
-                    isWindowAnimating = false
-                    MainFrame.Visible = false
-                    OuterBloom.Visible = false
-                    setDecorVisible(false)
-                    windowCanvas.Position = restingCanvasPos
-                    windowScale.Scale = targetCanvasScale
-                end)
             end
+            setDecorVisible(false)
+
+            local info = TweenInfo.new(
+                shouldOpen and 0.24 or 0.18,
+                Enum.EasingStyle.Cubic,
+                shouldOpen and Enum.EasingDirection.Out or Enum.EasingDirection.InOut
+            )
+            local tween = TweenService:Create(windowCanvas, info, {
+                Position = shouldOpen and restingCanvasPos or hiddenPosition,
+            })
+            windowTween = tween
+            bloomTween = TweenService:Create(OuterBloom, info, {
+                ImageTransparency = shouldOpen and 0.68 or 1,
+            })
+            tween.Completed:Once(function(state)
+                if state ~= Enum.PlaybackState.Completed or windowTween ~= tween or not ScreenGui.Parent then
+                    return
+                end
+                windowTween = nil
+                isWindowAnimating = false
+                MainFrame.Visible = shouldOpen
+                OuterBloom.Visible = shouldOpen
+                windowCanvas.Position = restingCanvasPos
+                setDecorVisible(shouldOpen)
+                if onFinished then
+                    onFinished()
+                end
+            end)
+            bloomTween:Play()
+            tween:Play()
+        end
+
+        setWindowOpen = function(shouldOpen)
+            if isClosingDestroy then return end
+            isWindowOpen = shouldOpen
+            if isWindowLoading or (not windowTween and MainFrame.Visible == shouldOpen) then
+                return
+            end
+            slideWindow(shouldOpen)
         end
 
         animateDestroy = function()
             if isClosingDestroy then return end
             isClosingDestroy = true
-            cancelWindowTweens()
-            local token = windowAnimToken
-            isWindowAnimating = true
-
-            if isMinimized and bubble.Visible then
-                local tw = playWindowTween(orbScale, TweenInfo.new(0.16, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-                    Scale = 0.1,
-                })
-                tw.Completed:Once(function()
-                    if token == windowAnimToken and ScreenGui.Parent then
-                        ScreenGui:Destroy()
-                    end
-                end)
-            elseif windowCanvas and windowScale and MainFrame.Visible then
-                local info = TweenInfo.new(0.20, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
-                local tw = playWindowTween(windowScale, info, { Scale = targetCanvasScale * 0.86 })
-                playWindowTween(windowCanvas, info, { Position = offsetCanvasPosition(restingCanvasPos, 16) })
-                playWindowTween(OuterBloom, info, { ImageTransparency = 1 })
-                tw.Completed:Once(function()
-                    if token == windowAnimToken and ScreenGui.Parent then
-                        ScreenGui:Destroy()
-                    end
+            if MainFrame.Visible then
+                slideWindow(false, function()
+                    ScreenGui:Destroy()
                 end)
             else
                 ScreenGui:Destroy()
@@ -5253,80 +5329,35 @@ function Nightfall:CreateWindow(options)
         end)
 
         minimizeWindow = function()
-            if isMinimized or isClosingDestroy or not windowCanvas or not windowScale then
+            if not isWindowOpen or isClosingDestroy then
                 return
             end
-            cancelWindowTweens()
-            local token = windowAnimToken
             isMinimized = true
             isWindowOpen = false
-            isWindowAnimating = true
-            setDecorVisible(false)
-
-            local orbCenter = getOrbScreenCenter()
-            local shrinkInfo = TweenInfo.new(0.24, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
-            local scaleTween = playWindowTween(windowScale, shrinkInfo, { Scale = 0.08 })
-            playWindowTween(windowCanvas, shrinkInfo, { Position = orbCenter })
-            playWindowTween(OuterBloom, shrinkInfo, { ImageTransparency = 1 })
-            scaleTween.Completed:Once(function()
-                if token ~= windowAnimToken or not isMinimized or not ScreenGui.Parent then
-                    return
-                end
-                MainFrame.Visible = false
-                OuterBloom.Visible = false
-                windowCanvas.Position = restingCanvasPos
-                windowScale.Scale = targetCanvasScale
-
-                orbScale.Scale = 0.4
+            slideWindow(false, function()
+                orbScale.Scale = 0.78
                 bubble.Visible = true
-                local orbTween = playWindowTween(orbScale, TweenInfo.new(0.24, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-                    Scale = 1,
-                })
-                orbTween.Completed:Once(function()
-                    if token == windowAnimToken then
-                        isWindowAnimating = false
-                    end
-                end)
+                orbTween = TweenService:Create(
+                    orbScale,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                    { Scale = 1 }
+                )
+                orbTween:Play()
             end)
         end
 
         restoreWindow = function()
-            if not isMinimized or isClosingDestroy or not windowCanvas or not windowScale then
+            if not isMinimized or isClosingDestroy then
                 return
             end
-            cancelWindowTweens()
-            local token = windowAnimToken
             isMinimized = false
-            isWindowOpen = true
-            isWindowAnimating = true
-
-            local orbCenter = getOrbScreenCenter()
-            local orbOut = playWindowTween(orbScale, TweenInfo.new(0.12, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-                Scale = 0.3,
-            })
-            orbOut.Completed:Once(function()
-                if token ~= windowAnimToken or isMinimized or not ScreenGui.Parent then
-                    return
-                end
-                bubble.Visible = false
-                orbScale.Scale = 1
-                windowCanvas.Position = orbCenter
-                windowScale.Scale = 0.08
-                OuterBloom.ImageTransparency = 1
-                MainFrame.Visible = true
-                OuterBloom.Visible = true
-                setDecorVisible(true)
-
-                local openInfo = TweenInfo.new(0.32, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
-                local scaleTween = playWindowTween(windowScale, openInfo, { Scale = targetCanvasScale })
-                playWindowTween(windowCanvas, openInfo, { Position = restingCanvasPos })
-                playWindowTween(OuterBloom, openInfo, { ImageTransparency = 0.68 })
-                scaleTween.Completed:Once(function()
-                    if token == windowAnimToken then
-                        isWindowAnimating = false
-                    end
-                end)
-            end)
+            if orbTween then
+                orbTween:Cancel()
+                orbTween = nil
+            end
+            bubble.Visible = false
+            tracking = nil
+            setWindowOpen(true)
         end
 
         bubble.Activated:Connect(function()
@@ -5337,11 +5368,6 @@ function Nightfall:CreateWindow(options)
             restoreWindow()
         end)
 
-        task.defer(function()
-            if ScreenGui.Parent and MainFrame.Visible and not isMinimized and windowCanvas and windowScale then
-                setWindowOpen(true, true)
-            end
-        end)
     end
     NavContainer.ScrollBarThickness = 3
     NavContainer.ScrollBarImageColor3 = Color3.fromRGB(75, 63, 91)
@@ -5353,6 +5379,7 @@ function Nightfall:CreateWindow(options)
     navPadding.PaddingBottom = UDim.new(0, 8)
     navPadding.Parent = NavContainer
     local aliases = {
+        car = ICONS.Car,
         skull = ICONS.Skull,
         user = ICONS.User,
         move = ICONS.Speed,
@@ -5382,6 +5409,44 @@ function Nightfall:CreateWindow(options)
         keybind = ICONS.Keyboard,
         binds = ICONS.Keyboard,
     }
+
+    local featureIcons = {
+        carfly = ICONS.CarFly,
+        cartelekinesis = ICONS.CarTelekinesis,
+        carneonhighlight = ICONS.CarNeon,
+        cartornado = ICONS.CarTornado,
+        silentaim = ICONS.QuietTarget,
+        showfovcircle = ICONS.FovCircle,
+        fovcirclecolor = ICONS.Palette,
+        wallcheck = ICONS.WallCheck,
+        teamcheck = ICONS.TeamCheck,
+        antikilltarget = ICONS.TargetDefense,
+        antikillfreecam = ICONS.Freecam,
+        antiaimbotblink = ICONS.AimBlink,
+        autoweapon = ICONS.AutoWeapon,
+        weaponscroll = ICONS.WeaponWheel,
+        customammocounter = ICONS.AmmoCounter,
+        reloadtimerbar = ICONS.ReloadBar,
+        showweapon = ICONS.WeaponView,
+        tracers = ICONS.Tracers,
+        silentaimtargetline = ICONS.TargetLine,
+        hitmarker = ICONS.Hitmarker,
+        customcrosshair = ICONS.CrosshairStyle,
+        purplebullets = ICONS.PurpleBullets,
+        playertrail = ICONS.PlayerTrail,
+        killeffect = ICONS.KillEffect,
+        nofog = ICONS.NoFog,
+        customsky = ICONS.CustomSky,
+        customcamerafov = ICONS.CameraFov,
+        sutomcamerafov = ICONS.CameraFov,
+        killfeednotifications = ICONS.KillfeedBell,
+        centerwindow = ICONS.CenterWindow,
+        antiafk = ICONS.AntiAfk,
+    }
+
+    local function featureIcon(title)
+        return featureIcons[(title or ""):lower():gsub("[^%w]", "")]
+    end
 
     local function callback(fn, ...)
         if not fn then
@@ -5422,6 +5487,12 @@ function Nightfall:CreateWindow(options)
         stroke.Transparency = 0.5
         stroke.Parent = frame
         local title = text(frame, config.Title, 17)
+        local iconId = featureIcon(config.Title)
+        if iconId then
+            createVectorIcon(frame, iconId, UDim2.fromOffset(18, 18), THEME.AccentPurp, UDim2.fromOffset(12, 12))
+            title.Position = UDim2.fromOffset(38, 8)
+            title.Size = UDim2.new(1, -50, 0, 25)
+        end
         if config.Desc then
             local desc = text(frame, config.Desc, 12)
             desc.Position = UDim2.fromOffset(12, 34)
@@ -5448,7 +5519,6 @@ function Nightfall:CreateWindow(options)
         local page = tabs[name] and tabs[name].Page or createTab(name, aliases[config.Icon] or ICONS.Package)
         local tab = {}
         local sectionBody = page
-        local functionGroup
         local groups = {}
         local function settingsParent(config)
             local owner = config.Parent and groups[config.Parent]
@@ -5466,7 +5536,11 @@ function Nightfall:CreateWindow(options)
             indent.BackgroundColor3 = Color3.fromRGB(23, 19, 32)
             indent.Visible = false
             indent.ZIndex = 8
-            indent.Parent = sectionBody
+            indent.LayoutOrder = owner.Frame.LayoutOrder + 1
+            indent.Parent = owner.Frame.Parent
+            owner.Frame:GetPropertyChangedSignal("LayoutOrder"):Connect(function()
+                indent.LayoutOrder = owner.Frame.LayoutOrder + 1
+            end)
             local padding = Instance.new("UIPadding")
             padding.PaddingLeft = UDim.new(0, 12)
             padding.PaddingRight = UDim.new(0, 12)
@@ -5479,9 +5553,9 @@ function Nightfall:CreateWindow(options)
             list.Parent = indent
             local number = 0
             indent.ChildAdded:Connect(function(child)
-                if child:IsA("GuiObject") then
+                if child:IsA("GuiObject") and child.Name ~= "FunctionSettings" then
                     number = number + 1
-                    child.LayoutOrder = number
+                    child.LayoutOrder = number * 2
                 end
             end)
             local corner = Instance.new("UICorner")
@@ -5491,38 +5565,27 @@ function Nightfall:CreateWindow(options)
             border.Color = Color3.fromRGB(65, 51, 82)
             border.Transparency = 0.4
             border.Parent = indent
-            local hovered, pinned, revision = false, false, 0
-            local function enter()
-                hovered = true
-                revision = revision + 1
-                indent.Visible = true
-            end
-            local function leave()
-                hovered = false
-                revision = revision + 1
-                local current = revision
-                task.delay(0.3, function()
-                    if current == revision and not hovered and not pinned and not UserInputService:GetFocusedTextBox() then
-                        indent.Visible = false
-                    end
-                end)
-            end
-            owner.Frame.MouseEnter:Connect(enter)
-            owner.Frame.MouseLeave:Connect(leave)
-            indent.MouseEnter:Connect(enter)
-            indent.MouseLeave:Connect(leave)
             local reveal = Instance.new("TextButton")
-            reveal.Text = "···"
-            reveal.TextSize = 22
-            reveal.TextColor3 = THEME.TextMuted
+            reveal.Name = "ExpandSettings"
+            reveal.Text = ""
+            reveal.AutoButtonColor = false
             reveal.BackgroundTransparency = 1
-            reveal.Size = UDim2.fromOffset(28, 28)
-            reveal.Position = UDim2.new(1, -87, 0.5, -14)
+            reveal.Size = UDim2.fromOffset(32, 36)
+            reveal.Position = UDim2.new(1, -87, 0.5, -18)
             reveal.ZIndex = 12
             reveal.Parent = owner.Frame
+            local arrow = createVectorIcon(
+                reveal,
+                ICONS.ChevronRight,
+                UDim2.fromOffset(16, 16),
+                THEME.TextMuted,
+                UDim2.fromScale(0.5, 0.5),
+                Vector2.new(0.5, 0.5)
+            )
             reveal.Activated:Connect(function()
-                pinned = not pinned
-                indent.Visible = pinned
+                indent.Visible = not indent.Visible
+                arrow.Rotation = indent.Visible and 90 or 0
+                arrow.ImageColor3 = indent.Visible and THEME.AccentPurp or THEME.TextMuted
             end)
             owner.Settings = indent
             return indent
@@ -5530,9 +5593,9 @@ function Nightfall:CreateWindow(options)
         local sectionCount = 0
         local elementOrder = #page:GetChildren()
         local function orderElement(child)
-            if child:IsA("GuiObject") then
+            if child:IsA("GuiObject") and child.Name ~= "FunctionSettings" then
                 elementOrder = elementOrder + 1
-                child.LayoutOrder = elementOrder
+                child.LayoutOrder = elementOrder * 2
             end
         end
         page.ChildAdded:Connect(orderElement)
@@ -5542,7 +5605,6 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Section(config)
-            functionGroup = nil
             sectionCount = sectionCount + 1
             local group = Instance.new("Frame")
             group.Name = "Section_" .. (config.Title or sectionCount)
@@ -5593,9 +5655,9 @@ function Nightfall:CreateWindow(options)
             layout.Parent = content
             local order = 0
             content.ChildAdded:Connect(function(child)
-                if child:IsA("GuiObject") then
+                if child:IsA("GuiObject") and child.Name ~= "FunctionSettings" then
                     order = order + 1
-                    child.LayoutOrder = order
+                    child.LayoutOrder = order * 2
                 end
             end)
             content.Visible = config.Collapsed == false or (config.Collapsed == nil and sectionCount <= 2)
@@ -5609,6 +5671,10 @@ function Nightfall:CreateWindow(options)
         end
 
         local function getToggleIcon(title, iconArg)
+            local icon = featureIcon(title)
+            if icon then
+                return icon
+            end
             if iconArg and aliases[iconArg] then
                 return aliases[iconArg]
             end
@@ -5716,10 +5782,9 @@ function Nightfall:CreateWindow(options)
         end
 
         function tab:Toggle(config)
-            functionGroup = {}
             local iconChoice = getToggleIcon(config.Title, config.Icon)
             local control = createToggleCard(
-                sectionBody,
+                settingsParent(config),
                 config.Title,
                 config.Desc or "",
                 iconChoice,
@@ -5737,6 +5802,12 @@ function Nightfall:CreateWindow(options)
                 end
             end
             function control:Destroy()
+                if self.Settings then
+                    self.Settings:Destroy()
+                end
+                if groups[config.Title] == self then
+                    groups[config.Title] = nil
+                end
                 self.Frame:Destroy()
             end
             return control
@@ -5785,7 +5856,7 @@ function Nightfall:CreateWindow(options)
             stroke.Thickness = 1
             stroke.Parent = frame
 
-            local iconId = config.Icon and (aliases[config.Icon] or ICONS[config.Icon])
+            local iconId = featureIcon(config.Title) or (config.Icon and (aliases[config.Icon] or ICONS[config.Icon]))
             if not iconId then
                 local tLow = (config.Title or ""):lower()
                 if
@@ -6207,7 +6278,7 @@ function Nightfall:CreateWindow(options)
         local smoke = MainFrame.Parent:FindFirstChild("OuterSmoke")
         if smoke then
             smoke:SetAttribute("Disabled", not enabled)
-            smoke.Visible = enabled and MainFrame.Visible and not isMinimized
+            smoke.Visible = enabled and MainFrame.Visible and not isWindowAnimating
         end
     end
 
@@ -6225,6 +6296,9 @@ function Nightfall:CreateWindow(options)
     function window:Center()
         restingCanvasPos = UDim2.fromScale(0.5, 0.5)
         MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
+        if isWindowAnimating then
+            return
+        end
         if windowCanvas then
             TweenService:Create(windowCanvas, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
                 Position = restingCanvasPos,
