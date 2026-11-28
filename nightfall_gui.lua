@@ -1,7 +1,31 @@
 local Nightfall = {}
 
 local DEV_USERS = {
-    "lastpeakerss",
+    lastpeakerss = "DEV",
+    EdwardSbANDERS023 = "UX/UI",
+}
+
+local TAG_STYLES = {
+    DEV = {
+        stroke = Color3.fromRGB(4, 28, 34),
+        colors = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 175, 195)),
+            ColorSequenceKeypoint.new(0.25, Color3.fromRGB(45, 245, 225)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(175, 255, 250)),
+            ColorSequenceKeypoint.new(0.75, Color3.fromRGB(20, 225, 200)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 175, 195)),
+        }),
+    },
+    UX = {
+        stroke = Color3.fromRGB(4, 28, 14),
+        colors = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(16, 175, 75)),
+            ColorSequenceKeypoint.new(0.25, Color3.fromRGB(54, 235, 125)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(175, 255, 205)),
+            ColorSequenceKeypoint.new(0.75, Color3.fromRGB(38, 215, 105)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(16, 175, 75)),
+        }),
+    },
 }
 
 function Nightfall:CreateWindow(options)
@@ -2373,7 +2397,15 @@ function Nightfall:CreateWindow(options)
     end
 
     local isMinimized = false
-    local minimizeWindow
+    local isWindowOpen = true
+    local isClosingDestroy = false
+    local isWindowAnimating = false
+    local windowCanvas, windowScale
+    local restingCanvasPos = UDim2.fromScale(0.5, 0.5)
+    local targetCanvasScale = 0.78
+    local activeWindowTweens = {}
+    local windowAnimToken = 0
+    local minimizeWindow, restoreWindow, setWindowOpen, animateDestroy, applyWindowScale
     createWinBtn("MinBtn", ICONS.Minus, 0, function()
         if minimizeWindow then
             minimizeWindow()
@@ -2385,12 +2417,16 @@ function Nightfall:CreateWindow(options)
     createWinBtn("MaxBtn", ICONS.Square, 32, function()
         expanded = not expanded
         if fitWindow then
-            fitWindow()
+            fitWindow(true)
         end
     end)
 
     createWinBtn("CloseBtn", ICONS.Close, 64, function()
-        ScreenGui:Destroy()
+        if animateDestroy then
+            animateDestroy()
+        else
+            ScreenGui:Destroy()
+        end
     end)
 
     local dragging = false
@@ -3646,8 +3682,14 @@ function Nightfall:CreateWindow(options)
             not processed
             and (input.KeyCode == Enum.KeyCode.RightControl or input.KeyCode == Enum.KeyCode.Insert)
         then
-            MainFrame.Visible = not MainFrame.Visible
-            OuterBloom.Visible = MainFrame.Visible
+            if isMinimized and restoreWindow then
+                restoreWindow()
+            elseif setWindowOpen then
+                setWindowOpen(not isWindowOpen)
+            else
+                MainFrame.Visible = not MainFrame.Visible
+                OuterBloom.Visible = MainFrame.Visible
+            end
         end
     end)
 
@@ -3754,6 +3796,8 @@ function Nightfall:CreateWindow(options)
         OuterBloom.Parent = canvas
         local scale = Instance.new("UIScale")
         scale.Parent = canvas
+        windowCanvas = canvas
+        windowScale = scale
         local requestedScale = options.Scale or 0.78
         if options.Scale then
             requestedScale = math.clamp(tonumber(options.Scale) or 0.78, 0.6, 1.8)
@@ -3766,14 +3810,24 @@ function Nightfall:CreateWindow(options)
             local viewport = camera.ViewportSize
             return math.max(0.25, math.min((viewport.X - 48) / 1200, (viewport.Y - 70) / 630, 1.6))
         end
-        fitWindow = function()
+        fitWindow = function(smooth)
             local camera = workspace.CurrentCamera
             if not camera then
                 return
             end
-            local viewport = camera.ViewportSize
-            scale.Scale = math.min(scaleLimit(), expanded and scaleLimit() or requestedScale)
+            targetCanvasScale = math.min(scaleLimit(), expanded and scaleLimit() or requestedScale)
             MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
+            if smooth then
+                TweenService:Create(scale, TweenInfo.new(0.24, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                    Scale = targetCanvasScale,
+                }):Play()
+            elseif not isWindowAnimating then
+                scale.Scale = targetCanvasScale
+            end
+        end
+        applyWindowScale = function(nextValue)
+            requestedScale = math.clamp(tonumber(nextValue) or requestedScale, 0.5, scaleLimit())
+            fitWindow(true)
         end
         local cameraConnection
         local function watchCamera()
@@ -3832,6 +3886,7 @@ function Nightfall:CreateWindow(options)
                 startPos.Y.Scale,
                 startPos.Y.Offset + math.round(delta.Y)
             )
+            restingCanvasPos = canvas.Position
         end)
         ScreenGui.Destroying:Connect(function()
             runService:UnbindFromRenderStep(dragRenderName)
@@ -3911,6 +3966,7 @@ function Nightfall:CreateWindow(options)
         connect(UserInputService.InputEnded, function(input)
             if input == resizeTouch or input.UserInputType == Enum.UserInputType.MouseButton1 then
                 if resizing then
+                    targetCanvasScale = requestedScale
                     scale.Scale = requestedScale
                     local origin = canvas.AbsolutePosition
                     MainFrame.Position = UDim2.fromOffset(
@@ -5018,14 +5074,18 @@ function Nightfall:CreateWindow(options)
     do
         local bubble = Instance.new("TextButton")
         bubble.Name = "NightFallOrb"
+        bubble.AnchorPoint = Vector2.new(0.5, 0.5)
         bubble.Size = UDim2.fromOffset(64, 64)
-        bubble.Position = UDim2.new(0, 24, 0.5, -32)
+        bubble.Position = UDim2.new(0, 56, 0.5, 0)
         bubble.BackgroundColor3 = Color3.fromRGB(15, 11, 23)
         bubble.Text = ""
         bubble.Visible = false
         bubble.AutoButtonColor = false
         bubble.ZIndex = 80
         bubble.Parent = ScreenGui
+        local orbScale = Instance.new("UIScale")
+        orbScale.Scale = 1
+        orbScale.Parent = bubble
         local corner = Instance.new("UICorner")
         corner.CornerRadius = UDim.new(1, 0)
         corner.Parent = bubble
@@ -5039,42 +5099,133 @@ function Nightfall:CreateWindow(options)
         local emblemScale = Instance.new("UIScale")
         emblemScale.Scale = 0.43
         emblemScale.Parent = emblem
-        local busy = false
-        local storedPosition
-        local transition = Instance.new("Frame")
-        transition.Name = "WindowTransition"
-        transition.BackgroundColor3 = THEME.BgMain
-        transition.BackgroundTransparency = 0.15
-        transition.BorderSizePixel = 0
-        transition.Visible = false
-        transition.ZIndex = 79
-        transition.Parent = ScreenGui
-        local transitionCorner = Instance.new("UICorner")
-        transitionCorner.CornerRadius = UDim.new(0, 16)
-        transitionCorner.Parent = transition
-        local transitionBorder = Instance.new("UIStroke")
-        transitionBorder.Color = THEME.AccentPurp
-        transitionBorder.Transparency = 0.5
-        transitionBorder.Parent = transition
-        local storedBoundsPos, storedBoundsSize
-        local function bounds()
-            local inset = ScreenGui.IgnoreGuiInset and Vector2.zero or game:GetService("GuiService"):GetGuiInset()
-            return MainFrame.AbsolutePosition - inset, MainFrame.AbsoluteSize
+
+        local function cancelWindowTweens()
+            windowAnimToken = windowAnimToken + 1
+            for _, tw in ipairs(activeWindowTweens) do
+                pcall(function() tw:Cancel() end)
+            end
+            activeWindowTweens = {}
         end
-        local function quietDecor()
-            for _, child in ipairs(MainFrame.Parent:GetChildren()) do
-                if child:IsA("GuiObject") and child ~= MainFrame and child ~= transition then
-                    child.Visible = false
+
+        local function playWindowTween(object, info, props)
+            local tw = TweenService:Create(object, info, props)
+            table.insert(activeWindowTweens, tw)
+            tw:Play()
+            return tw
+        end
+
+        local function setDecorVisible(visible)
+            if not windowCanvas then return end
+            for _, child in ipairs(windowCanvas:GetChildren()) do
+                if child:IsA("GuiObject") and (child.Name == "OuterSmoke" or child.Name:match("^CharcoalEdge")) then
+                    child.Visible = visible and not child:GetAttribute("Disabled")
                 end
             end
         end
-        local function restoreDecor()
-            for _, child in ipairs(MainFrame.Parent:GetChildren()) do
-                if child:IsA("GuiObject") and child ~= MainFrame and child ~= transition then
-                    child.Visible = true
+
+        local function getOrbScreenCenter()
+            local vp = ScreenGui.AbsoluteSize
+            if vp.X <= 0 or vp.Y <= 0 then
+                local cam = workspace.CurrentCamera
+                vp = cam and cam.ViewportSize or Vector2.new(1280, 720)
+            end
+            return UDim2.fromOffset(
+                bubble.Position.X.Scale * vp.X + bubble.Position.X.Offset,
+                bubble.Position.Y.Scale * vp.Y + bubble.Position.Y.Offset
+            )
+        end
+
+        local function offsetCanvasPosition(basePos, dy)
+            return UDim2.new(basePos.X.Scale, basePos.X.Offset, basePos.Y.Scale, basePos.Y.Offset + dy)
+        end
+
+        setWindowOpen = function(shouldOpen, forceFromHidden)
+            if isClosingDestroy or not windowCanvas or not windowScale then return end
+            shouldOpen = shouldOpen == true
+            if shouldOpen == isWindowOpen and not forceFromHidden and MainFrame.Visible == shouldOpen then
+                return
+            end
+
+            cancelWindowTweens()
+            local token = windowAnimToken
+            isWindowAnimating = true
+
+            if shouldOpen then
+                isWindowOpen = true
+                isMinimized = false
+                bubble.Visible = false
+
+                local hiddenStart = forceFromHidden or not MainFrame.Visible
+                if hiddenStart then
+                    windowScale.Scale = targetCanvasScale * 0.90
+                    windowCanvas.Position = offsetCanvasPosition(restingCanvasPos, 18)
+                    OuterBloom.ImageTransparency = 1
                 end
+                MainFrame.Visible = true
+                OuterBloom.Visible = true
+                setDecorVisible(true)
+
+                local info = TweenInfo.new(0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+                local scaleTween = playWindowTween(windowScale, info, { Scale = targetCanvasScale })
+                playWindowTween(windowCanvas, info, { Position = restingCanvasPos })
+                playWindowTween(OuterBloom, info, { ImageTransparency = 0.68 })
+                scaleTween.Completed:Once(function()
+                    if token == windowAnimToken then
+                        isWindowAnimating = false
+                    end
+                end)
+            else
+                isWindowOpen = false
+                local info = TweenInfo.new(0.20, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+                local scaleTween = playWindowTween(windowScale, info, { Scale = targetCanvasScale * 0.90 })
+                playWindowTween(windowCanvas, info, { Position = offsetCanvasPosition(restingCanvasPos, 14) })
+                playWindowTween(OuterBloom, info, { ImageTransparency = 1 })
+                scaleTween.Completed:Once(function()
+                    if token ~= windowAnimToken or isWindowOpen or not ScreenGui.Parent then
+                        return
+                    end
+                    isWindowAnimating = false
+                    MainFrame.Visible = false
+                    OuterBloom.Visible = false
+                    setDecorVisible(false)
+                    windowCanvas.Position = restingCanvasPos
+                    windowScale.Scale = targetCanvasScale
+                end)
             end
         end
+
+        animateDestroy = function()
+            if isClosingDestroy then return end
+            isClosingDestroy = true
+            cancelWindowTweens()
+            local token = windowAnimToken
+            isWindowAnimating = true
+
+            if isMinimized and bubble.Visible then
+                local tw = playWindowTween(orbScale, TweenInfo.new(0.16, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                    Scale = 0.1,
+                })
+                tw.Completed:Once(function()
+                    if token == windowAnimToken and ScreenGui.Parent then
+                        ScreenGui:Destroy()
+                    end
+                end)
+            elseif windowCanvas and windowScale and MainFrame.Visible then
+                local info = TweenInfo.new(0.20, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+                local tw = playWindowTween(windowScale, info, { Scale = targetCanvasScale * 0.86 })
+                playWindowTween(windowCanvas, info, { Position = offsetCanvasPosition(restingCanvasPos, 16) })
+                playWindowTween(OuterBloom, info, { ImageTransparency = 1 })
+                tw.Completed:Once(function()
+                    if token == windowAnimToken and ScreenGui.Parent then
+                        ScreenGui:Destroy()
+                    end
+                end)
+            else
+                ScreenGui:Destroy()
+            end
+        end
+
         local dragged = false
         local press, bubbleStart, tracking
         bubble.InputBegan:Connect(function(input)
@@ -5086,7 +5237,7 @@ function Nightfall:CreateWindow(options)
             end
         end)
         connect(UserInputService.InputChanged, function(input)
-            if not tracking or busy then return end
+            if not tracking or isWindowAnimating then return end
             if input.UserInputType ~= Enum.UserInputType.MouseMovement and input ~= tracking then return end
             local delta = input.Position - press
             if math.abs(delta.X) + math.abs(delta.Y) > 5 then dragged = true end
@@ -5094,83 +5245,102 @@ function Nightfall:CreateWindow(options)
                 local viewport = workspace.CurrentCamera.ViewportSize
                 local x = bubbleStart.X.Scale * viewport.X + bubbleStart.X.Offset + delta.X
                 local y = bubbleStart.Y.Scale * viewport.Y + bubbleStart.Y.Offset + delta.Y
-                bubble.Position = UDim2.fromOffset(math.clamp(x, 8, viewport.X - 72), math.clamp(y, 8, viewport.Y - 100))
+                bubble.Position = UDim2.fromOffset(math.clamp(x, 40, viewport.X - 40), math.clamp(y, 40, viewport.Y - 60))
             end
         end)
         connect(UserInputService.InputEnded, function(input)
             if input == tracking or input.UserInputType == Enum.UserInputType.MouseButton1 then tracking = nil end
         end)
-        local function orbPosition()
-            local canvas = MainFrame.Parent
-            local s = canvas:FindFirstChildOfClass("UIScale").Scale
-            local p = bubble.AbsolutePosition + Vector2.new(32, 32)
-            local origin = canvas.AbsolutePosition
-            return UDim2.fromOffset((p.X - origin.X) / s - 30, (p.Y - origin.Y) / s - 16)
-        end
+
         minimizeWindow = function()
-            if busy or isMinimized then
+            if isMinimized or isClosingDestroy or not windowCanvas or not windowScale then
                 return
             end
-            busy = true
-            storedPosition = MainFrame.Position
-            storedBoundsPos, storedBoundsSize = bounds()
-            transition.Position = UDim2.fromOffset(storedBoundsPos.X, storedBoundsPos.Y)
-            transition.Size = UDim2.fromOffset(storedBoundsSize.X, storedBoundsSize.Y)
-            transition.Visible = true
+            cancelWindowTweens()
+            local token = windowAnimToken
             isMinimized = true
-            MainFrame.Visible = false
-            quietDecor()
-            local tween = TweenService:Create(transition, TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                Position = bubble.Position,
-                Size = UDim2.fromOffset(64, 64),
-            })
-            tween:Play()
-            tween.Completed:Once(function()
-                if not ScreenGui.Parent then
+            isWindowOpen = false
+            isWindowAnimating = true
+            setDecorVisible(false)
+
+            local orbCenter = getOrbScreenCenter()
+            local shrinkInfo = TweenInfo.new(0.24, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+            local scaleTween = playWindowTween(windowScale, shrinkInfo, { Scale = 0.08 })
+            playWindowTween(windowCanvas, shrinkInfo, { Position = orbCenter })
+            playWindowTween(OuterBloom, shrinkInfo, { ImageTransparency = 1 })
+            scaleTween.Completed:Once(function()
+                if token ~= windowAnimToken or not isMinimized or not ScreenGui.Parent then
                     return
                 end
-                transition.Visible = false
-                MainFrame.Position = storedPosition
-                bubble.Size = UDim2.fromOffset(48, 48)
+                MainFrame.Visible = false
+                OuterBloom.Visible = false
+                windowCanvas.Position = restingCanvasPos
+                windowScale.Scale = targetCanvasScale
+
+                orbScale.Scale = 0.4
                 bubble.Visible = true
-                TweenService:Create(bubble, TweenInfo.new(0.25, Enum.EasingStyle.Back), {
-                    Size = UDim2.fromOffset(64, 64),
-                }):Play()
-                busy = false
+                local orbTween = playWindowTween(orbScale, TweenInfo.new(0.24, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                    Scale = 1,
+                })
+                orbTween.Completed:Once(function()
+                    if token == windowAnimToken then
+                        isWindowAnimating = false
+                    end
+                end)
             end)
         end
+
+        restoreWindow = function()
+            if not isMinimized or isClosingDestroy or not windowCanvas or not windowScale then
+                return
+            end
+            cancelWindowTweens()
+            local token = windowAnimToken
+            isMinimized = false
+            isWindowOpen = true
+            isWindowAnimating = true
+
+            local orbCenter = getOrbScreenCenter()
+            local orbOut = playWindowTween(orbScale, TweenInfo.new(0.12, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                Scale = 0.3,
+            })
+            orbOut.Completed:Once(function()
+                if token ~= windowAnimToken or isMinimized or not ScreenGui.Parent then
+                    return
+                end
+                bubble.Visible = false
+                orbScale.Scale = 1
+                windowCanvas.Position = orbCenter
+                windowScale.Scale = 0.08
+                OuterBloom.ImageTransparency = 1
+                MainFrame.Visible = true
+                OuterBloom.Visible = true
+                setDecorVisible(true)
+
+                local openInfo = TweenInfo.new(0.32, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+                local scaleTween = playWindowTween(windowScale, openInfo, { Scale = targetCanvasScale })
+                playWindowTween(windowCanvas, openInfo, { Position = restingCanvasPos })
+                playWindowTween(OuterBloom, openInfo, { ImageTransparency = 0.68 })
+                scaleTween.Completed:Once(function()
+                    if token == windowAnimToken then
+                        isWindowAnimating = false
+                    end
+                end)
+            end)
+        end
+
         bubble.Activated:Connect(function()
-            if busy or dragged then
+            if dragged then
                 dragged = false
                 return
             end
-            busy = true
-            bubble.Visible = false
-            transition.Position = bubble.Position
-            transition.Size = UDim2.fromOffset(64, 64)
-            transition.Visible = true
-            local targetPos = storedBoundsPos
-            local targetSize = storedBoundsSize
-            if not targetPos or not targetSize then
-                targetPos, targetSize = bounds()
+            restoreWindow()
+        end)
+
+        task.defer(function()
+            if ScreenGui.Parent and MainFrame.Visible and not isMinimized and windowCanvas and windowScale then
+                setWindowOpen(true, true)
             end
-            local tween = TweenService:Create(
-                transition,
-                TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-                {
-                    Position = UDim2.fromOffset(targetPos.X, targetPos.Y),
-                    Size = UDim2.fromOffset(targetSize.X, targetSize.Y),
-                }
-            )
-            tween:Play()
-            tween.Completed:Once(function()
-                if not ScreenGui.Parent then return end
-                transition.Visible = false
-                isMinimized = false
-                MainFrame.Visible = true
-                restoreDecor()
-                busy = false
-            end)
         end)
     end
     NavContainer.ScrollBarThickness = 3
@@ -6042,15 +6212,26 @@ function Nightfall:CreateWindow(options)
     end
 
     function window:SetScale(value)
-        local scale = MainFrame.Parent:FindFirstChildOfClass("UIScale")
-        local viewport = workspace.CurrentCamera.ViewportSize
-        scale.Scale =
-            math.clamp(value, 0.5, math.max(0.5, math.min((viewport.X - 48) / 1200, (viewport.Y - 70) / 630)))
+        if applyWindowScale then
+            applyWindowScale(value)
+        else
+            local scale = MainFrame.Parent:FindFirstChildOfClass("UIScale")
+            local viewport = workspace.CurrentCamera.ViewportSize
+            scale.Scale =
+                math.clamp(value, 0.5, math.max(0.5, math.min((viewport.X - 48) / 1200, (viewport.Y - 70) / 630)))
+        end
     end
 
     function window:Center()
-        MainFrame.Parent.Position = UDim2.fromScale(0.5, 0.5)
+        restingCanvasPos = UDim2.fromScale(0.5, 0.5)
         MainFrame.Position = UDim2.new(0.5, -600, 0.5, -315)
+        if windowCanvas then
+            TweenService:Create(windowCanvas, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                Position = restingCanvasPos,
+            }):Play()
+        else
+            MainFrame.Parent.Position = restingCanvasPos
+        end
     end
 
     function window:SetChangelogs(source)
@@ -6110,7 +6291,13 @@ function Nightfall:CreateWindow(options)
     end
 
     function window:Toggle()
-        MainFrame.Visible = not MainFrame.Visible
+        if isMinimized and restoreWindow then
+            restoreWindow()
+        elseif setWindowOpen then
+            setWindowOpen(not isWindowOpen)
+        else
+            MainFrame.Visible = not MainFrame.Visible
+        end
     end
 
     local notifOrder = 0
@@ -6392,25 +6579,38 @@ function Nightfall:CreateWindow(options)
             return LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 5)
         end
 
-        local function addDev(entry)
+        local function addDev(entry, tagText)
+            local label = (type(tagText) == "string" and TAG_STYLES[tagText:upper()]) and tagText:upper() or "DEV"
             if type(entry) == "string" and entry ~= "" then
-                devLookup[entry:lower()] = true
+                devLookup[entry:lower()] = label
             elseif type(entry) == "number" then
-                devLookup[entry] = true
+                devLookup[entry] = label
             end
         end
 
         for _, list in ipairs({ DEV_USERS, options.Developers }) do
             if type(list) == "table" then
                 for k, v in pairs(list) do
-                    addDev(v == true and k or v)
+                    if type(v) == "string" and type(k) == "string" and TAG_STYLES[v:upper()] then
+                        addDev(k, v)
+                    elseif type(v) == "string" and type(k) == "number" and tonumber(k) and k > 1000 then
+                        addDev(k, v)
+                    elseif v == true then
+                        addDev(k, "DEV")
+                    else
+                        addDev(v, "DEV")
+                    end
                 end
             end
         end
 
+        local function getDevTag(player)
+            if not player then return nil end
+            return devLookup[player.Name:lower()] or devLookup[player.UserId]
+        end
+
         local function isDevPlayer(player)
-            if not player then return false end
-            return devLookup[player.Name:lower()] == true or devLookup[player.UserId] == true
+            return getDevTag(player) ~= nil
         end
 
         local function removeDevTag(player)
@@ -6437,13 +6637,16 @@ function Nightfall:CreateWindow(options)
                 local parent = getBillboardParent()
                 if not parent then return end
 
+                local tagLabel = getDevTag(player) or "DEV"
+                local style = TAG_STYLES[tagLabel] or TAG_STYLES.DEV
+
                 local bb = Instance.new("BillboardGui")
                 bb.Name = "NightFall_DevTag_" .. tostring(player.UserId)
                 bb.Adornee = head
                 bb.Size = UDim2.fromOffset(108, 34)
                 bb.StudsOffset = Vector3.new(0, 2.75, 0)
                 bb.AlwaysOnTop = true
-                bb.MaxDistance = 120
+                bb.MaxDistance = math.huge
                 bb.LightInfluence = 0
                 bb.ClipsDescendants = false
                 bb.ResetOnSpawn = false
@@ -6453,7 +6656,7 @@ function Nightfall:CreateWindow(options)
                 lbl.Name = "DevLabel"
                 lbl.Size = UDim2.fromScale(1, 1)
                 lbl.BackgroundTransparency = 1
-                lbl.Text = "DEV"
+                lbl.Text = tagLabel
                 lbl.Font = Enum.Font.GothamBlack
                 pcall(function()
                     lbl.FontFace = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.ExtraBold)
@@ -6464,19 +6667,13 @@ function Nightfall:CreateWindow(options)
                 lbl.Parent = bb
 
                 local stroke = Instance.new("UIStroke")
-                stroke.Color = Color3.fromRGB(4, 28, 34)
+                stroke.Color = style.stroke
                 stroke.Thickness = 2.2
                 stroke.Transparency = 0.15
                 stroke.Parent = lbl
 
                 local grad = Instance.new("UIGradient")
-                grad.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 175, 195)),
-                    ColorSequenceKeypoint.new(0.25, Color3.fromRGB(45, 245, 225)),
-                    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(175, 255, 250)),
-                    ColorSequenceKeypoint.new(0.75, Color3.fromRGB(20, 225, 200)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 175, 195)),
-                })
+                grad.Color = style.colors
                 grad.Rotation = 12
                 grad.Parent = lbl
 
@@ -6541,8 +6738,8 @@ function Nightfall:CreateWindow(options)
             devCharConns = {}
         end)
 
-        function window:AddDeveloper(nameOrId)
-            addDev(nameOrId)
+        function window:AddDeveloper(nameOrId, tagName)
+            addDev(nameOrId, tagName)
             for _, player in ipairs(Players:GetPlayers()) do
                 watchDevPlayer(player)
             end
