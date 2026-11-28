@@ -866,32 +866,6 @@ function Nightfall:CreateWindow(options)
             { 3, 8, 16, 8, 20, 11, 16, 14, 8, 14, 8, 11, 3, 11 },
             { 3, 5, 11, 5 }, { 3, 18, 14, 18 }, { 21, 5, 23, 4 }, { 21, 17, 23, 18 },
         },
-        Shotgun = {
-            { 2, 10, 6, 10, 8, 8, 22, 8, 22, 12, 16, 12, 16, 14, 8, 14, 2, 18, 2, 10 },
-            { 12, 12, 16, 12 },
-        },
-        AkRifle = {
-            { 2, 10, 7, 8, 15, 8, 15, 10, 22, 10, 22, 12, 14, 12, 13, 16, 16, 20, 12, 20,
-                9, 16, 9, 13, 6, 13, 2, 16, 2, 10 },
-        },
-        M4Rifle = {
-            { 2, 8, 6, 8, 7, 10, 9, 10, 9, 7, 13, 7, 14, 9, 19, 9, 19, 10, 22, 10, 22, 12,
-                14, 12, 14, 18, 10, 18, 10, 13, 7, 13, 2, 15, 2, 8 },
-        },
-        FalRifle = {
-            { 2, 10, 7, 8, 15, 8, 17, 10, 22, 10, 22, 12, 15, 12, 14, 16, 10, 16, 10, 12,
-                7, 12, 3, 16, 2, 16, 2, 10 },
-            { 11, 5, 16, 5 },
-        },
-        Mp5 = {
-            { 2, 10, 6, 10, 8, 8, 17, 8, 17, 10, 21, 10, 21, 13, 14, 13, 14, 19, 11, 19,
-                10, 13, 6, 13, 2, 15, 2, 10 },
-            { 16, 5, 16, 8 },
-        },
-        SniperRifle = {
-            { 2, 10, 7, 9, 16, 9, 17, 11, 22, 11, 22, 13, 13, 13, 11, 16, 8, 16, 9, 13, 6, 13, 2, 17, 2, 10 },
-            { 8, 4, 16, 4, 16, 6, 8, 6, 8, 4 },
-        },
         EspBoxes = {
             { 2, 7, 2, 3, 7, 3 }, { 17, 3, 22, 3, 22, 7 },
             { 22, 17, 22, 21, 17, 21 }, { 7, 21, 2, 21, 2, 17 },
@@ -951,8 +925,16 @@ function Nightfall:CreateWindow(options)
             { 5, 3, 5, 8 }, { 2, 5, 8, 5 }, { 19, 3, 19, 6 },
         },
         CameraFov = {
-            { 3, 7, 8, 7, 9, 4, 15, 4, 16, 7, 21, 7, 21, 20, 3, 20, 3, 7 },
-            { 8, 11, 12, 15, 16, 11 },
+            { 3, 8, 3, 4, 7, 4 }, { 17, 4, 21, 4, 21, 8 },
+            { 3, 16, 3, 20, 7, 20 }, { 17, 20, 21, 20, 21, 16 },
+            { 6, 12, 18, 12 }, { 9, 9, 6, 12, 9, 15 }, { 15, 9, 18, 12, 15, 15 },
+        },
+        Changelogs = {
+            { 5, 21, 5, 3, 14, 3, 19, 8, 19, 21, 5, 21 },
+            { 14, 3, 14, 8, 19, 8 },
+            { 8, 11, 10, 11 }, { 13, 11, 16, 11 },
+            { 8, 14, 10, 14 }, { 13, 14, 16, 14 },
+            { 8, 17, 10, 17 }, { 13, 17, 16, 17 },
         },
         KillfeedBell = {
             { 4, 17, 6, 14, 6, 8, 9, 4, 15, 4, 18, 8, 18, 14, 20, 17, 4, 17 },
@@ -4574,7 +4556,7 @@ function Nightfall:CreateWindow(options)
         ConsoleIcon.Text = ""
         createVectorIcon(
             ConsoleHeader,
-            ICONS.Package,
+            ICONS.Changelogs,
             UDim2.fromOffset(23, 23),
             THEME.AccentPurp,
             UDim2.fromOffset(15, 12)
@@ -4669,7 +4651,7 @@ function Nightfall:CreateWindow(options)
 
         local expandIcon = createVectorIcon(
             ExpandBtn,
-            ICONS.Package,
+            ICONS.Changelogs,
             UDim2.fromOffset(16, 16),
             THEME.AccentPurp,
             UDim2.new(0, 24, 0.5, -8)
@@ -5422,15 +5404,6 @@ function Nightfall:CreateWindow(options)
         weaponscroll = ICONS.WeaponWheel,
         scrolldelay = ICONS.WeaponWheel,
         targetweapon = ICONS.Weapon,
-        shotgunremington870 = ICONS.Shotgun,
-        grabremingtonshotgun = ICONS.Shotgun,
-        ak47 = ICONS.AkRifle,
-        grabak47 = ICONS.AkRifle,
-        m4a1 = ICONS.M4Rifle,
-        grabm4a1 = ICONS.M4Rifle,
-        fnfal = ICONS.FalRifle,
-        mp5 = ICONS.Mp5,
-        sniper = ICONS.SniperRifle,
         customammocounter = ICONS.AmmoCounter,
         reloadtimerbar = ICONS.ReloadBar,
         showweapon = ICONS.WeaponView,
@@ -5920,8 +5893,7 @@ function Nightfall:CreateWindow(options)
             titleLabel.Size = UDim2.new(1, -165, 0, 18)
             titleLabel.Position = UDim2.new(0, 48, hasDesc and 0 or 0.5, hasDesc and 12 or -9)
             titleLabel.BackgroundTransparency = 1
-            local title = config.Title or "Button"
-            titleLabel.Text = sanitizeRichText((title:gsub("^🔫%s*", "")))
+            titleLabel.Text = sanitizeRichText(config.Title or "Button")
             titleLabel.Font = Enum.Font.GothamBold
             titleLabel.TextSize = 13
             titleLabel.TextColor3 = THEME.TextPrimary
